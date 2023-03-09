@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - espada
+  - inimigo
+  - garra
+  - gelo
+  - piso
+  - fogo
   layers:
   - Default
   - TransparentFX

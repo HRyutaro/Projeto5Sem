@@ -4,20 +4,30 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static Player instance;
+
     [Header("Combat")]
-    public float Vida;
+    public int VidaTotal;
+    public static int VidaAtual;
     public GameObject espadaAtack;
     public GameObject espadaCosta;
     public GameObject espada;
     public float CDAtack;
     private bool isCdAtack;
     private bool stop;
+    public int isDashing = 4;
+    public float forcaDash;
+    public float CDDash;
 
     [Header("pocao")]
     public GameObject pocaoPrefab;
     public float forcaArremesso;
     public Transform pocaoRespawn;
-
+    public float CDRange;
+    private bool isCdRange;
+    public int temPocaoFogo;
+    public int temPocaoGelo;
+    public int temPocaoCura;
 
     [Header("Movimento")]
     [SerializeField] private Rigidbody rb;
@@ -25,13 +35,20 @@ public class Player : MonoBehaviour
     [SerializeField] private float turnSpeed = 360;
     private Vector3 input;
 
-
+    [Header("Dano")]
+    public float forcaEmpurrao;
+    public float tempoEmpurrado = 0.5f;
     public Animator Anim;
+    public float CdTomarDano;
+    private bool dashing;
 
+    public ParticleSystem curar;
 
     void Start()
     {
+        instance = this;
         rb.GetComponent<Rigidbody>();
+        VidaAtual = VidaTotal;
     }
     void Update()
     {
@@ -39,11 +56,14 @@ public class Player : MonoBehaviour
         Look();
         AtackMelee();
         AtackRange();
+        Vida();
+        trocarPocao();
     }
 
     private void FixedUpdate()
     {
         Move();
+        Dash();
     }
 
     void GatherInput()
@@ -91,15 +111,119 @@ public class Player : MonoBehaviour
     }
     void AtackRange()
     {
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetButtonDown("Fire2") && isCdRange == false)
         {
-            //Vector3 direcao = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-            //direcao.z = 0;
+            if(pocao.tipoDapocao == 0)
+            {
+                if(temPocaoFogo > 0)
+                {
+                    Vector3 direcao = transform.forward;
 
-            GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
+                    GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
+                    pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
+                    StartCoroutine("CDAtackRange");
+                    --temPocaoFogo;
+                }
+            }
+            if (pocao.tipoDapocao == 1)
+            {
+                if (temPocaoGelo > 0)
+                {
+                    Vector3 direcao = transform.forward;
 
-            //pocao.GetComponent<Rigidbody>().AddForce(direcao.normalized * forcaArremesso, ForceMode.Impulse);
+                    GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
+                    pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
+                    StartCoroutine("CDAtackRange");
+                    --temPocaoGelo;
+                }
+            }
+            if(pocao.tipoDapocao == 2)
+            {
+                if(temPocaoCura > 0)
+                {
+                    if(VidaAtual < VidaTotal)
+                    {
+                        StartCoroutine("Cura");
+                        ++VidaAtual;
+                        --temPocaoCura;
+                    }
+                    else
+                    {
+                        StartCoroutine("Cura");
+                        --temPocaoCura;
+                    }
+                }
+            }
         }
+    }
+
+    void Vida()
+    {
+        if(VidaAtual <= 0)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+    
+    public void TomarDano(int Dano)
+    {
+        if(dashing == false)
+        {
+            CDTomarDano();
+            VidaAtual -= Dano;
+
+            Vector3 empurrar = -transform.forward;
+
+            rb.AddForce(empurrar * forcaEmpurrao, ForceMode.Impulse);
+        }
+    }
+    void Dash()
+    {
+        if(Input.GetButton("Fire3") && isDashing == 4)
+        {
+            isDashing = 0;
+            Vector3 dashing = transform.forward;
+            rb.AddForce(dashing * forcaDash, ForceMode.Impulse);
+            StartCoroutine("CdDash");
+        }
+    }
+
+    void trocarPocao()
+    {
+        if (Input.GetButtonDown("R1") || Input.GetKeyDown(KeyCode.Q))
+        {
+            if(pocao.tipoDapocao == 0)
+            {
+                pocao.tipoDapocao = 1;
+                print("pocao Gelo");
+            }
+            else if(pocao.tipoDapocao == 1)
+            {
+                pocao.tipoDapocao = 2;
+                print("pocao Cura");
+            }
+            else if (pocao.tipoDapocao == 2)
+            {
+                pocao.tipoDapocao = 0;
+                print("pocao Fogo");
+            }
+        }
+    }
+
+    IEnumerator CdDash()
+    {
+        dashing = true;
+        yield return new WaitForSeconds(CDDash);
+        dashing = false;
+        isDashing += 1;
+        yield return new WaitForSeconds(CDDash);
+        isDashing += 1;
+        yield return new WaitForSeconds(CDDash);
+        isDashing += 1;
+        yield return new WaitForSeconds(CDDash);
+        isDashing += 1;
+        print("Dash inCD " + isDashing);
+
     }
 
     IEnumerator AtackMeleeTime()
@@ -123,5 +247,26 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(CDAtack);
         isCdAtack = false;
     }
-    
+    IEnumerator CDAtackRange()
+    {
+        isCdRange = true;
+        yield return new WaitForSeconds(CDRange);
+        isCdRange = false;
+    }
+
+    IEnumerator CDTomarDano()
+    {
+        stop = true;
+        yield return new WaitForSeconds(CdTomarDano);
+        stop = false;
+
+    }
+
+    IEnumerator Cura()
+    {
+        curar.Play(true);
+        yield return new WaitForSeconds(0.5f);
+        curar.Play(false);
+
+    }
 }

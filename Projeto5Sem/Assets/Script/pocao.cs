@@ -4,17 +4,32 @@ using UnityEngine;
 
 public class pocao : MonoBehaviour
 {
-    public float speed;
+    public float forcaLancamento;
     public float timeDestroy;
+    public Rigidbody rb;
+    public GameObject[] tipo;
+    public static int tipoDapocao = 0;
+    public Collider colisor;
+
 
     void Start()
     {
         Destroy(gameObject, timeDestroy);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnCollisionEnter(Collision collision)
     {
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        if(collision.gameObject.tag == "piso" )
+        {
+            if(tipoDapocao == 0)
+            {
+                Instantiate(tipo[0],gameObject.transform.position, Quaternion.identity);
+            }
+            if(tipoDapocao == 1)
+            {
+                Instantiate(tipo[1],gameObject.transform.position, Quaternion.identity);
+            }
+                colisor.enabled = false;
+        }
     }
 }
