@@ -6,15 +6,22 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class Enemy : MonoBehaviour
 {
+    [Header("vida")]
     public int Vida;
 
-    public float distanciaMinima = 2;
+    [Header("Perseguição")]
+    public float distanciaMinima;
     public Transform alvo;
     private NavMeshAgent navMeshAgent;
 
+    [Header("Animação")]
+    public Animator Anim;
 
+    [Header("Dano")]
+    public SkinnedMeshRenderer skin;
     public Color corDano;
     public Color corNormal;
+
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -26,6 +33,7 @@ public class Enemy : MonoBehaviour
     {
         navMeshAgent.SetDestination(alvo.position);
     }
+
 
     void tomarDano()
     {
@@ -43,7 +51,13 @@ public class Enemy : MonoBehaviour
     IEnumerator DanoCorCD()
     {
         GetComponent<Renderer>().material.color = corDano;
-        yield return new WaitForSeconds(0.5f);
+        //skin.material.color = corDano;
+        navMeshAgent.isStopped = true;
+        //Anim.SetFloat("isRun", 0);
+        yield return new WaitForSeconds(1f);
+        //Anim.SetFloat("isRun", 1);
+        navMeshAgent.isStopped = false;
+        //skin.material.color = corNormal;
         GetComponent<Renderer>().material.color = corNormal;
     }
 
@@ -54,4 +68,5 @@ public class Enemy : MonoBehaviour
             tomarDano();
         }
     }
+
 }
