@@ -49,6 +49,7 @@ public class Player : MonoBehaviour
         instance = this;
         rb.GetComponent<Rigidbody>();
         VidaAtual = VidaTotal;
+        startNumeroPocao();
     }
     void Update()
     {
@@ -109,6 +110,7 @@ public class Player : MonoBehaviour
             StartCoroutine("CDAtackMelee");
         }
     }
+
     void AtackRange()
     {
         if (Input.GetButtonDown("Fire2") && isCdRange == false)
@@ -123,6 +125,9 @@ public class Player : MonoBehaviour
                     pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
                     StartCoroutine("CDAtackRange");
                     --temPocaoFogo;
+                    GameController.numeroPocoesAtual = temPocaoFogo;
+                    
+
                 }
             }
             if (pocao.tipoDapocao == 1)
@@ -135,6 +140,7 @@ public class Player : MonoBehaviour
                     pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
                     StartCoroutine("CDAtackRange");
                     --temPocaoGelo;
+                    GameController.numeroPocoesAtual = temPocaoGelo;
                 }
             }
             if(pocao.tipoDapocao == 2)
@@ -146,11 +152,13 @@ public class Player : MonoBehaviour
                         StartCoroutine("Cura");
                         ++VidaAtual;
                         --temPocaoCura;
+                        GameController.numeroPocoesAtual = temPocaoCura;
                     }
                     else
                     {
                         StartCoroutine("Cura");
                         --temPocaoCura;
+                        GameController.numeroPocoesAtual = temPocaoCura;
                     }
                 }
             }
@@ -169,7 +177,7 @@ public class Player : MonoBehaviour
     {
         if(dashing == false)
         {
-            CDTomarDano();
+            StartCoroutine("CDTomarDano");
             VidaAtual -= Dano;
 
             Vector3 empurrar = -transform.forward;
@@ -177,6 +185,7 @@ public class Player : MonoBehaviour
             rb.AddForce(empurrar * forcaEmpurrao, ForceMode.Impulse);
         }
     }
+
     void Dash()
     {
         if(Input.GetButton("Fire3") && isDashing == 4)
@@ -190,23 +199,46 @@ public class Player : MonoBehaviour
 
     void trocarPocao()
     {
+
         if (Input.GetButtonDown("R1") || Input.GetKeyDown(KeyCode.Q))
         {
             if(pocao.tipoDapocao == 0)
             {
+                GameController.numeroPocoesAtual = temPocaoGelo;
                 pocao.tipoDapocao = 1;
                 print("pocao Gelo");
             }
             else if(pocao.tipoDapocao == 1)
             {
+                GameController.numeroPocoesAtual = temPocaoCura;
                 pocao.tipoDapocao = 2;
                 print("pocao Cura");
             }
             else if (pocao.tipoDapocao == 2)
             {
+                GameController.numeroPocoesAtual = temPocaoFogo;
                 pocao.tipoDapocao = 0;
                 print("pocao Fogo");
             }
+        }
+    }
+
+    void startNumeroPocao()
+    {
+        if (pocao.tipoDapocao == 0)
+        {
+            GameController.numeroPocoesAtual = temPocaoFogo;
+            print("pocao Fogo");
+        }
+        else if (pocao.tipoDapocao == 1)
+        {
+            GameController.numeroPocoesAtual = temPocaoGelo;
+            print("pocao Gelo");
+        }
+        else if (pocao.tipoDapocao == 2)
+        {
+            GameController.numeroPocoesAtual = temPocaoCura;
+            print("pocao Cura");
         }
     }
 
@@ -247,6 +279,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(CDAtack);
         isCdAtack = false;
     }
+
     IEnumerator CDAtackRange()
     {
         isCdRange = true;
@@ -268,5 +301,13 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         curar.Play(false);
 
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "garra")
+        {
+            TomarDano(1);
+        }
     }
 }

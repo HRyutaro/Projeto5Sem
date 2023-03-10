@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -10,6 +12,9 @@ public class GameController : MonoBehaviour
     public GameObject[] Vidas;
     public GameObject[] Pocoes;
     public GameObject[] dash;
+    public static int numeroPocoesAtual;
+    public Text numeroPocoes;
+
 
     void Start()
     {
@@ -21,6 +26,7 @@ public class GameController : MonoBehaviour
         VidaHud();
         PocaoHud();
         dashHud();
+        updateNumeroPocoes();
     }
 
     void VidaHud()
@@ -121,5 +127,10 @@ public class GameController : MonoBehaviour
             dash[2].SetActive(false);
             dash[3].SetActive(false);
         }
+    }
+
+    public void updateNumeroPocoes()
+    {
+        numeroPocoes.text = numeroPocoesAtual.ToString();
     }
 }

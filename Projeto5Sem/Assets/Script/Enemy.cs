@@ -31,8 +31,6 @@ public class Enemy : MonoBehaviour
     public float tempoDoAtaque;
     private bool isAttacking = false;
 
-    private bool OnGelo;
-
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -74,7 +72,7 @@ public class Enemy : MonoBehaviour
     }
     void atacar()
     {
-        if (!isAttacking && Vector3.Distance(transform.position, alvo.position) <= distanciaMinima)
+        if (isAttacking == false && Vector3.Distance(transform.position, alvo.position) <= distanciaMinima)
         {
             StartCoroutine("AtackGarra");
         }
@@ -96,16 +94,13 @@ public class Enemy : MonoBehaviour
     IEnumerator AtackGarra()
     {
         isAttacking = true;
-        Anim.SetFloat("Atack", 1);
         navMeshAgent.isStopped = true;
+        Anim.SetFloat("Atack", 1);
         yield return new WaitForSeconds(tempoDoAtaque);
-        atack.enabled = true;
-        atack2.enabled = true;
-        yield return new WaitForSeconds(0.1f);
-        atack.enabled = false;
-        atack2.enabled = false;
         Anim.SetFloat("Atack", 0);
+        atack.enabled = false;
         yield return new WaitForSeconds(CdAtack);
+        atack.enabled = true;
         isAttacking = false;
         navMeshAgent.isStopped = false;
 
