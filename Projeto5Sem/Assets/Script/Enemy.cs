@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
 {
     [Header("vida")]
     public int Vida;
+    public Collider col;
 
     [Header("Perseguição")]
     public float distanciaMinima;
@@ -46,12 +47,12 @@ public class Enemy : MonoBehaviour
     }
 
 
-    void tomarDano()
+    void tomarDano(float dano)
     {
         StartCoroutine("DanoCorCD");
         if(Vida >= 1)
         {
-            --Vida;
+            Vida -= 1;
         }
         if(Vida <= 0)
         {
@@ -130,13 +131,20 @@ public class Enemy : MonoBehaviour
         //skin.material.color = corNormal;
         GetComponent<Renderer>().material.color = corNormal;
     }
-
+    IEnumerator inSmoke()
+    {
+        yield return new WaitForSeconds(1f);
+        navMeshAgent.isStopped = true;
+        yield return new WaitForSeconds(2f);
+        navMeshAgent.isStopped = false;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "espada")
         {
-            tomarDano();
+            tomarDano(1);
+            col.enabled = false;
         }
         if(other.gameObject.tag == "gelo")
         {
@@ -147,8 +155,15 @@ public class Enemy : MonoBehaviour
         {
             tomarDanoFogo();
         }
+        if (other.gameObject.tag == "fumaca")
+        {
+            StartCoroutine(inSmoke());
+        }
 
     }
-
+    private void OnTriggerExit(Collider other)
+    {
+        col.enabled = true;
+    }
 
 }
