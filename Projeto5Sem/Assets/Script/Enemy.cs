@@ -20,14 +20,12 @@ public class Enemy : MonoBehaviour
     public Animator Anim;
 
     [Header("Dano")]
-    public SkinnedMeshRenderer skin;
     public Color corDano;
     public Color corNormal;
     public Color corGelado;
 
     [Header("ataque")]
     public Collider atack;
-    public Collider atack2;
     public float CdAtack;
     public float tempoDoAtaque;
     private bool isAttacking = false;
@@ -76,6 +74,7 @@ public class Enemy : MonoBehaviour
         if (isAttacking == false && Vector3.Distance(transform.position, alvo.position) <= distanciaMinima)
         {
             StartCoroutine("AtackGarra");
+            
         }
     }
 
@@ -95,16 +94,15 @@ public class Enemy : MonoBehaviour
     IEnumerator AtackGarra()
     {
         isAttacking = true;
-        navMeshAgent.isStopped = true;
-        Anim.SetFloat("Atack", 1);
-        yield return new WaitForSeconds(tempoDoAtaque);
-        Anim.SetFloat("Atack", 0);
-        atack.enabled = false;
-        yield return new WaitForSeconds(CdAtack);
         atack.enabled = true;
-        isAttacking = false;
+        Anim.SetFloat("Atack", 1);
+        navMeshAgent.isStopped = true;
+        yield return new WaitForSeconds(tempoDoAtaque);
+        atack.enabled = false;
+        Anim.SetFloat("Atack", 0);
+        yield return new WaitForSeconds(CdAtack);
         navMeshAgent.isStopped = false;
-
+        isAttacking = false;
     }
 
     IEnumerator DanoCorCD()

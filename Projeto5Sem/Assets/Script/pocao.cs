@@ -21,16 +21,16 @@ public class pocao : MonoBehaviour
 
     void Start()
     {
-        if (tipoDapocao == 0)
+        if (tipoDapocao == 2)
         {
             CorPocao.material.color = corFogo;
         }
-        if (tipoDapocao == 1)
+        if (tipoDapocao == 3)
         {
             CorPocao.material.color = corGelo;
 
         }
-        if (tipoDapocao == 3)
+        if (tipoDapocao == 4)
         {
             CorPocao.material.color = corFumaca;
         }
@@ -43,15 +43,15 @@ public class pocao : MonoBehaviour
         {
             Vector3 spawnPosition = transform.position;
             spawnPosition.y -= 0.2f;
-            if(tipoDapocao == 0)
+            if(tipoDapocao == 2)
             {
                 Instantiate(tipo[0],spawnPosition , Quaternion.identity);
             }
-            if(tipoDapocao == 1)
+            if(tipoDapocao == 3)
             {
                 Instantiate(tipo[1], spawnPosition, Quaternion.identity);
             }
-            if(tipoDapocao == 3)
+            if(tipoDapocao == 4)
             {
                 Instantiate(tipo[2], spawnPosition, Quaternion.identity);
             }

@@ -15,12 +15,13 @@ public class GameController : MonoBehaviour
     public Slider vida;
     public Slider mana;
     public Slider dash;
+    public GameObject[] FaceGato;
 
     void Start()
     {
-        vida.maxValue = Player.instance.VidaTotal;
-        vida.maxValue = Player.instance.manaTotal;
         instance = this;
+        vida.maxValue = Player.instance.VidaTotal;
+        mana.maxValue = Player.instance.manaTotal;
         
     }
 
@@ -97,5 +98,19 @@ public class GameController : MonoBehaviour
     public void updateNumeroPocoes()
     {
         numeroPocoes.text = numeroPocoesAtual.ToString();
+    }
+
+    public void DorGato()
+    {
+        StartCoroutine(GatoDor());
+    }
+
+     public IEnumerator GatoDor()
+    {
+        FaceGato[1].SetActive(true);
+        FaceGato[0].SetActive(false);
+        yield return new WaitForSeconds(1);
+        FaceGato[0].SetActive(true);
+        FaceGato[1].SetActive(false);
     }
 }

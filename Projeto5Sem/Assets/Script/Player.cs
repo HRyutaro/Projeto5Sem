@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     public static Player instance;
 
+    private int tempo;
     [Header("Combat")]
     public int VidaTotal;
     public static int VidaAtual;
@@ -141,34 +142,6 @@ public class Player : MonoBehaviour
         {
             if (pocao.tipoDapocao == 0)
             {
-                if (temPocaoFogo > 0)
-                {
-                    Vector3 direcao = transform.forward;
-
-                    GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
-                    pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
-                    StartCoroutine("CDAtackRange");
-                    --temPocaoFogo;
-                    GameController.numeroPocoesAtual = temPocaoFogo;
-
-
-                }
-            }
-            if (pocao.tipoDapocao == 1)
-            {
-                if (temPocaoGelo > 0)
-                {
-                    Vector3 direcao = transform.forward;
-
-                    GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
-                    pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
-                    StartCoroutine("CDAtackRange");
-                    --temPocaoGelo;
-                    GameController.numeroPocoesAtual = temPocaoGelo;
-                }
-            }
-            if (pocao.tipoDapocao == 2)
-            {
                 if (temPocaoCura > 0)
                 {
                     if (VidaAtual < VidaTotal)
@@ -186,20 +159,7 @@ public class Player : MonoBehaviour
                     }
                 }
             }
-            if (pocao.tipoDapocao == 3)
-            {
-                if (temPocaoFumaca > 0)
-                {
-                    Vector3 direcao = transform.forward;
-
-                    GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
-                    pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
-                    StartCoroutine("CDAtackRange");
-                    --temPocaoFumaca;
-                    GameController.numeroPocoesAtual = temPocaoFumaca;
-                }
-            }
-            if (pocao.tipoDapocao == 4)
+            if (pocao.tipoDapocao == 1)
             {
                 if (temPocaoMana > 0)
                 {
@@ -216,6 +176,48 @@ public class Player : MonoBehaviour
                         --temPocaoMana;
                         GameController.numeroPocoesAtual = temPocaoMana;
                     }
+                }
+
+            }
+            if (pocao.tipoDapocao == 2)
+            {
+                if (temPocaoFogo > 0)
+                {
+                    Vector3 direcao = transform.forward;
+
+                    GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
+                    pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
+                    StartCoroutine("CDAtackRange");
+                    --temPocaoFogo;
+                    GameController.numeroPocoesAtual = temPocaoFogo;
+
+
+                }
+            }
+            if (pocao.tipoDapocao == 3)
+            {
+                if (temPocaoGelo > 0)
+                {
+                    Vector3 direcao = transform.forward;
+
+                    GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
+                    pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
+                    StartCoroutine("CDAtackRange");
+                    --temPocaoGelo;
+                    GameController.numeroPocoesAtual = temPocaoGelo;
+                }
+            }
+            if (pocao.tipoDapocao == 4)
+            {
+                if (temPocaoFumaca > 0)
+                {
+                    Vector3 direcao = transform.forward;
+
+                    GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
+                    pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
+                    StartCoroutine("CDAtackRange");
+                    --temPocaoFumaca;
+                    GameController.numeroPocoesAtual = temPocaoFumaca;
                 }
             }
         }
@@ -239,6 +241,8 @@ public class Player : MonoBehaviour
             Vector3 empurrar = -transform.forward;
 
             rb.AddForce(empurrar * forcaEmpurrao, ForceMode.Impulse);
+            GameController.instance.DorGato();
+
         }
     }
 
@@ -260,33 +264,33 @@ public class Player : MonoBehaviour
         {
             if(pocao.tipoDapocao == 0)
             {
-                GameController.numeroPocoesAtual = temPocaoGelo;
+                GameController.numeroPocoesAtual = temPocaoMana;
                 pocao.tipoDapocao = 1;
-                print("pocao Gelo");
+                print("pocao Mana");
             }
             else if(pocao.tipoDapocao == 1)
             {
-                GameController.numeroPocoesAtual = temPocaoCura;
+                GameController.numeroPocoesAtual = temPocaoFogo;
                 pocao.tipoDapocao = 2;
-                print("pocao Cura");
+                print("pocao Fogo");
             }
             else if (pocao.tipoDapocao == 2)
             {
-                GameController.numeroPocoesAtual = temPocaoFumaca;
+                GameController.numeroPocoesAtual = temPocaoGelo;
                 pocao.tipoDapocao = 3;
-                print("pocao fumaca");
+                print("pocao gelo");
             }
             else if (pocao.tipoDapocao == 3)
             {
-                GameController.numeroPocoesAtual = temPocaoMana;
+                GameController.numeroPocoesAtual = temPocaoFumaca;
                 pocao.tipoDapocao = 4;
-                print("pocao mana");
+                print("pocao fumaca");
             }
             else if (pocao.tipoDapocao == 4)
             {
-                GameController.numeroPocoesAtual = temPocaoFogo;
+                GameController.numeroPocoesAtual = temPocaoCura;
                 pocao.tipoDapocao = 0;
-                print("pocao fogo");
+                print("pocao Cura");
             }
         }
     }
@@ -295,28 +299,28 @@ public class Player : MonoBehaviour
     {
         if (pocao.tipoDapocao == 0)
         {
+            GameController.numeroPocoesAtual = temPocaoCura;
+            print("pocao Cura");
+        }
+        else if (pocao.tipoDapocao == 1)
+        {
+            GameController.numeroPocoesAtual = temPocaoMana; 
+            print("pocao Mana");
+        }
+        else if (pocao.tipoDapocao == 2)
+        {
             GameController.numeroPocoesAtual = temPocaoFogo;
             print("pocao Fogo");
         }
-        else if (pocao.tipoDapocao == 1)
+        else if (pocao.tipoDapocao == 3)
         {
             GameController.numeroPocoesAtual = temPocaoGelo;
             print("pocao Gelo");
         }
-        else if (pocao.tipoDapocao == 2)
-        {
-            GameController.numeroPocoesAtual = temPocaoCura;
-            print("pocao Cura");
-        }
-        else if (pocao.tipoDapocao == 3)
-        {
-            GameController.numeroPocoesAtual = temPocaoFumaca;
-            print("pocao Fumaca");
-        }
         else if (pocao.tipoDapocao == 4)
         {
-            GameController.numeroPocoesAtual = temPocaoMana;
-            print("pocao Mana");
+            GameController.numeroPocoesAtual = temPocaoFumaca;
+            print("pocao fumaça");
         }
     }
 
@@ -395,4 +399,7 @@ public class Player : MonoBehaviour
             TomarDano(1);
         }
     }
+
+
+
 }
