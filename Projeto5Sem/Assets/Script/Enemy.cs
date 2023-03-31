@@ -11,7 +11,10 @@ public class Enemy : MonoBehaviour
     public Collider col;
 
     [Header("Perseguição")]
-    public float distanciaMinima;
+    public float distanciaMin;
+    public float distanciaMax;
+    private float distMax;
+    float distanciaDoAlvo;
     public Transform alvo;
     private NavMeshAgent navMeshAgent;
     public float speed;
@@ -23,27 +26,44 @@ public class Enemy : MonoBehaviour
     public Color corDano;
     public Color corNormal;
     public Color corGelado;
+    private bool tomouDano = false;
 
     [Header("ataque")]
     public Collider atack;
     public float CdAtack;
-    public float tempoDoAtaque;
+    public float speedAtaque;
+    private float nextattackTime;
     private bool isAttacking = false;
 
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
-        navMeshAgent.stoppingDistance = distanciaMinima;
+        navMeshAgent.stoppingDistance = distanciaMin;
         navMeshAgent.speed = speed;
+        distMax = distanciaMax;
     }
 
 
     void Update()
     {
-        navMeshAgent.SetDestination(alvo.position);
         atacar();
     }
-
+    void FixedUpdate()
+    {
+        move();
+    }
+    void move()
+    {
+        distanciaDoAlvo = Vector3.Distance(transform.position, alvo.position);
+        if (distanciaDoAlvo > distMax)
+        {
+            navMeshAgent.SetDestination(transform.position);
+        }
+        else
+        {
+            navMeshAgent.SetDestination(alvo.position);
+        }
+    }
 
     void tomarDano(float dano)
     {
@@ -71,16 +91,35 @@ public class Enemy : MonoBehaviour
     }
     void atacar()
     {
-        if (isAttacking == false && Vector3.Distance(transform.position, alvo.position) <= distanciaMinima)
+        if(Time.time >= nextattackTime)
         {
-            StartCoroutine("AtackGarra");
-            
+            if (!isAttacking && Vector3.Distance(transform.position, alvo.position) <= distanciaMin)
+            {
+                StartCoroutine("AtackGarra");
+            }
+            nextattackTime = Time.time + CdAtack;
         }
+
     }
 
     void Congelado()
     {
         StartCoroutine("EfeitoGelo");
+        if(Vida >= 1)
+        {
+            --Vida;
+        }
+        else if(Vida <= 0)
+        {
+            Destroy(gameObject, 1f);
+        }
+    }
+
+    IEnumerator CDTomarDano()
+    {
+        tomouDano = true;
+        yield return new WaitForSeconds(0.3f);
+        tomouDano = false;
     }
     IEnumerator EfeitoGelo()
     {
@@ -94,15 +133,12 @@ public class Enemy : MonoBehaviour
     IEnumerator AtackGarra()
     {
         isAttacking = true;
-        atack.enabled = true;
         Anim.SetFloat("Atack", 1);
         navMeshAgent.isStopped = true;
-        yield return new WaitForSeconds(tempoDoAtaque);
-        atack.enabled = false;
-        Anim.SetFloat("Atack", 0);
-        yield return new WaitForSeconds(CdAtack);
-        navMeshAgent.isStopped = false;
+        yield return new WaitForSeconds(1);
         isAttacking = false;
+        Anim.SetFloat("Atack", 0);
+        navMeshAgent.isStopped = false;
     }
 
     IEnumerator DanoCorCD()
@@ -132,25 +168,28 @@ public class Enemy : MonoBehaviour
     IEnumerator inSmoke()
     {
         yield return new WaitForSeconds(1f);
-        navMeshAgent.isStopped = true;
+        distMax = 1;
         yield return new WaitForSeconds(2f);
-        navMeshAgent.isStopped = false;
+        distMax = distanciaMax;
+        
     }
 
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "espada")
+        if(other.gameObject.CompareTag("espada") && !tomouDano)
         {
+            StartCoroutine("CDTomarDano");
             tomarDano(1);
-            col.enabled = false;
         }
-        if(other.gameObject.tag == "gelo")
+        if(other.gameObject.tag == "gelo" && !tomouDano)
         {
+            StartCoroutine("CDTomarDano");
             Congelado();
             GetComponent<Renderer>().material.color = corGelado;
         }
-        if(other.gameObject.tag == "fogo")
+        if(other.gameObject.tag == "fogo" && !tomouDano)
         {
+            StartCoroutine("CDTomarDano");
             tomarDanoFogo();
         }
         if (other.gameObject.tag == "fumaca")
@@ -159,9 +198,11 @@ public class Enemy : MonoBehaviour
         }
 
     }
-    private void OnTriggerExit(Collider other)
+
+    private void OnDrawGizmos()
     {
-        col.enabled = true;
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position,distanciaMax);
     }
 
 }

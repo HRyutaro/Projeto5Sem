@@ -6,21 +6,36 @@ public class Player : MonoBehaviour
 {
     public static Player instance;
 
-    private int tempo;
-    [Header("Combat")]
+    [Header("Saude")]
     public int VidaTotal;
     public static int VidaAtual;
-    public GameObject espadaAtack;
+    public ParticleSystem curar;
+    public ParticleSystem curarMana;
+    public MeshRenderer playerMesh;
+
+    [Header("Movimento")]
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private float speed = 5;
+    private float speedAtual;
+    [SerializeField] private float turnSpeed = 360;
+    private Vector3 input;
+    private Vector3 input2;
+
+    [Header("Combat")]
     public GameObject espadaCosta;
     public GameObject espada;
     public float CDAtack;
+    public float CDRange2;
     private bool isCdAtack;
     private bool stop;
     public int isDashing = 4;
     public float forcaDash;
     public float CDDash;
+    public float timeInDashing;
+    public TrailRenderer rastroDash;
+    private bool isAiming = false;
 
-    [Header("pocao")]
+    [Header("Pocao")]
     public GameObject pocaoPrefab;
     public float forcaArremesso;
     public Transform pocaoRespawn;
@@ -32,18 +47,13 @@ public class Player : MonoBehaviour
     public int temPocaoMana;
     public int temPocaoCura;
 
-    [Header("magia")]
+    [Header("Magia")]
     public int manaTotal;
     public int manaAtual;
     public GameObject feiticoPrefab;
     public float forcaArremessoFeitico;
     public Transform feiticoRespawn;
 
-    [Header("Movimento")]
-    [SerializeField] private Rigidbody rb;
-    [SerializeField] private float speed = 5;
-    [SerializeField] private float turnSpeed = 360;
-    private Vector3 input;
 
     [Header("Dano")]
     public float forcaEmpurrao;
@@ -51,9 +61,8 @@ public class Player : MonoBehaviour
     public Animator Anim;
     public float CdTomarDano;
     private bool dashing;
+    private bool TomouDano = false;
 
-    public ParticleSystem curar;
-    public ParticleSystem curarMana;
 
     void Start()
     {
@@ -61,16 +70,17 @@ public class Player : MonoBehaviour
         rb.GetComponent<Rigidbody>();
         VidaAtual = VidaTotal;
         startNumeroPocao();
+        speedAtual = speed;
     }
     void Update()
     {
+        AtackMelee();
         GatherInput();
         Look();
-        AtackMelee();
-        AtackRange();
         Vida();
         trocarPocao();
         atackPocao();
+        AtackRange();
     }
 
     private void FixedUpdate()
@@ -82,22 +92,37 @@ public class Player : MonoBehaviour
     void GatherInput()
     {
         input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-        
+        input2 = new Vector3(Input.GetAxisRaw("Horizontal2"), 0, Input.GetAxisRaw("Vertical2"));
     }
     void Look()
     {
-        if( input != Vector3.zero & stop == false)
+        if( input != Vector3.zero)
         {
             var relative = (transform.position + input.toIso()) - transform.position;
             var rot = Quaternion.LookRotation(relative, Vector3.up);
      
             transform.rotation = Quaternion.RotateTowards(transform.rotation,rot,turnSpeed); //rotação mais demorada (...turnSpeed * Time.deltatime)
         }
-        
-
     }
 
-    void Move()
+    void Move()//movimento cm velocidade
+    {
+        if (stop == false && isAiming == false)
+        {
+            rb.velocity = input.toIso() * speedAtual;
+            if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0 && speedAtual >= 1)
+            {
+                Anim.SetFloat("isRun", 1);
+            }
+            else
+            {
+                Anim.SetFloat("isRun", 0);
+            }
+
+        }
+        
+    }
+    void Move2()
     {
         if(stop == false)
         {
@@ -112,114 +137,181 @@ public class Player : MonoBehaviour
             }
 
         }
-    }
+    } //movimento cm transform
 
     void AtackMelee()
     {
-        if(Input.GetButtonDown("Fire1") & isCdAtack == false)
+        if(Input.GetButtonDown("R1") || Input.GetButtonDown("mouse0") & isCdAtack == false)
         {
             StartCoroutine("AtackMeleeTime");
             StartCoroutine("CDAtackMelee");
+            Vector3 atackingfoward= transform.forward;
+            rb.AddForce(3.5f * atackingfoward, ForceMode.Impulse);
         }
     }
 
     void AtackRange()
     {
-        if(Input.GetButtonDown("L1")|| Input.GetKeyDown(KeyCode.E) && isCdRange == false && manaAtual >= 1)
+        if(Input.GetButton("L1") || Input.GetButton("mouse1"))
         {
-            Vector3 direcao = transform.forward;
+            if(manaAtual >= 1)
+            {
+                if (isCdRange == false)
+                {
+                    Anim.SetFloat("Feitico", 1);
+                    stop = true;
+                    isAiming = true;
+                }
+            }
 
-            GameObject magia = Instantiate(feiticoPrefab, feiticoRespawn.position, feiticoRespawn.rotation);
-            magia.GetComponent<Rigidbody>().AddForce(direcao * forcaArremessoFeitico, ForceMode.Impulse);
-            StartCoroutine("CDAtackRange");
-            manaAtual -= 1;
+        }
+        if (Input.GetButtonUp("L1") || Input.GetButtonUp("mouse1") )
+        {
+            if(manaAtual >= 1)
+            {
+                if(isCdRange == false)
+                {
+                    manaAtual -= 1;
+                    Vector3 direcao = transform.forward;
+                    GameObject magia = Instantiate(feiticoPrefab, feiticoRespawn.position, feiticoRespawn.rotation);
+                    magia.GetComponent<Rigidbody>().AddForce(direcao * forcaArremessoFeitico, ForceMode.Impulse);
+                    StartCoroutine("CDAtackRange2");
+                    stop = false;
+                    StartCoroutine(timetoAiming());
+                    Anim.SetFloat("Feitico", 0);
+                }
+
+            }
         }
     }
 
     void atackPocao()
     {
-        if (Input.GetButtonDown("Fire2") && isCdRange == false)
+        if (Input.GetButton("R2") || Input.GetButton("mouse2"))
         {
-            if (pocao.tipoDapocao == 0)
+            if(isCdRange == false)
             {
-                if (temPocaoCura > 0)
+                if (pocao.tipoDapocao == 0)
                 {
-                    if (VidaAtual < VidaTotal)
+                    if (temPocaoCura > 0)
                     {
-                        StartCoroutine("Cura");
-                        ++VidaAtual;
-                        --temPocaoCura;
-                        GameController.numeroPocoesAtual = temPocaoCura;
+                        if (VidaAtual < VidaTotal)
+                        {
+                            StartCoroutine("Cura");
+                            ++VidaAtual;
+                            --temPocaoCura;
+                            GameController.numeroPocoesAtual = temPocaoCura;
+                        }
+                        else
+                        {
+                            StartCoroutine("Cura");
+                            --temPocaoCura;
+                            GameController.numeroPocoesAtual = temPocaoCura;
+                        }
                     }
-                    else
-                    {
-                        StartCoroutine("Cura");
-                        --temPocaoCura;
-                        GameController.numeroPocoesAtual = temPocaoCura;
-                    }
-                }
-            }
-            if (pocao.tipoDapocao == 1)
-            {
-                if (temPocaoMana > 0)
+                } // pocao cura
+                if (pocao.tipoDapocao == 1)
                 {
-                    if (manaAtual < manaTotal)
+                    if (temPocaoMana > 0)
                     {
-                        StartCoroutine("ManaCura");
-                        ++manaAtual;
-                        --temPocaoMana;
-                        GameController.numeroPocoesAtual = temPocaoMana;
+                        if (manaAtual < manaTotal)
+                        {
+                            StartCoroutine("ManaCura");
+                            ++manaAtual;
+                            --temPocaoMana;
+                            GameController.numeroPocoesAtual = temPocaoMana;
+                        }
+                        else
+                        {
+                            StartCoroutine("ManaCura");
+                            --temPocaoMana;
+                            GameController.numeroPocoesAtual = temPocaoMana;
+                        }
                     }
-                    else
-                    {
-                        StartCoroutine("ManaCura");
-                        --temPocaoMana;
-                        GameController.numeroPocoesAtual = temPocaoMana;
-                    }
-                }
 
+                } // pocao mana
+                if (pocao.tipoDapocao == 2)
+                {
+                    if (temPocaoFogo > 0)
+                    {
+                        isAiming = true;
+                    }
+                } // pocao Fogo
+                if (pocao.tipoDapocao == 3)
+                {
+                    if (temPocaoGelo > 0)
+                    {
+                        isAiming = true;
+                    }
+                } // pocao Gelo
+                if (pocao.tipoDapocao == 4)
+                {
+                    if (temPocaoFumaca > 0)
+                    {
+                        isAiming = true;
+                        Vector3 direcao = transform.forward;
+
+                        GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
+                        pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
+                        StartCoroutine("CDAtackRange");
+                        --temPocaoFumaca;
+                        GameController.numeroPocoesAtual = temPocaoFumaca;
+                    }
+                } // pocao fumaça
             }
+        }
+        if (Input.GetButtonUp("R2") || Input.GetButtonUp("mouse2"))
+        {
             if (pocao.tipoDapocao == 2)
             {
                 if (temPocaoFogo > 0)
                 {
-                    Vector3 direcao = transform.forward;
+                    if(isCdRange == false)
+                    {
+                        StartCoroutine(timetoAiming());
+                        Vector3 direcao = transform.forward;
+                        GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
+                        pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
+                        StartCoroutine("CDAtackRange");
+                        --temPocaoFogo;
+                        GameController.numeroPocoesAtual = temPocaoFogo;
 
-                    GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
-                    pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
-                    StartCoroutine("CDAtackRange");
-                    --temPocaoFogo;
-                    GameController.numeroPocoesAtual = temPocaoFogo;
-
+                    }
 
                 }
-            }
+            } // pocao Fogo
             if (pocao.tipoDapocao == 3)
             {
                 if (temPocaoGelo > 0)
                 {
-                    Vector3 direcao = transform.forward;
-
-                    GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
-                    pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
-                    StartCoroutine("CDAtackRange");
-                    --temPocaoGelo;
-                    GameController.numeroPocoesAtual = temPocaoGelo;
+                    if (isCdRange == false)
+                    {
+                        StartCoroutine(timetoAiming());
+                        Vector3 direcao = transform.forward;
+                        GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
+                        pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
+                        StartCoroutine("CDAtackRange");
+                        --temPocaoGelo;
+                        GameController.numeroPocoesAtual = temPocaoGelo;
+                    }
                 }
-            }
+            } // pocao Gelo
             if (pocao.tipoDapocao == 4)
             {
                 if (temPocaoFumaca > 0)
                 {
-                    Vector3 direcao = transform.forward;
-
-                    GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
-                    pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
-                    StartCoroutine("CDAtackRange");
-                    --temPocaoFumaca;
-                    GameController.numeroPocoesAtual = temPocaoFumaca;
+                    if(isCdRange == false)
+                    {
+                        Vector3 direcao = transform.forward;
+                        GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
+                        pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
+                        StartCoroutine("CDAtackRange");
+                        --temPocaoFumaca;
+                        GameController.numeroPocoesAtual = temPocaoFumaca;
+                        StartCoroutine(timetoAiming());
+                    }
                 }
-            }
+            } // pocao fumaça
         }
     }
 
@@ -248,7 +340,7 @@ public class Player : MonoBehaviour
 
     void Dash()
     {
-        if(Input.GetButton("Fire3") && isDashing == 4)
+        if(Input.GetButton("bolinha") && isDashing == 4)
         {
             isDashing = 0;
             Vector3 dashing = transform.forward;
@@ -260,7 +352,7 @@ public class Player : MonoBehaviour
     void trocarPocao()
     {
 
-        if (Input.GetButtonDown("R1") || Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetButtonDown("triangulo") || Input.GetKeyDown(KeyCode.Q))
         {
             if(pocao.tipoDapocao == 0)
             {
@@ -324,11 +416,24 @@ public class Player : MonoBehaviour
         }
     }
 
+    IEnumerator timetoAiming()
+    {
+        yield return new WaitForSeconds(0.35f);
+        isAiming = false;
+    }
     IEnumerator CdDash()
     {
         dashing = true;
-        yield return new WaitForSeconds(CDDash);
+        speedAtual = speedAtual + 5;
+        playerMesh.enabled = false;
+        espadaCosta.SetActive(false);
+        rastroDash.emitting = true;
+        yield return new WaitForSeconds(timeInDashing);
         dashing = false;
+        speedAtual = speed;
+        playerMesh.enabled = true;
+        rastroDash.emitting = false;
+        espadaCosta.SetActive(true);
         isDashing += 1;
         yield return new WaitForSeconds(CDDash);
         isDashing += 1;
@@ -345,14 +450,12 @@ public class Player : MonoBehaviour
         stop = true; 
         espada.SetActive(true);
         Anim.SetFloat("Atack", 1);
-        espadaAtack.SetActive(true);
         espadaCosta.SetActive(false);
         yield return new WaitForSeconds(0.5f);
         stop = false;
         espada.SetActive(false);
         Anim.SetFloat("Atack", 0);
         espadaCosta.SetActive(true);
-        espadaAtack.SetActive(false);
     }
 
     IEnumerator CDAtackMelee()
@@ -368,11 +471,19 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(CDRange);
         isCdRange = false;
     }
+    IEnumerator CDAtackRange2()
+    {
+        isCdRange = true;
+        yield return new WaitForSeconds(CDRange2);
+        isCdRange = false;
+    }
 
     IEnumerator CDTomarDano()
     {
         stop = true;
+        TomouDano = true;
         yield return new WaitForSeconds(CdTomarDano);
+        TomouDano = false;
         stop = false;
 
     }
@@ -394,7 +505,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "garra")
+        if (other.gameObject.tag == "garra" && !TomouDano)
         {
             TomarDano(1);
         }
