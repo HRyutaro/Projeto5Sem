@@ -9,15 +9,16 @@ public class Enemy : MonoBehaviour
     [Header("vida")]
     public int Vida;
     public Collider col;
+    public GameObject radiacao;
 
     [Header("Perseguição")]
-    public float distanciaMin;
-    public float distanciaMax;
+    public float speed;
     private float distMax;
     float distanciaDoAlvo;
     public Transform alvo;
+    public float distanciaMin;
+    public float distanciaMax;
     private NavMeshAgent navMeshAgent;
-    public float speed;
 
     [Header("Animação")]
     public Animator Anim;
@@ -29,8 +30,8 @@ public class Enemy : MonoBehaviour
     private bool tomouDano = false;
 
     [Header("ataque")]
-    public Collider atack;
     public float CdAtack;
+    public Collider atack;
     public float speedAtaque;
     private float nextattackTime;
     private bool isAttacking = false;
@@ -41,7 +42,8 @@ public class Enemy : MonoBehaviour
         navMeshAgent.stoppingDistance = distanciaMin;
         navMeshAgent.speed = speed;
         distMax = distanciaMax;
-    }
+        atack.enabled = false;
+}
 
 
     void Update()
@@ -70,10 +72,14 @@ public class Enemy : MonoBehaviour
         StartCoroutine("DanoCorCD");
         if(Vida >= 1)
         {
+            Anim.SetFloat("Atack", 0);
             Vida -= 1;
         }
         if(Vida <= 0)
         {
+            Anim.SetFloat("Atack", 0);
+            Instantiate(radiacao, gameObject.transform.position,gameObject.transform.rotation);
+            GetComponent<MeshRenderer>().enabled = false;
             Destroy(gameObject,1f);
         }
     }
@@ -91,7 +97,7 @@ public class Enemy : MonoBehaviour
     }
     void atacar()
     {
-        if(Time.time >= nextattackTime)
+        if(Time.time >= nextattackTime && tomouDano == false)
         {
             if (!isAttacking && Vector3.Distance(transform.position, alvo.position) <= distanciaMin)
             {
@@ -107,10 +113,12 @@ public class Enemy : MonoBehaviour
         StartCoroutine("EfeitoGelo");
         if(Vida >= 1)
         {
+            Anim.SetFloat("Atack", 0);
             --Vida;
         }
         else if(Vida <= 0)
         {
+            Anim.SetFloat("Atack", 0);
             Destroy(gameObject, 1f);
         }
     }
@@ -124,8 +132,10 @@ public class Enemy : MonoBehaviour
     IEnumerator EfeitoGelo()
     {
         navMeshAgent.speed = 1.5f;
+        Anim.speed = 0.5f;
         yield return new WaitForSeconds(3f);
         navMeshAgent.speed = speed;
+        Anim.speed = 1;
         GetComponent<Renderer>().material.color = corNormal;
 
     }
@@ -133,10 +143,12 @@ public class Enemy : MonoBehaviour
     IEnumerator AtackGarra()
     {
         isAttacking = true;
+        atack.enabled = true;
         Anim.SetFloat("Atack", 1);
         navMeshAgent.isStopped = true;
         yield return new WaitForSeconds(1);
         isAttacking = false;
+        atack.enabled = false;
         Anim.SetFloat("Atack", 0);
         navMeshAgent.isStopped = false;
     }

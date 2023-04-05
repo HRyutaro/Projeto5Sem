@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public ParticleSystem curar;
     public ParticleSystem curarMana;
     public MeshRenderer playerMesh;
+    
 
     [Header("Movimento")]
     [SerializeField] private Rigidbody rb;
@@ -20,6 +21,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float turnSpeed = 360;
     private Vector3 input;
     private Vector3 input2;
+    [SerializeField] public bool isPaused;
+    [SerializeField] public bool stop;
 
     [Header("Combat")]
     public GameObject espadaCosta;
@@ -27,13 +30,13 @@ public class Player : MonoBehaviour
     public float CDAtack;
     public float CDRange2;
     private bool isCdAtack;
-    private bool stop;
     public int isDashing = 4;
     public float forcaDash;
     public float CDDash;
     public float timeInDashing;
     public TrailRenderer rastroDash;
     private bool isAiming = false;
+    private bool isAtacking = false;
 
     [Header("Pocao")]
     public GameObject pocaoPrefab;
@@ -41,11 +44,19 @@ public class Player : MonoBehaviour
     public Transform pocaoRespawn;
     public float CDRange;
     private bool isCdRange;
+
+    [Header("Inventario")]
+    public int Radiacao;
     public int temPocaoFogo;
     public int temPocaoGelo;
     public int temPocaoFumaca;
     public int temPocaoMana;
     public int temPocaoCura;
+    public int temPlantaFogo;
+    public int temPlantaGelo;
+    public int temPlantaFumaca;
+    public int temPlantaMana;
+    public int temPlantaCura;
 
     [Header("Magia")]
     public int manaTotal;
@@ -63,6 +74,13 @@ public class Player : MonoBehaviour
     private bool dashing;
     private bool TomouDano = false;
 
+    //controles
+    [SerializeField] public string op1;
+    [SerializeField] public string op2;
+    [SerializeField] public bool blockByInt;
+    public static int op;
+
+    public GameObject Interacao;
 
     void Start()
     {
@@ -74,13 +92,17 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        AtackMelee();
-        GatherInput();
-        Look();
-        Vida();
-        trocarPocao();
-        atackPocao();
-        AtackRange();
+        controleConfig();
+        if (isPaused == false)
+        {
+            AtackMelee();
+            GatherInput();
+            Look();
+            Vida();
+            trocarPocao();
+            atackPocao();
+            AtackRange();
+        }
     }
 
     private void FixedUpdate()
@@ -98,10 +120,14 @@ public class Player : MonoBehaviour
     {
         if( input != Vector3.zero)
         {
-            var relative = (transform.position + input.toIso()) - transform.position;
-            var rot = Quaternion.LookRotation(relative, Vector3.up);
+            if(isPaused == false && isAtacking == false )
+            {
+                var relative = (transform.position + input.toIso()) - transform.position;
+                var rot = Quaternion.LookRotation(relative, Vector3.up);
      
-            transform.rotation = Quaternion.RotateTowards(transform.rotation,rot,turnSpeed); //rotação mais demorada (...turnSpeed * Time.deltatime)
+                transform.rotation = Quaternion.RotateTowards(transform.rotation,rot,turnSpeed); //rotação mais demorada (...turnSpeed * Time.deltatime)
+
+            }
         }
     }
 
@@ -139,14 +165,31 @@ public class Player : MonoBehaviour
         }
     } //movimento cm transform
 
+    void controleConfig()
+    {
+        if(op == 1)
+        {
+            op1 = "R1";
+            op2 = "R2";
+        }
+        else if(op == 2)
+        {
+            op1 = "quadrado";
+            op2 = "R1";
+        }
+    }
     void AtackMelee()
     {
-        if(Input.GetButtonDown("R1") || Input.GetButtonDown("mouse0") & isCdAtack == false)
+        if(blockByInt == false)
         {
-            StartCoroutine("AtackMeleeTime");
-            StartCoroutine("CDAtackMelee");
-            Vector3 atackingfoward= transform.forward;
-            rb.AddForce(3.5f * atackingfoward, ForceMode.Impulse);
+            if(Input.GetButtonDown(op1) && isCdAtack == false || Input.GetButtonDown("mouse0") && isCdAtack == false)
+            {
+                StartCoroutine("AtackMeleeTime");
+                StartCoroutine("CDAtackMelee");
+                Vector3 atackingfoward= transform.forward;
+                rb.AddForce(3.5f * atackingfoward, ForceMode.Impulse);
+            }
+
         }
     }
 
@@ -187,7 +230,7 @@ public class Player : MonoBehaviour
 
     void atackPocao()
     {
-        if (Input.GetButton("R2") || Input.GetButton("mouse2"))
+        if(Input.GetButtonDown(op2) || Input.GetButtonDown("mouse2"))
         {
             if(isCdRange == false)
             {
@@ -230,11 +273,18 @@ public class Player : MonoBehaviour
                     }
 
                 } // pocao mana
+            }
+        }
+        if (Input.GetButton(op2) || Input.GetButton("mouse2"))
+        {
+            if(isCdRange == false)
+            {
                 if (pocao.tipoDapocao == 2)
                 {
                     if (temPocaoFogo > 0)
                     {
                         isAiming = true;
+                        Anim.SetFloat("Pocao", 1);
                     }
                 } // pocao Fogo
                 if (pocao.tipoDapocao == 3)
@@ -242,6 +292,7 @@ public class Player : MonoBehaviour
                     if (temPocaoGelo > 0)
                     {
                         isAiming = true;
+                        Anim.SetFloat("Pocao", 1);
                     }
                 } // pocao Gelo
                 if (pocao.tipoDapocao == 4)
@@ -249,18 +300,12 @@ public class Player : MonoBehaviour
                     if (temPocaoFumaca > 0)
                     {
                         isAiming = true;
-                        Vector3 direcao = transform.forward;
-
-                        GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
-                        pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
-                        StartCoroutine("CDAtackRange");
-                        --temPocaoFumaca;
-                        GameController.numeroPocoesAtual = temPocaoFumaca;
+                        Anim.SetFloat("Pocao", 1);
                     }
                 } // pocao fumaça
             }
         }
-        if (Input.GetButtonUp("R2") || Input.GetButtonUp("mouse2"))
+        if (Input.GetButtonUp(op2) || Input.GetButtonUp("mouse2"))
         {
             if (pocao.tipoDapocao == 2)
             {
@@ -268,16 +313,16 @@ public class Player : MonoBehaviour
                 {
                     if(isCdRange == false)
                     {
+                        --temPocaoFogo;
+                        Anim.SetFloat("Pocao", 0);
+                        StartCoroutine("CDAtackRange");
                         StartCoroutine(timetoAiming());
                         Vector3 direcao = transform.forward;
                         GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
                         pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
-                        StartCoroutine("CDAtackRange");
-                        --temPocaoFogo;
                         GameController.numeroPocoesAtual = temPocaoFogo;
 
                     }
-
                 }
             } // pocao Fogo
             if (pocao.tipoDapocao == 3)
@@ -286,12 +331,13 @@ public class Player : MonoBehaviour
                 {
                     if (isCdRange == false)
                     {
+                        --temPocaoGelo;
+                        Anim.SetFloat("Pocao", 0);  
+                        StartCoroutine("CDAtackRange");
                         StartCoroutine(timetoAiming());
                         Vector3 direcao = transform.forward;
                         GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
                         pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
-                        StartCoroutine("CDAtackRange");
-                        --temPocaoGelo;
                         GameController.numeroPocoesAtual = temPocaoGelo;
                     }
                 }
@@ -302,19 +348,28 @@ public class Player : MonoBehaviour
                 {
                     if(isCdRange == false)
                     {
+                        --temPocaoFumaca;
+                        Anim.SetFloat("Pocao", 0);
+                        StartCoroutine("CDAtackRange");
+                        StartCoroutine(timetoAiming());
                         Vector3 direcao = transform.forward;
                         GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
                         pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
-                        StartCoroutine("CDAtackRange");
-                        --temPocaoFumaca;
                         GameController.numeroPocoesAtual = temPocaoFumaca;
-                        StartCoroutine(timetoAiming());
                     }
                 }
             } // pocao fumaça
         }
-    }
 
+    }
+    
+    void stopAnim()
+    {
+        if(stop == true || isPaused == true)
+        {
+            Anim.SetFloat("isRun", 0);
+        }
+    }
     void Vida()
     {
         if(VidaAtual <= 0)
@@ -340,12 +395,15 @@ public class Player : MonoBehaviour
 
     void Dash()
     {
-        if(Input.GetButton("bolinha") && isDashing == 4)
+        if(isPaused == false)
         {
-            isDashing = 0;
-            Vector3 dashing = transform.forward;
-            rb.AddForce(dashing * forcaDash, ForceMode.Impulse);
-            StartCoroutine("CdDash");
+            if(Input.GetButton("bolinha") && isDashing == 4)
+            {
+                isDashing = 0;
+                Vector3 dashing = transform.forward;
+                rb.AddForce(dashing * forcaDash, ForceMode.Impulse);
+                StartCoroutine("CdDash");
+            }
         }
     }
 
@@ -448,11 +506,13 @@ public class Player : MonoBehaviour
     IEnumerator AtackMeleeTime()
     {
         stop = true; 
+        isAtacking = true;
         espada.SetActive(true);
         Anim.SetFloat("Atack", 1);
         espadaCosta.SetActive(false);
         yield return new WaitForSeconds(0.5f);
         stop = false;
+        isAtacking = false;
         espada.SetActive(false);
         Anim.SetFloat("Atack", 0);
         espadaCosta.SetActive(true);
@@ -509,8 +569,24 @@ public class Player : MonoBehaviour
         {
             TomarDano(1);
         }
+
+        if (other.gameObject.CompareTag("worktable"))
+        {
+            blockByInt = true;
+            Interacao.SetActive(true);
+            GameController.instance.pertoDaTable = true;
+        }
+
     }
 
-
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("worktable"))
+        {
+            blockByInt = false;
+            Interacao.SetActive(false);
+            GameController.instance.pertoDaTable = false;
+        }
+    }
 
 }

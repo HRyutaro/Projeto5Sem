@@ -11,6 +11,8 @@ TagManager:
   - piso
   - fogo
   - fumaca
+  - worktable
+  - ParedeTransparente
   layers:
   - Default
   - TransparentFX
@@ -18,7 +20,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Game
   - 
   - 
   - 
@@ -47,6 +49,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Pausa
+    uniqueID: 2772069917
     locked: 0
   - name: camera
     uniqueID: 17323899
