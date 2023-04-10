@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent))]
-public class Enemy : MonoBehaviour
+public class EnemyRanged : MonoBehaviour
 {
     [Header("vida")]
     public int Vida;
@@ -19,6 +18,7 @@ public class Enemy : MonoBehaviour
     public float distanciaMin;
     public float distanciaMax;
     private NavMeshAgent navMeshAgent;
+    public float RotationSpeed;
 
     [Header("Animação")]
     public Animator Anim;
@@ -31,10 +31,12 @@ public class Enemy : MonoBehaviour
 
     [Header("ataque")]
     public float CdAtack;
-    public Collider atack;
     public float speedAtaque;
     private float nextattackTime;
     private bool isAttacking = false;
+    public GameObject atackprefab;
+    public Transform atackRespawn;
+    public float forcaAtack;
 
     void Start()
     {
@@ -42,8 +44,7 @@ public class Enemy : MonoBehaviour
         navMeshAgent.stoppingDistance = distanciaMin;
         navMeshAgent.speed = speed;
         distMax = distanciaMax;
-        atack.enabled = false;
-}
+    }
 
 
     void Update()
@@ -61,6 +62,7 @@ public class Enemy : MonoBehaviour
         if (distanciaDoAlvo > distMax)
         {
             navMeshAgent.SetDestination(transform.position);
+            
         }
         else
         {
@@ -71,17 +73,17 @@ public class Enemy : MonoBehaviour
     void tomarDano(float dano)
     {
         StartCoroutine("DanoCorCD");
-        if(Vida >= 1)
+        if (Vida >= 1)
         {
             Anim.SetFloat("Atack", 0);
             Vida -= 1;
         }
-        if(Vida <= 0)
+        if (Vida <= 0)
         {
             Anim.SetFloat("Atack", 0);
-            Instantiate(radiacao, gameObject.transform.position,gameObject.transform.rotation);
+            Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
             GetComponent<MeshRenderer>().enabled = false;
-            Destroy(gameObject,1f);
+            Destroy(gameObject, 1f);
         }
     }
     void tomarDanoFogo()
@@ -98,13 +100,18 @@ public class Enemy : MonoBehaviour
     }
     void atacar()
     {
-        if(Time.time >= nextattackTime && tomouDano == false)
+        if (Time.time >= nextattackTime && tomouDano == false)
         {
+            gameObject.transform.LookAt(alvo);
             if (!isAttacking && Vector3.Distance(transform.position, alvo.position) <= distanciaMin)
             {
-                StartCoroutine("AtackGarra");
+                Vector3 direcao = transform.forward;
+                GameObject magia = Instantiate(atackprefab, atackRespawn.position, atackRespawn.rotation);
+                magia.GetComponent<Rigidbody>().AddForce(direcao * forcaAtack, ForceMode.Impulse);
+                StartCoroutine(AnimacaoGuspe());
             }
             nextattackTime = Time.time + CdAtack;
+            gameObject.transform.LookAt(alvo);
         }
 
     }
@@ -112,18 +119,23 @@ public class Enemy : MonoBehaviour
     void Congelado()
     {
         StartCoroutine("EfeitoGelo");
-        if(Vida >= 1)
+        if (Vida >= 1)
         {
             Anim.SetFloat("Atack", 0);
             --Vida;
         }
-        else if(Vida <= 0)
+        else if (Vida <= 0)
         {
             Anim.SetFloat("Atack", 0);
             Destroy(gameObject, 1f);
         }
     }
-
+    IEnumerator AnimacaoGuspe()
+    {
+        Anim.SetFloat("Guspindo", 1);
+        yield return new WaitForSeconds(0.3f);
+        Anim.SetFloat("Guspindo", 0);
+    }
     IEnumerator CDTomarDano()
     {
         tomouDano = true;
@@ -139,19 +151,6 @@ public class Enemy : MonoBehaviour
         Anim.speed = 1;
         GetComponent<Renderer>().material.color = corNormal;
 
-    }
-
-    IEnumerator AtackGarra()
-    {
-        isAttacking = true;
-        atack.enabled = true;
-        Anim.SetFloat("Atack", 1);
-        navMeshAgent.isStopped = true;
-        yield return new WaitForSeconds(1);
-        isAttacking = false;
-        atack.enabled = false;
-        Anim.SetFloat("Atack", 0);
-        navMeshAgent.isStopped = false;
     }
 
     IEnumerator DanoCorCD()
@@ -184,23 +183,23 @@ public class Enemy : MonoBehaviour
         distMax = 1;
         yield return new WaitForSeconds(2f);
         distMax = distanciaMax;
-        
+
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("espada") && !tomouDano)
+        if (other.gameObject.CompareTag("espada") && !tomouDano)
         {
             StartCoroutine("CDTomarDano");
             tomarDano(1);
         }
-        if(other.gameObject.tag == "gelo" && !tomouDano)
+        if (other.gameObject.tag == "gelo" && !tomouDano)
         {
             StartCoroutine("CDTomarDano");
             Congelado();
             GetComponent<Renderer>().material.color = corGelado;
         }
-        if(other.gameObject.tag == "fogo" && !tomouDano)
+        if (other.gameObject.tag == "fogo" && !tomouDano)
         {
             StartCoroutine("CDTomarDano");
             tomarDanoFogo();
@@ -214,8 +213,9 @@ public class Enemy : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, distanciaMax);
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position,distanciaMax);
+        Gizmos.DrawWireSphere(transform.position, distanciaMin);
     }
-
 }

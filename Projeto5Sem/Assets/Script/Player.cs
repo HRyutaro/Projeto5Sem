@@ -363,13 +363,6 @@ public class Player : MonoBehaviour
 
     }
     
-    void stopAnim()
-    {
-        if(stop == true || isPaused == true)
-        {
-            Anim.SetFloat("isRun", 0);
-        }
-    }
     void Vida()
     {
         if(VidaAtual <= 0)

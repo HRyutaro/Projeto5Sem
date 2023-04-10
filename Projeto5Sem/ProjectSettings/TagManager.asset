@@ -12,7 +12,8 @@ TagManager:
   - fogo
   - fumaca
   - worktable
-  - ParedeTransparente
+  - Parede
+  - ShadowParede
   layers:
   - Default
   - TransparentFX
