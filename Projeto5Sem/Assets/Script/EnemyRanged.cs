@@ -2,13 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class EnemyRanged : MonoBehaviour
 {
     [Header("vida")]
-    public int Vida;
+    public int vida;
+    public int vidaAtual;
     public Collider col;
     public GameObject radiacao;
+    public Slider life;
+    private bool isDead;
 
     [Header("Perseguição")]
     public float speed;
@@ -44,11 +48,15 @@ public class EnemyRanged : MonoBehaviour
         navMeshAgent.stoppingDistance = distanciaMin;
         navMeshAgent.speed = speed;
         distMax = distanciaMax;
+        life.maxValue = vida;
+        vidaAtual = vida;
+        isDead = false;
     }
 
 
     void Update()
     {
+        life.value = vidaAtual;
         atacar();
     }
 
@@ -58,75 +66,91 @@ public class EnemyRanged : MonoBehaviour
     }
     void move()
     {
-        distanciaDoAlvo = Vector3.Distance(transform.position, alvo.position);
-        if (distanciaDoAlvo > distMax)
+        if(isDead == false)
         {
-            navMeshAgent.SetDestination(transform.position);
+            distanciaDoAlvo = Vector3.Distance(transform.position, alvo.position);
+            if (distanciaDoAlvo > distMax)
+            {
+                navMeshAgent.SetDestination(transform.position);
             
-        }
-        else
-        {
-            navMeshAgent.SetDestination(alvo.position);
+            }
+            else
+            {
+                navMeshAgent.SetDestination(alvo.position);
+            }
         }
     }
 
-    void tomarDano(float dano)
+    void TomarDano(float dano)
     {
         StartCoroutine("DanoCorCD");
-        if (Vida >= 1)
+        if (vidaAtual >= 1)
         {
-            Anim.SetFloat("Atack", 0);
-            Vida -= 1;
+            Anim.SetFloat("Guspindo", 0);
+            vidaAtual -= 1;
         }
-        if (Vida <= 0)
+        if (vidaAtual <= 0)
         {
-            Anim.SetFloat("Atack", 0);
-            Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
+            isDead = true;
+            Anim.SetFloat("Guspindo", 0);
+            GetComponent<Collider>().enabled = false;
             GetComponent<MeshRenderer>().enabled = false;
+            Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
             Destroy(gameObject, 1f);
         }
     }
-    void tomarDanoFogo()
+    void TomarDanoFogo()
     {
         StartCoroutine("DanoCorCDFogo");
-        if (Vida >= 1)
+        if (vidaAtual >= 1)
         {
-            --Vida;
+            --vidaAtual;
         }
-        if (Vida <= 0)
+        if (vidaAtual <= 0)
         {
+            isDead = true;
+            Anim.SetFloat("Guspindo", 0);
+            GetComponent<Collider>().enabled = false;
+            GetComponent<MeshRenderer>().enabled = false;
+            Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
             Destroy(gameObject, 1f);
         }
     }
     void atacar()
     {
-        if (Time.time >= nextattackTime && tomouDano == false)
+        if(isDead == false)
         {
-            gameObject.transform.LookAt(alvo);
-            if (!isAttacking && Vector3.Distance(transform.position, alvo.position) <= distanciaMin)
+            if (Time.time >= nextattackTime && tomouDano == false)
             {
-                Vector3 direcao = transform.forward;
-                GameObject magia = Instantiate(atackprefab, atackRespawn.position, atackRespawn.rotation);
-                magia.GetComponent<Rigidbody>().AddForce(direcao * forcaAtack, ForceMode.Impulse);
-                StartCoroutine(AnimacaoGuspe());
+                gameObject.transform.LookAt(alvo);
+                if (!isAttacking && Vector3.Distance(transform.position, alvo.position) <= distanciaMin)
+                {
+                    Vector3 direcao = transform.forward;
+                    GameObject magia = Instantiate(atackprefab, atackRespawn.position, atackRespawn.rotation);
+                    magia.GetComponent<Rigidbody>().AddForce(direcao * forcaAtack, ForceMode.Impulse);
+                    StartCoroutine(AnimacaoGuspe());
+                }
+                nextattackTime = Time.time + CdAtack;
+                gameObject.transform.LookAt(alvo);
             }
-            nextattackTime = Time.time + CdAtack;
-            gameObject.transform.LookAt(alvo);
         }
-
     }
 
     void Congelado()
     {
         StartCoroutine("EfeitoGelo");
-        if (Vida >= 1)
+        if (vidaAtual >= 1)
         {
-            Anim.SetFloat("Atack", 0);
-            --Vida;
+            Anim.SetFloat("Guspindo", 0);
+            --vidaAtual;
         }
-        else if (Vida <= 0)
+        else if (vidaAtual <= 0)
         {
-            Anim.SetFloat("Atack", 0);
+            isDead = true;
+            Anim.SetFloat("Guspindo", 0);
+            GetComponent<Collider>().enabled = false;
+            GetComponent<MeshRenderer>().enabled = false;
+            Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
             Destroy(gameObject, 1f);
         }
     }
@@ -191,7 +215,7 @@ public class EnemyRanged : MonoBehaviour
         if (other.gameObject.CompareTag("espada") && !tomouDano)
         {
             StartCoroutine("CDTomarDano");
-            tomarDano(1);
+            TomarDano(1);
         }
         if (other.gameObject.tag == "gelo" && !tomouDano)
         {
@@ -202,7 +226,7 @@ public class EnemyRanged : MonoBehaviour
         if (other.gameObject.tag == "fogo" && !tomouDano)
         {
             StartCoroutine("CDTomarDano");
-            tomarDanoFogo();
+            TomarDanoFogo();
         }
         if (other.gameObject.tag == "fumaca")
         {

@@ -2,14 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class Enemy : MonoBehaviour
 {
     [Header("vida")]
     public int Vida;
+    public int VidaAtual;
     public Collider col;
     public GameObject radiacao;
+    public Slider Life;
+    private bool isDead;
 
     [Header("Perseguição")]
     public float speed;
@@ -43,11 +47,15 @@ public class Enemy : MonoBehaviour
         navMeshAgent.speed = speed;
         distMax = distanciaMax;
         atack.enabled = false;
-}
+        Life.maxValue = Vida;
+        VidaAtual = Vida;
+        isDead = false;
+    }
 
 
     void Update()
     {
+        Life.value = VidaAtual;
         atacar();
     }
 
@@ -57,69 +65,78 @@ public class Enemy : MonoBehaviour
     }
     void move()
     {
-        distanciaDoAlvo = Vector3.Distance(transform.position, alvo.position);
-        if (distanciaDoAlvo > distMax)
+        if(isDead == false)
         {
-            navMeshAgent.SetDestination(transform.position);
-        }
-        else
-        {
-            navMeshAgent.SetDestination(alvo.position);
+            distanciaDoAlvo = Vector3.Distance(transform.position, alvo.position);
+            if (distanciaDoAlvo > distMax)
+            {
+                navMeshAgent.SetDestination(transform.position);
+            }
+            else
+            {
+                navMeshAgent.SetDestination(alvo.position);
+            }
         }
     }
 
     void tomarDano(float dano)
     {
         StartCoroutine("DanoCorCD");
-        if(Vida >= 1)
+        if(VidaAtual >= 1)
         {
             Anim.SetFloat("Atack", 0);
-            Vida -= 1;
+            VidaAtual -= 1;
         }
-        if(Vida <= 0)
+        if(VidaAtual <= 0)
         {
+            isDead = true;
             Anim.SetFloat("Atack", 0);
             Instantiate(radiacao, gameObject.transform.position,gameObject.transform.rotation);
             GetComponent<MeshRenderer>().enabled = false;
+            GetComponent<Collider>().enabled = false;
             Destroy(gameObject,1f);
         }
     }
     void tomarDanoFogo()
     {
         StartCoroutine("DanoCorCDFogo");
-        if (Vida >= 1)
+        if (VidaAtual >= 1)
         {
-            --Vida;
+            --VidaAtual;
         }
-        if (Vida <= 0)
+        if (VidaAtual <= 0)
         {
+            isDead = true;
             Destroy(gameObject, 1f);
         }
     }
     void atacar()
     {
-        if(Time.time >= nextattackTime && tomouDano == false)
+        if(isDead == false)
         {
-            gameObject.transform.LookAt(alvo);
-            if (!isAttacking && Vector3.Distance(transform.position, alvo.position) <= distanciaMin)
+            if(Time.time >= nextattackTime && tomouDano == false)
             {
-                StartCoroutine("AtackGarra");
+                gameObject.transform.LookAt(alvo);
+                if (!isAttacking && Vector3.Distance(transform.position, alvo.position) <= distanciaMin)
+                {
+                    StartCoroutine("AtackGarra");
+                }
+                nextattackTime = Time.time + CdAtack;
             }
-            nextattackTime = Time.time + CdAtack;
         }
-
     }
 
     void Congelado()
     {
         StartCoroutine("EfeitoGelo");
-        if(Vida >= 1)
+        if(VidaAtual >= 1)
         {
             Anim.SetFloat("Atack", 0);
-            --Vida;
+            --VidaAtual;
         }
-        else if(Vida <= 0)
+        else if(VidaAtual <= 0)
         {
+            isDead = true;
             Anim.SetFloat("Atack", 0);
             Destroy(gameObject, 1f);
         }

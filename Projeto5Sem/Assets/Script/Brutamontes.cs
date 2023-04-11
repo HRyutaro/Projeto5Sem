@@ -2,13 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class Brutamontes : MonoBehaviour
 {
     [Header("vida")]
-    public int Vida;
+    public int vida;
+    public int vidaAtual;
     public Collider col;
     public GameObject radiacao;
+    public Slider life;
+    private bool isDead;
 
     [Header("Perseguição")]
     public float speed;
@@ -43,11 +47,15 @@ public class Brutamontes : MonoBehaviour
         navMeshAgent.speed = speed;
         distMax = distanciaMax;
         atack.enabled = false;
+        life.maxValue = vida;
+        vidaAtual = vida;
+        isDead = false;
     }
 
 
     void Update()
     {
+        life.value = vidaAtual;
         atacar();
     }
 
@@ -57,6 +65,8 @@ public class Brutamontes : MonoBehaviour
     }
     void move()
     {
+        if(isDead == false)
+        {
         distanciaDoAlvo = Vector3.Distance(transform.position, alvo.position);
         if (distanciaDoAlvo > distMax)
         {
@@ -66,62 +76,78 @@ public class Brutamontes : MonoBehaviour
         {
             navMeshAgent.SetDestination(alvo.position);
         }
+        }
     }
 
     void tomarDano(float dano)
     {
         StartCoroutine("DanoCorCD");
-        if (Vida >= 1)
+        if (vidaAtual >= 1)
         {
-            Anim.SetFloat("Atack", 0);
-            Vida -= 1;
+            vidaAtual -= 1;
         }
-        if (Vida <= 0)
+        if (vidaAtual <= 0)
         {
-            Anim.SetFloat("Atack", 0);
-            Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
+            isDead = true;
+            Anim.SetFloat("golpe", 0);
+            GetComponent<Collider>().enabled = false;
             GetComponent<MeshRenderer>().enabled = false;
+            GetComponentInChildren<MeshRenderer>().enabled = false;
+            Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
             Destroy(gameObject, 1f);
         }
     }
     void tomarDanoFogo()
     {
         StartCoroutine("DanoCorCDFogo");
-        if (Vida >= 1)
+        if (vidaAtual >= 1)
         {
-            --Vida;
+            --vidaAtual;
         }
-        if (Vida <= 0)
+        if (vidaAtual <= 0)
         {
+            isDead = true;
+            Anim.SetFloat("golpe", 0);
+            Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
+            GetComponent<MeshRenderer>().enabled = false;
+            GetComponentInChildren<MeshRenderer>().enabled = false;
+            GetComponent<Collider>().enabled = false;
             Destroy(gameObject, 1f);
         }
     }
     void atacar()
     {
-        if (Time.time >= nextattackTime && tomouDano == false)
+        if(isDead == false)
         {
-            
-            if (!isAttacking && Vector3.Distance(transform.position, alvo.position) <= distanciaMin)
+            if (Time.time >= nextattackTime && tomouDano == false)
             {
-                gameObject.transform.LookAt(alvo);
-                StartCoroutine("AtackGarra");
+            
+                if (!isAttacking && Vector3.Distance(transform.position, alvo.position) <= distanciaMin)
+                {
+                    gameObject.transform.LookAt(alvo);
+                    StartCoroutine("AtackGarra");
+                }
+                nextattackTime = Time.time + CdAtack;
             }
-            nextattackTime = Time.time + CdAtack;
         }
-
     }
 
     void Congelado()
     {
         StartCoroutine("EfeitoGelo");
-        if (Vida >= 1)
+        if (vidaAtual >= 1)
         {
-            Anim.SetFloat("Atack", 0);
-            --Vida;
+            Anim.SetFloat("golpe", 0);
+            --vidaAtual;
         }
-        else if (Vida <= 0)
+        else if (vidaAtual <= 0)
         {
-            Anim.SetFloat("Atack", 0);
+            isDead = true;
+            Anim.SetFloat("golpe", 0);
+            GetComponent<Collider>().enabled = false;
+            GetComponent<MeshRenderer>().enabled = false;
+            GetComponentInChildren<MeshRenderer>().enabled = false;
+            Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
             Destroy(gameObject, 1f);
         }
     }

@@ -50,10 +50,22 @@ public class GameController : MonoBehaviour
     public Text[] pocoesInvent;
     public Text[] plantasInvent;
 
+    [Header("GameOver")]
+    private bool isGameOver;
+    public GameObject gameOver;
+    public GameObject gameOverPanel;
+    public GameObject gameOverPanel1;
+    public GameObject reiniciarButton;
+    public GameObject sairCtzGameOver;
+    public GameObject sairButtonGameOver;
+    private bool selecionarReiniciar;
+
+
 
 
     void Start()
     {
+        Time.timeScale = 1;
         instance = this;
         vida.maxValue = Player.instance.VidaTotal;
         mana.maxValue = Player.instance.manaTotal;
@@ -77,6 +89,7 @@ public class GameController : MonoBehaviour
         controleInventario();
         updateInventario();
         checkcontroles();
+        ShowGameOver();
     }
 
     void checkcontroles()
@@ -227,10 +240,21 @@ public class GameController : MonoBehaviour
         PaginasMenu = -1;
         EventSystem.current.SetSelectedGameObject(sairCtz[1]);
     }
+    public void SairCtzGameOver()
+    {
+        sairCtzGameOver.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(sairButtonGameOver);
+    }
+
     public void VoltarSairCtz()
     {
         PaginasMenu = 0;
         EventSystem.current.SetSelectedGameObject(menuButtons[0]);
+    }
+    public void VoltarSairCtzGameOver()
+    {
+        sairCtzGameOver.SetActive(false);
+        EventSystem.current.SetSelectedGameObject(reiniciarButton);
     }
     public void controleConfig()
     {
@@ -254,6 +278,11 @@ public class GameController : MonoBehaviour
             Player.op = 1;
             controlSlide2.value = 0;
         }
+    }
+    public void Restart()
+    {
+        
+        SceneManager.LoadScene("Fase");
     }
 
     public void controleInventario()
@@ -358,7 +387,7 @@ public class GameController : MonoBehaviour
 
     void showPause()
     {
-        if(Input.GetButtonDown("Pause"))
+        if(Input.GetButtonDown("Pause") && isGameOver == false)
         {
             if(isPause == false)// pause game
             {
@@ -445,6 +474,22 @@ public class GameController : MonoBehaviour
     {
         dash.value = Player.instance.isDashing;
 
+    }
+
+    void ShowGameOver()
+    {
+        if(Player.VidaAtual <= 0)
+        {
+            gameOver.SetActive(true);
+            if(Input.GetButtonDown("Submit"))
+            {
+                gameOverPanel.SetActive(false);
+                gameOverPanel1.SetActive(true);
+                Time.timeScale = 0;
+                isGameOver = true;
+                EventSystem.current.SetSelectedGameObject(reiniciarButton);
+            }
+        }
     }
 
     public void ShowInventario2()
