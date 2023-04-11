@@ -371,12 +371,13 @@ public class Player : MonoBehaviour
         }
     }
     
-    public void TomarDano(int Dano)
+    public void TomarDano(int Dano,float Empurrao)
     {
         if(dashing == false)
         {
             StartCoroutine("CDTomarDano");
             VidaAtual -= Dano;
+            forcaEmpurrao = Empurrao;
 
             Vector3 empurrar = -transform.forward;
 
@@ -560,7 +561,7 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.tag == "garra" && !TomouDano)
         {
-            TomarDano(1);
+            TomarDano(1,7);
         }
 
         if (other.gameObject.CompareTag("worktable"))
@@ -569,7 +570,10 @@ public class Player : MonoBehaviour
             Interacao.SetActive(true);
             GameController.instance.pertoDaTable = true;
         }
-
+        if(other.gameObject.tag == "Brutamontes" && !TomouDano)
+        {
+            TomarDano(3,9);
+        }
     }
 
     private void OnTriggerExit(Collider other)
