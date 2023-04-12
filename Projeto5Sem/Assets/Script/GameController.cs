@@ -31,10 +31,12 @@ public class GameController : MonoBehaviour
     public GameObject[] controls;
     public GameObject sound;
     public GameObject[] sounds;
+    public GameObject pularTutorialBotao;
 
     [Header("config")]
     public Slider controlSlide1;
     public Slider controlSlide2;
+    public Slider slideTutorial;
 
     [Header("Sons")]
     public Slider musica;
@@ -61,24 +63,30 @@ public class GameController : MonoBehaviour
     private bool selecionarReiniciar;
 
     [Header("Tutorial")]
-    public Collider pisoTutorial;
     public GameObject tutorialHud;
+    private bool inTutorial;
+    public static bool pularTutorial;
+    public static int pularTutorialSlideValue;
+
+    public Collider pisoTutorial;
     public GameObject tutorialBasico;
     [HideInInspector]public bool outPisoTutorial;
-    private bool inTutorial;
+    public Collider pisoTutorialCraft;
     public GameObject tutorialCrafting;
+    [HideInInspector]public bool inPisoTutorialCraft;
 
 
     void Start()
     {
-        Time.timeScale = 1;
         instance = this;
+        slideTutorial.value = pularTutorialSlideValue;
+        Time.timeScale = 1;
         vida.maxValue = Player.instance.VidaTotal;
         mana.maxValue = Player.instance.manaTotal;
         Cursor.lockState = CursorLockMode.Locked;
-        pertoDaTable = false;
         musica.value = GameControllerMenu.musicaValor;
         son.value = GameControllerMenu.musicaValor;
+        pertoDaTable = false;
         outPisoTutorial = false;
         inTutorial = false;
     }
@@ -131,6 +139,7 @@ public class GameController : MonoBehaviour
                 menuButtons[0].SetActive(true);
                 menuButtons[1].SetActive(true);
                 menuButtons[2].SetActive(true);
+                pularTutorialBotao.SetActive(false);
                 if (Input.GetButtonDown("Cancel"))
                 {
                     isPause = false;
@@ -156,6 +165,7 @@ public class GameController : MonoBehaviour
                 menuButtons[0].SetActive(false);
                 menuButtons[1].SetActive(false);
                 menuButtons[2].SetActive(false);
+                pularTutorialBotao.SetActive(true);
             
                 if (Input.GetButtonDown("Cancel"))
                 {
@@ -175,6 +185,7 @@ public class GameController : MonoBehaviour
                 menuButtons[0].SetActive(false);
                 menuButtons[1].SetActive(false);
                 menuButtons[2].SetActive(false);
+                pularTutorialBotao.SetActive(false);
                 if (Input.GetButtonDown("Cancel"))
                 {
                     PaginasMenu = 1;
@@ -193,6 +204,7 @@ public class GameController : MonoBehaviour
                 menuButtons[0].SetActive(false);
                 menuButtons[1].SetActive(false);
                 menuButtons[2].SetActive(false);
+                pularTutorialBotao.SetActive(false);
                 if (Input.GetButtonDown("Cancel"))
                 {
                     PaginasMenu = 1;
@@ -211,6 +223,7 @@ public class GameController : MonoBehaviour
                 menuButtons[0].SetActive(true);
                 menuButtons[1].SetActive(true);
                 menuButtons[2].SetActive(true);
+                pularTutorialBotao.SetActive(false);
                 if (Input.GetButtonDown("Cancel"))
                 {
                     PaginasMenu = 0;
@@ -391,6 +404,20 @@ public class GameController : MonoBehaviour
             Player.instance.temPocaoFogo += 1;
             Player.instance.Radiacao -= 5;
             Player.instance.temPlantaFogo-= 1;
+        }
+    }
+
+    public void ControleTutorialPular()
+    {
+        if(slideTutorial.value == 1)
+        {
+            pularTutorial = true;
+            pularTutorialSlideValue = 1;
+        }
+        else if(slideTutorial.value == 0)
+        {
+            pularTutorial = false;
+            pularTutorialSlideValue = 0;
         }
     }
 
@@ -597,26 +624,43 @@ public class GameController : MonoBehaviour
         Player.instance.isPaused = false;
     }
 
-    public void ShowTutorial()
+    void ShowTutorial()
     {
-        if(outPisoTutorial == true)
+        if(pularTutorial == false)
         {
-            tutorialHud.SetActive(true);
-            tutorialBasico.SetActive(true);
-            inTutorial = true;
-            if(Input.GetButtonDown("Submit"))
+            if(outPisoTutorial == true)
             {
-                tutorialHud.SetActive(false);
-                inTutorial = false;
-                pisoTutorial.enabled = false;
-                outPisoTutorial = false;
-                tutorialBasico.SetActive(false);
+                tutorialHud.SetActive(true);
+                tutorialBasico.SetActive(true);
+                inTutorial = true;
+                if(Input.GetButtonDown("Submit"))
+                {
+                    tutorialHud.SetActive(false);
+                    inTutorial = false;
+                    pisoTutorial.enabled = false;
+                    outPisoTutorial = false;
+                    tutorialBasico.SetActive(false);
+                }
+            }
+            if(inPisoTutorialCraft == true)
+            {
+                tutorialHud.SetActive(true);
+                tutorialCrafting.SetActive(true);
+                inTutorial = true;
+                if (Input.GetButtonDown("Submit"))
+                {
+                    tutorialHud.SetActive(false);
+                    inTutorial = false;
+                    pisoTutorialCraft.enabled = false;
+                    inPisoTutorialCraft = false;
+                    tutorialCrafting.SetActive(true);
+                }
             }
         }
     }
-    public void controleTutorial()
+    void controleTutorial()
     {
-        if(isPause == false && isGameOver == false)
+        if(isPause == false && isGameOver == false && inInventario == false && inInventario2 == false)
         {
             if(inTutorial == true)
             {

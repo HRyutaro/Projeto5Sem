@@ -16,6 +16,7 @@ TagManager:
   - ShadowParede
   - Brutamontes
   - pisoTutorial
+  - pisoTutorialCraft
   layers:
   - Default
   - TransparentFX

@@ -197,6 +197,7 @@ public class Player : MonoBehaviour
     {
         if(Input.GetButton("L1") || Input.GetButton("mouse1"))
         {
+            
             if(manaAtual >= 1)
             {
                 if (isCdRange == false)
@@ -214,14 +215,18 @@ public class Player : MonoBehaviour
             {
                 if(isCdRange == false)
                 {
-                    manaAtual -= 1;
-                    Vector3 direcao = transform.forward;
-                    GameObject magia = Instantiate(feiticoPrefab, feiticoRespawn.position, feiticoRespawn.rotation);
-                    magia.GetComponent<Rigidbody>().AddForce(direcao * forcaArremessoFeitico, ForceMode.Impulse);
-                    StartCoroutine("CDAtackRange2");
-                    stop = false;
-                    StartCoroutine(timetoAiming());
-                    Anim.SetFloat("Feitico", 0);
+                    if(dashing == false)
+                    {
+                        manaAtual -= 1;
+                        Vector3 direcao = transform.forward;
+                        GameObject magia = Instantiate(feiticoPrefab, feiticoRespawn.position, feiticoRespawn.rotation);
+                        magia.GetComponent<Rigidbody>().AddForce(direcao * forcaArremessoFeitico, ForceMode.Impulse);
+                        StartCoroutine("CDAtackRange2");
+                        stop = false;
+                        StartCoroutine(TimetoAiming());
+                        Anim.SetFloat("Feitico", 0);
+
+                    }
                 }
 
             }
@@ -316,7 +321,7 @@ public class Player : MonoBehaviour
                         --temPocaoFogo;
                         Anim.SetFloat("Pocao", 0);
                         StartCoroutine("CDAtackRange");
-                        StartCoroutine(timetoAiming());
+                        StartCoroutine(TimetoAiming());
                         Vector3 direcao = transform.forward;
                         GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
                         pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
@@ -334,7 +339,7 @@ public class Player : MonoBehaviour
                         --temPocaoGelo;
                         Anim.SetFloat("Pocao", 0);  
                         StartCoroutine("CDAtackRange");
-                        StartCoroutine(timetoAiming());
+                        StartCoroutine(TimetoAiming());
                         Vector3 direcao = transform.forward;
                         GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
                         pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
@@ -351,7 +356,7 @@ public class Player : MonoBehaviour
                         --temPocaoFumaca;
                         Anim.SetFloat("Pocao", 0);
                         StartCoroutine("CDAtackRange");
-                        StartCoroutine(timetoAiming());
+                        StartCoroutine(TimetoAiming());
                         Vector3 direcao = transform.forward;
                         GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
                         pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
@@ -389,7 +394,7 @@ public class Player : MonoBehaviour
 
     void Dash()
     {
-        if(isPaused == false)
+        if(isPaused == false && stop == false )
         {
             if(Input.GetButton("bolinha") && isDashing == 4)
             {
@@ -468,7 +473,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    IEnumerator timetoAiming()
+    IEnumerator TimetoAiming()
     {
         yield return new WaitForSeconds(0.35f);
         isAiming = false;
@@ -574,6 +579,13 @@ public class Player : MonoBehaviour
         {
             TomarDano(3,9);
         }
+        if (GameController.pularTutorial == false)
+        {
+            if (other.gameObject.tag == "pisoTutorialCraft")
+            {
+                GameController.instance.inPisoTutorialCraft = true;
+            }
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -584,10 +596,12 @@ public class Player : MonoBehaviour
             Interacao.SetActive(false);
             GameController.instance.pertoDaTable = false;
         }
-
-        if(other.gameObject.CompareTag("pisoTutorial"))
+        if(GameController.pularTutorial == false)
         {
-            GameController.instance.outPisoTutorial = true;
+            if(other.gameObject.CompareTag("pisoTutorial"))
+            {
+                GameController.instance.outPisoTutorial = true;
+            }
         }
     }
 

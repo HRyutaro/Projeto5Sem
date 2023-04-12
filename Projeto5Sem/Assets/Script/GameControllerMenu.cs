@@ -17,6 +17,7 @@ public class GameControllerMenu : MonoBehaviour
     [Header("Opcao")]
     public GameObject[] controles;
     public GameObject[] sons;
+    public GameObject pularTutorialButoon;
 
     [Header("Controles")]
     public Slider[] controlSlide;
@@ -26,6 +27,7 @@ public class GameControllerMenu : MonoBehaviour
     public static float somValor;
     public static float musicaValor;
 
+    public Slider pularTutorialslide;
     void Start()
     {
         tela = 0;
@@ -64,6 +66,7 @@ public class GameControllerMenu : MonoBehaviour
 
             controles[0].SetActive(false);
             sons[0].SetActive(false);
+            pularTutorialButoon.SetActive(false);
             controles[1].SetActive(false);
             controles[2].SetActive(false);
             sons[1].SetActive(false);
@@ -74,6 +77,7 @@ public class GameControllerMenu : MonoBehaviour
         {
             controles[0].SetActive(true);
             sons[0].SetActive(true);
+            pularTutorialButoon.SetActive(true);
             controles[1].SetActive(false);
             controles[2].SetActive(false);
             sons[1].SetActive(false);
@@ -88,6 +92,7 @@ public class GameControllerMenu : MonoBehaviour
         {
             controles[0].SetActive(false);
             sons[0].SetActive(false);
+            pularTutorialButoon.SetActive(false);
             controles[1].SetActive(true);
             controles[2].SetActive(true);
             sons[1].SetActive(false);
@@ -102,6 +107,7 @@ public class GameControllerMenu : MonoBehaviour
         {
             controles[0].SetActive(false);
             sons[0].SetActive(false);
+            pularTutorialButoon.SetActive(false);
             controles[1].SetActive(false);
             controles[2].SetActive(false);
             sons[1].SetActive(true);
@@ -121,6 +127,7 @@ public class GameControllerMenu : MonoBehaviour
 
             controles[0].SetActive(false);
             sons[0].SetActive(false);
+            pularTutorialButoon.SetActive(false);
             controles[1].SetActive(false);
             controles[2].SetActive(false);
             sons[1].SetActive(false);
@@ -130,6 +137,20 @@ public class GameControllerMenu : MonoBehaviour
                 tela = 0;
                 EventSystem.current.SetSelectedGameObject(novoJogo);
             }
+        }
+    }
+
+     public void PularTutorial()
+    {
+        if(pularTutorialslide.value == 1)
+        {
+            GameController.pularTutorialSlideValue = 1;
+            GameController.pularTutorial = true;
+        }
+        else if(pularTutorialslide.value == 0)
+        {
+            GameController.pularTutorialSlideValue = 0;
+            GameController.pularTutorial = false;
         }
     }
 
