@@ -60,7 +60,13 @@ public class GameController : MonoBehaviour
     public GameObject sairButtonGameOver;
     private bool selecionarReiniciar;
 
-
+    [Header("Tutorial")]
+    public Collider pisoTutorial;
+    public GameObject tutorialHud;
+    public GameObject tutorialBasico;
+    [HideInInspector]public bool outPisoTutorial;
+    private bool inTutorial;
+    public GameObject tutorialCrafting;
 
 
     void Start()
@@ -73,6 +79,8 @@ public class GameController : MonoBehaviour
         pertoDaTable = false;
         musica.value = GameControllerMenu.musicaValor;
         son.value = GameControllerMenu.musicaValor;
+        outPisoTutorial = false;
+        inTutorial = false;
     }
 
     void Update()
@@ -90,6 +98,8 @@ public class GameController : MonoBehaviour
         updateInventario();
         checkcontroles();
         ShowGameOver();
+        ShowTutorial();
+        controleTutorial();
     }
 
     void checkcontroles()
@@ -281,7 +291,6 @@ public class GameController : MonoBehaviour
     }
     public void Restart()
     {
-        
         SceneManager.LoadScene("Fase");
     }
 
@@ -586,5 +595,41 @@ public class GameController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.3f);
         Player.instance.isPaused = false;
+    }
+
+    public void ShowTutorial()
+    {
+        if(outPisoTutorial == true)
+        {
+            tutorialHud.SetActive(true);
+            tutorialBasico.SetActive(true);
+            inTutorial = true;
+            if(Input.GetButtonDown("Submit"))
+            {
+                tutorialHud.SetActive(false);
+                inTutorial = false;
+                pisoTutorial.enabled = false;
+                outPisoTutorial = false;
+                tutorialBasico.SetActive(false);
+            }
+        }
+    }
+    public void controleTutorial()
+    {
+        if(isPause == false && isGameOver == false)
+        {
+            if(inTutorial == true)
+            {
+                Time.timeScale = 0;
+                Player.instance.stop = true;
+                Player.instance.isPaused = true;
+            }
+            else if(inTutorial == false)
+            {
+                Time.timeScale = 1;
+                Player.instance.stop = false;
+                Player.instance.isPaused = false;
+            }
+        }
     }
 }

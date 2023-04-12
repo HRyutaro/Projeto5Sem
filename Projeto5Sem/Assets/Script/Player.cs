@@ -260,7 +260,7 @@ public class Player : MonoBehaviour
                         if (manaAtual < manaTotal)
                         {
                             StartCoroutine("ManaCura");
-                            ++manaAtual;
+                            manaAtual += 3;
                             --temPocaoMana;
                             GameController.numeroPocoesAtual = temPocaoMana;
                         }
@@ -583,6 +583,11 @@ public class Player : MonoBehaviour
             blockByInt = false;
             Interacao.SetActive(false);
             GameController.instance.pertoDaTable = false;
+        }
+
+        if(other.gameObject.CompareTag("pisoTutorial"))
+        {
+            GameController.instance.outPisoTutorial = true;
         }
     }
 
