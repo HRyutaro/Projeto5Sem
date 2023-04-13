@@ -53,6 +53,8 @@ public class GameController : MonoBehaviour
     public Text[] plantasInvent;
     public Text naoTem;
     public Text inventarioBancada;
+    public GameObject[] cartaoKey;
+    public int pagKeys;
 
 
     [SerializeField]
@@ -115,6 +117,7 @@ public class GameController : MonoBehaviour
         ShowGameOver();
         ShowTutorial();
         controleTutorial();
+        ControleKeys();
     }
 
     void checkcontroles()
@@ -688,6 +691,50 @@ public class GameController : MonoBehaviour
             }
         }
     }
+
+    public void TrocarKeys()
+    {
+        if(pagKeys == 0)
+        {
+            pagKeys = 1;
+        }
+        else if(pagKeys == 1)
+        {
+            pagKeys = 0;
+        }
+    }
+
+    void ControleKeys()
+    {
+        if(Player.instance.TemCartao == true)
+        {
+            if(pagKeys == 0)
+            {
+                cartaoKey[0].SetActive(true);
+                cartaoKey[1].SetActive(false);
+            }
+            else if(pagKeys == 1)
+            {
+                cartaoKey[0].SetActive(false);
+                cartaoKey[1].SetActive(true);
+            }
+        }
+        else if(Player.instance.TemCartao2 == true)
+        {
+            if (pagKeys == 0)
+            {
+                cartaoKey[0].SetActive(true);
+                cartaoKey[1].SetActive(false);
+            }
+            else if (pagKeys == 1)
+            {
+                cartaoKey[0].SetActive(false);
+                cartaoKey[1].SetActive(true);
+            }
+        }
+
+    }
+
     void UpdateInventario()
     {
         pocoesInvent[0].text = Player.instance.temPocaoCura.ToString();
@@ -704,6 +751,7 @@ public class GameController : MonoBehaviour
         plantasInvent[4].text = Player.instance.temPlantaFogo.ToString();
 
     }
+
 
     public void voltarInvetario()
     {

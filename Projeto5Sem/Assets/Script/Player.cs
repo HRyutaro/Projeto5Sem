@@ -58,6 +58,7 @@ public class Player : MonoBehaviour
     public int temPlantaMana;
     public int temPlantaCura;
     public bool TemCartao;
+    public bool TemCartao2;
 
     [Header("Magia")]
     public int manaTotal;
