@@ -573,9 +573,9 @@ MonoBehaviour:
   col: {fileID: 4036384771531613585}
   radiacao: {fileID: 7332170286092028550, guid: 7e8dc7748acb56a489c75363d190ad1f, type: 3}
   Life: {fileID: 3600769012783330685}
-  speed: 5
+  speed: 3.5
   alvo: {fileID: 0}
-  distanciaMin: 1
+  distanciaMin: 1.8
   distanciaMax: 10
   Anim: {fileID: 4036384771531613551}
   corDano: {r: 1, g: 0, b: 0, a: 0}

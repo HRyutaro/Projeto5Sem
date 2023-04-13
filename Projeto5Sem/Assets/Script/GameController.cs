@@ -74,6 +74,10 @@ public class GameController : MonoBehaviour
     public Collider pisoTutorialCraft;
     public GameObject tutorialCrafting;
     [HideInInspector]public bool inPisoTutorialCraft;
+    
+    public GameObject tutorialArremesso;
+    public int pagTutorial;
+
 
 
     void Start()
@@ -83,7 +87,6 @@ public class GameController : MonoBehaviour
         Time.timeScale = 1;
         vida.maxValue = Player.instance.VidaTotal;
         mana.maxValue = Player.instance.manaTotal;
-        Cursor.lockState = CursorLockMode.Locked;
         musica.value = GameControllerMenu.musicaValor;
         son.value = GameControllerMenu.musicaValor;
         pertoDaTable = false;
@@ -103,7 +106,7 @@ public class GameController : MonoBehaviour
         ShowInventario();
         ShowInventario2();
         controleInventario();
-        updateInventario();
+        UpdateInventario();
         checkcontroles();
         ShowGameOver();
         ShowTutorial();
@@ -145,9 +148,7 @@ public class GameController : MonoBehaviour
                     isPause = false;
                     Time.timeScale = 1;
                     Pause.SetActive(false);
-                    Cursor.visible = true;
                     StartCoroutine(SairMenu());
-                    Cursor.lockState = CursorLockMode.Locked;
                     if (inInventario == true)
                     {
                         EventSystem.current.SetSelectedGameObject(inventButtons[0]);
@@ -368,6 +369,7 @@ public class GameController : MonoBehaviour
             Player.instance.temPocaoCura += 1;
             Player.instance.Radiacao -= 2;
             Player.instance.temPlantaCura -= 1;
+            Player.instance.StartNumeroPocao();
         }
     }
     public void fabricarPocaoMana()
@@ -377,6 +379,7 @@ public class GameController : MonoBehaviour
             Player.instance.temPocaoMana += 1;
             Player.instance.Radiacao -= 2;
             Player.instance.temPlantaMana -= 1;
+            Player.instance.StartNumeroPocao();
         }
     }
     public void fabricarPocaoGelo()
@@ -386,6 +389,7 @@ public class GameController : MonoBehaviour
             Player.instance.temPocaoGelo += 1;
             Player.instance.Radiacao -= 3;
             Player.instance.temPlantaGelo -= 1;
+            Player.instance.StartNumeroPocao();
         }
     }
     public void fabricarPocaoFumaca()
@@ -395,6 +399,7 @@ public class GameController : MonoBehaviour
             Player.instance.temPocaoFumaca += 1;
             Player.instance.Radiacao -= 3;
             Player.instance.temPlantaFumaca -= 1;
+            Player.instance.StartNumeroPocao();
         }
     }
     public void fabricarPocaofogo()
@@ -404,6 +409,7 @@ public class GameController : MonoBehaviour
             Player.instance.temPocaoFogo += 1;
             Player.instance.Radiacao -= 5;
             Player.instance.temPlantaFogo-= 1;
+            Player.instance.StartNumeroPocao();
         }
     }
 
@@ -439,9 +445,7 @@ public class GameController : MonoBehaviour
                 isPause = false;
                 Time.timeScale = 1;
                 Pause.SetActive(false);
-                Cursor.visible = true;
                 StartCoroutine(SairMenu());
-                Cursor.lockState = CursorLockMode.Locked;
                 if(inInventario == true)
                 {
                     EventSystem.current.SetSelectedGameObject(inventButtons[0]);
@@ -534,20 +538,21 @@ public class GameController : MonoBehaviour
         {
             if (inInventario == false)
             {
+                inInventario = true;
+                inInventario2 = true;
                 Inventario.SetActive(true);
                 Player.instance.stop = true;
                 Player.instance.isPaused = true;
-                inInventario = true;
                 EventSystem.current.SetSelectedGameObject(inventButtons[0]);
-                inInventario2 = true;
             }
             else if (inInventario == true)
             {
-                Inventario.SetActive(false);
-                Player.instance.stop = false;
-                StartCoroutine(SairMenu());
                 inInventario = false;
                 inInventario2 = false;
+                StartCoroutine(SairMenu());
+                Inventario.SetActive(false);
+                Player.instance.stop = false;
+                Player.instance.isPaused = false;
             }
         }
     }
@@ -568,12 +573,13 @@ public class GameController : MonoBehaviour
             {
                 Inventario.SetActive(false);
                 Player.instance.stop = false;
-                StartCoroutine(SairMenu());
+                Player.instance.isPaused = false;
                 inInventario = false;
+                StartCoroutine(SairMenu());
             }
         }
     }
-    void updateInventario()
+    void UpdateInventario()
     {
         pocoesInvent[0].text = Player.instance.temPocaoCura.ToString();
         pocoesInvent[1].text = Player.instance.temPocaoMana.ToString();
@@ -644,16 +650,31 @@ public class GameController : MonoBehaviour
             }
             if(inPisoTutorialCraft == true)
             {
-                tutorialHud.SetActive(true);
-                tutorialCrafting.SetActive(true);
-                inTutorial = true;
+                if(pagTutorial == 0)
+                {
+                    inTutorial = true;
+                    tutorialHud.SetActive(true);
+                    tutorialCrafting.SetActive(true);
+                    ++pagTutorial;
+
+                }
                 if (Input.GetButtonDown("Submit"))
                 {
-                    tutorialHud.SetActive(false);
-                    inTutorial = false;
-                    pisoTutorialCraft.enabled = false;
-                    inPisoTutorialCraft = false;
-                    tutorialCrafting.SetActive(true);
+                    if(pagTutorial == 1)
+                    {
+                        tutorialCrafting.SetActive(false);
+                        tutorialArremesso.SetActive(true);
+                        ++pagTutorial;
+                    }
+                    else if(pagTutorial == 2)
+                    {
+                        inTutorial = false;
+                        inPisoTutorialCraft = false;
+                        tutorialHud.SetActive(false);
+                        tutorialCrafting.SetActive(false);
+                        pisoTutorialCraft.enabled = false;
+                        tutorialArremesso.SetActive(false);
+                    }
                 }
             }
         }

@@ -75,9 +75,9 @@ public class Player : MonoBehaviour
     private bool TomouDano = false;
 
     //controles
-    [SerializeField] public string op1;
-    [SerializeField] public string op2;
-    [SerializeField] public bool blockByInt;
+    public string op1;
+    public string op2;
+    public bool blockByInt;
     public static int op;
 
     public GameObject Interacao;
@@ -87,12 +87,12 @@ public class Player : MonoBehaviour
         instance = this;
         rb.GetComponent<Rigidbody>();
         VidaAtual = VidaTotal;
-        startNumeroPocao();
+        StartNumeroPocao();
         speedAtual = speed;
     }
     void Update()
     {
-        controleConfig();
+        ControleConfig();
         if (isPaused == false)
         {
             AtackMelee();
@@ -165,7 +165,7 @@ public class Player : MonoBehaviour
         }
     } //movimento cm transform
 
-    void controleConfig()
+    void ControleConfig()
     {
         if(op == 1)
         {
@@ -188,6 +188,7 @@ public class Player : MonoBehaviour
                 StartCoroutine("CDAtackMelee");
                 Vector3 atackingfoward= transform.forward;
                 rb.AddForce(3.5f * atackingfoward, ForceMode.Impulse);
+                Anim.SetFloat("isRun", 0);
             }
 
         }
@@ -203,6 +204,7 @@ public class Player : MonoBehaviour
                 if (isCdRange == false)
                 {
                     Anim.SetFloat("Feitico", 1);
+                    Anim.SetFloat("isRun", 0);
                     stop = true;
                     isAiming = true;
                 }
@@ -444,7 +446,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void startNumeroPocao()
+    public void StartNumeroPocao()
     {
         if (pocao.tipoDapocao == 0)
         {
@@ -564,7 +566,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "garra" && !TomouDano)
+        if (other.gameObject.tag == "garra" && TomouDano == false)
         {
             TomarDano(1,7);
         }
@@ -575,9 +577,14 @@ public class Player : MonoBehaviour
             Interacao.SetActive(true);
             GameController.instance.pertoDaTable = true;
         }
-        if(other.gameObject.tag == "Brutamontes" && !TomouDano)
+        if(other.gameObject.tag == "Brutamontes" && TomouDano == false)
         {
             TomarDano(3,9);
+        }
+
+        if (other.gameObject.tag == "Guspe" && TomouDano == false)
+        {
+            TomarDano(1, 5);
         }
         if (GameController.pularTutorial == false)
         {

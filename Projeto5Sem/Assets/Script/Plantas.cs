@@ -15,7 +15,7 @@ public class Plantas : MonoBehaviour
 
     void Start()
     {
-        quantidadeDePlantas = Random.Range(1, 4);
+        quantidadeDePlantas = Random.Range(1, 3);
         planta = Random.Range(1, 6);
         quantosPegou.text = quantidadeDePlantas.ToString();
         tipoDePlanta();

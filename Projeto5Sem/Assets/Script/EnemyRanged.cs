@@ -88,6 +88,7 @@ public class EnemyRanged : MonoBehaviour
         {
             Anim.SetFloat("Guspindo", 0);
             vidaAtual -= 1;
+            tomouDano = true;
         }
         if (vidaAtual <= 0)
         {
@@ -104,6 +105,7 @@ public class EnemyRanged : MonoBehaviour
         StartCoroutine("DanoCorCDFogo");
         if (vidaAtual >= 1)
         {
+            tomouDano = true;
             --vidaAtual;
         }
         if (vidaAtual <= 0)

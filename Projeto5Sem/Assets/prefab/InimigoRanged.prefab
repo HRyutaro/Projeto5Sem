@@ -949,7 +949,7 @@ GameObject:
   - component: {fileID: 9098900126059753078}
   m_Layer: 6
   m_Name: areaAtack
-  m_TagString: garra
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1044,7 +1044,7 @@ GameObject:
   - component: {fileID: 9098900126275740583}
   m_Layer: 6
   m_Name: garra
-  m_TagString: garra
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
