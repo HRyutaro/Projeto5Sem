@@ -57,6 +57,7 @@ public class Player : MonoBehaviour
     public int temPlantaFumaca;
     public int temPlantaMana;
     public int temPlantaCura;
+    public bool TemCartao;
 
     [Header("Magia")]
     public int manaTotal;
@@ -184,11 +185,11 @@ public class Player : MonoBehaviour
         {
             if(Input.GetButtonDown(op1) && isCdAtack == false || Input.GetButtonDown("mouse0") && isCdAtack == false)
             {
+                Anim.SetFloat("isRun", 0);
                 StartCoroutine("AtackMeleeTime");
                 StartCoroutine("CDAtackMelee");
                 Vector3 atackingfoward= transform.forward;
                 rb.AddForce(3.5f * atackingfoward, ForceMode.Impulse);
-                Anim.SetFloat("isRun", 0);
             }
 
         }
@@ -292,6 +293,7 @@ public class Player : MonoBehaviour
                     {
                         isAiming = true;
                         Anim.SetFloat("Pocao", 1);
+                        Anim.SetFloat("isRun", 0);
                     }
                 } // pocao Fogo
                 if (pocao.tipoDapocao == 3)
@@ -300,6 +302,7 @@ public class Player : MonoBehaviour
                     {
                         isAiming = true;
                         Anim.SetFloat("Pocao", 1);
+                        Anim.SetFloat("isRun", 0);
                     }
                 } // pocao Gelo
                 if (pocao.tipoDapocao == 4)
@@ -308,6 +311,7 @@ public class Player : MonoBehaviour
                     {
                         isAiming = true;
                         Anim.SetFloat("Pocao", 1);
+                        Anim.SetFloat("isRun", 0);
                     }
                 } // pocao fumaça
             }
@@ -612,4 +616,20 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("caixa"))
+        {
+            Anim.SetFloat("Empurrar", 1);
+            Anim.SetFloat("isRun", 1.1f);
+        }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("caixa"))
+        {
+            Anim.SetFloat("Empurrar", 0);
+            Anim.SetFloat("isRun", 0);
+        }
+    }
 }

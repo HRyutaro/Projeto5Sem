@@ -51,7 +51,11 @@ public class GameController : MonoBehaviour
     public GameObject[] inventPocaoTela;
     public Text[] pocoesInvent;
     public Text[] plantasInvent;
+    public Text naoTem;
+    public Text inventarioBancada;
 
+
+    [SerializeField]
     [Header("GameOver")]
     private bool isGameOver;
     public GameObject gameOver;
@@ -306,6 +310,7 @@ public class GameController : MonoBehaviour
     public void Restart()
     {
         SceneManager.LoadScene("Fase");
+        Time.timeScale = 0;
     }
 
     public void controleInventario()
@@ -364,52 +369,154 @@ public class GameController : MonoBehaviour
 
     public void fabricarPocaoCura()
     {
-        if(Player.instance.Radiacao >= 2 && Player.instance.temPocaoCura <= 3 && Player.instance.temPlantaCura >= 1 && inInventario2 == false)
+        if(Player.instance.Radiacao >= 2 && Player.instance.temPocaoCura < 5 && Player.instance.temPlantaCura >= 1 && inInventario2 == false)
         {
             Player.instance.temPocaoCura += 1;
             Player.instance.Radiacao -= 2;
             Player.instance.temPlantaCura -= 1;
             Player.instance.StartNumeroPocao();
         }
+        else if(Player.instance.Radiacao < 2 && Player.instance.temPlantaCura < 1 && inInventario2 == false)//sem os dois
+        {
+            StartCoroutine(ShowTextInventario());
+            naoTem.text = "não tem Radiação e Elixir de Vida insuficiente";
+        }
+        else if(Player.instance.Radiacao >= 2 && Player.instance.temPlantaCura < 1 && inInventario2 == false)//raiz 
+        {
+            StartCoroutine(ShowTextInventario());
+            naoTem.text = "Não tem Raiz da vida suficiente";
+
+        }
+        else if (Player.instance.Radiacao < 2 && Player.instance.temPlantaCura >= 1 && inInventario2 == false) //radiacao
+        {
+            StartCoroutine(ShowTextInventario());
+            naoTem.text = "não tem Radiação suficiente";
+        }
+        else if(Player.instance.temPocaoCura == 5 && inInventario2 == false) //limete
+        {
+            StartCoroutine(ShowTextInventario());
+            naoTem.text = "limete de Elixir de Vida alcançado";
+        }
     }
     public void fabricarPocaoMana()
     {
-        if (Player.instance.Radiacao >= 2 && Player.instance.temPocaoMana <= 3 && Player.instance.temPlantaMana >= 1 && inInventario2 == false)
+        if (Player.instance.Radiacao >= 2 && Player.instance.temPocaoMana < 4 && Player.instance.temPlantaMana >= 1 && inInventario2 == false)
         {
             Player.instance.temPocaoMana += 1;
             Player.instance.Radiacao -= 2;
             Player.instance.temPlantaMana -= 1;
             Player.instance.StartNumeroPocao();
         }
+        else if(Player.instance.Radiacao < 2 && Player.instance.temPlantaMana < 1 && inInventario2 == false)// os dois 
+        {
+            StartCoroutine(ShowTextInventario());
+            naoTem.text = "não tem Radiação e Raiz Mágica suficiente";
+        }
+        else if(Player.instance.Radiacao >= 2 && Player.instance.temPlantaMana < 1 && inInventario2 == false)// raiz 
+        {
+            StartCoroutine(ShowTextInventario());
+            naoTem.text = "Não tem Raiz Mágica suficiente";
+        }
+        else if(Player.instance.Radiacao < 2 && Player.instance.temPlantaMana >= 1 && inInventario2 == false)// radiação
+
+        {
+            StartCoroutine(ShowTextInventario());
+            naoTem.text = "Não tem Radição suficiente";
+        }
+        else if (Player.instance.temPocaoMana == 4 && inInventario2 == false)
+        {
+            StartCoroutine(ShowTextInventario());
+            naoTem.text = "Limite de Dose de Mana atingido";
+        }
     }
     public void fabricarPocaoGelo()
     {
-        if (Player.instance.Radiacao >= 3 && Player.instance.temPocaoGelo <= 3 && Player.instance.temPlantaGelo >= 1 && inInventario2 == false)
+        if (Player.instance.Radiacao >= 3 && Player.instance.temPocaoGelo < 3 && Player.instance.temPlantaGelo >= 1 && inInventario2 == false)
         {
             Player.instance.temPocaoGelo += 1;
             Player.instance.Radiacao -= 3;
             Player.instance.temPlantaGelo -= 1;
             Player.instance.StartNumeroPocao();
         }
+        else if(Player.instance.Radiacao < 3 && Player.instance.temPlantaGelo < 1 && inInventario2 == false)//os dois
+        {
+            StartCoroutine(ShowTextInventario());
+            naoTem.text = "não tem Radiação e Cogumelo Glacial suficiente";
+        }
+        else if(Player.instance.Radiacao  >= 3 && Player.instance.temPlantaGelo < 1 && inInventario2 == false)//cogumelo
+        {
+            StartCoroutine(ShowTextInventario());
+            naoTem.text = "não tem Cogumelo Glacial suficiente";
+        }
+        else if (Player.instance.Radiacao < 3 && Player.instance.temPlantaGelo >= 1 && inInventario2 == false)//radiacao
+        {
+            StartCoroutine(ShowTextInventario());
+            naoTem.text = "não tem Radiação suficiente";
+        }
+        else if(Player.instance.temPocaoGelo == 3 && inInventario2 == false)//limite
+        {
+            StartCoroutine(ShowTextInventario());
+            naoTem.text = "Limite de Frascos Glaciais atingido";
+        }
     }
     public void fabricarPocaoFumaca()
     {
-        if (Player.instance.Radiacao >= 3 && Player.instance.temPocaoFumaca <= 3 && Player.instance.temPlantaFumaca >= 1 && inInventario2 == false)
+        if (Player.instance.Radiacao >= 3 && Player.instance.temPocaoFumaca < 3 && Player.instance.temPlantaFumaca >= 1 && inInventario2 == false)
         {
             Player.instance.temPocaoFumaca += 1;
             Player.instance.Radiacao -= 3;
             Player.instance.temPlantaFumaca -= 1;
             Player.instance.StartNumeroPocao();
         }
+        else if(Player.instance.Radiacao < 3 && Player.instance.temPlantaFumaca < 1 && inInventario2 == false)// Os Dois
+        {
+            StartCoroutine(ShowTextInventario());
+            naoTem.text = "não tem Radiação e Pinha fumacenta  suficiente"; 
+        }
+        else if(Player.instance.Radiacao >= 3 && Player.instance.temPlantaFumaca < 1 && inInventario2 == false)//pinha
+        {
+            StartCoroutine(ShowTextInventario());
+            naoTem.text = "não tem Pinha fumacenta  suficiente";
+        }
+        else if(Player.instance.Radiacao < 3 && Player.instance.temPlantaFumaca >= 1 && inInventario2 == false)//radiacao
+        {
+            StartCoroutine(ShowTextInventario());
+            naoTem.text = "não tem Radiação suficiente";
+        }
+        else if(Player.instance.temPocaoFumaca == 3 && inInventario2 == false)//limite
+        {
+            StartCoroutine(ShowTextInventario());
+            naoTem.text = "Limite de Essência de Fumaça atingido";
+        }
     }
     public void fabricarPocaofogo()
     {
-        if (Player.instance.Radiacao >= 5 && Player.instance.temPocaoFogo <= 3 && Player.instance.temPlantaFogo >= 1 && inInventario2 == false)
+        if (Player.instance.Radiacao >= 5 && Player.instance.temPocaoFogo < 2 && Player.instance.temPlantaFogo >= 2 && inInventario2 == false)
         {
             Player.instance.temPocaoFogo += 1;
             Player.instance.Radiacao -= 5;
             Player.instance.temPlantaFogo-= 1;
             Player.instance.StartNumeroPocao();
+        }
+        else if(Player.instance.Radiacao < 5 && Player.instance.temPlantaFogo < 1 && inInventario2 == false)// os dois
+        {
+            StartCoroutine(ShowTextInventario());
+            naoTem.text = "não tem Radiação e Tentaculos Vulcanicos suficiente";
+        }
+        else if (Player.instance.Radiacao >= 5 && Player.instance.temPlantaFogo < 2 && inInventario2 == false) // vuncanico
+        {
+            StartCoroutine(ShowTextInventario());
+            naoTem.text = "não tem Tentaculos Vulcanicos suficiente";
+        }
+        else if (Player.instance.Radiacao < 5 && Player.instance.temPlantaFogo >= 2 && inInventario2 == false) // radiacao
+        {
+            StartCoroutine(ShowTextInventario());
+            naoTem.text = "não tem Radiação suficiente";
+        }
+        else if (Player.instance.temPocaoFogo == 2 && inInventario2 == false) // limite
+        {
+            StartCoroutine(ShowTextInventario());
+            naoTem.text = "Limite de Licor de Lava atingido ";
         }
     }
 
@@ -431,7 +538,7 @@ public class GameController : MonoBehaviour
     {
         if(Input.GetButtonDown("Pause") && isGameOver == false)
         {
-            if(isPause == false)// pause game
+            if(isPause == false && inInventario == false && inInventario2 == false && inTutorial == false)// pause game
             {
                 isPause = true;
                 Time.timeScale = 0;
@@ -440,7 +547,7 @@ public class GameController : MonoBehaviour
                 PaginasMenu = 0;
                 EventSystem.current.SetSelectedGameObject(menuButtons[0]);
             }
-            else if (isPause == true) // resume game
+            else if (isPause == true ) // resume game
             {
                 isPause = false;
                 Time.timeScale = 1;
@@ -543,6 +650,7 @@ public class GameController : MonoBehaviour
                 Inventario.SetActive(true);
                 Player.instance.stop = true;
                 Player.instance.isPaused = true;
+                inventarioBancada.text = "Inventario";
                 EventSystem.current.SetSelectedGameObject(inventButtons[0]);
             }
             else if (inInventario == true)
@@ -563,19 +671,20 @@ public class GameController : MonoBehaviour
         {
             if (inInventario == false)
             {
+                inInventario = true;
                 Inventario.SetActive(true);
                 Player.instance.stop = true;
                 Player.instance.isPaused = true;
-                inInventario = true;
+                inventarioBancada.text = "Inventario";
                 EventSystem.current.SetSelectedGameObject(inventButtons[0]);
             }
             else if (inInventario == true)
             {
+                inInventario = false;
+                StartCoroutine(SairMenu());
                 Inventario.SetActive(false);
                 Player.instance.stop = false;
                 Player.instance.isPaused = false;
-                inInventario = false;
-                StartCoroutine(SairMenu());
             }
         }
     }
@@ -614,37 +723,22 @@ public class GameController : MonoBehaviour
     {
         StartCoroutine(GatoDor());
     }
-
-     public IEnumerator GatoDor()
-    {
-        FaceGato[1].SetActive(true);
-        FaceGato[0].SetActive(false);
-        yield return new WaitForSeconds(1);
-        FaceGato[0].SetActive(true);
-        FaceGato[1].SetActive(false);
-    }
-
-    public IEnumerator SairMenu()
-    {
-        yield return new WaitForSeconds(0.3f);
-        Player.instance.isPaused = false;
-    }
-
     void ShowTutorial()
     {
         if(pularTutorial == false)
         {
             if(outPisoTutorial == true)
             {
+                inTutorial = true;
                 tutorialHud.SetActive(true);
                 tutorialBasico.SetActive(true);
-                inTutorial = true;
+
                 if(Input.GetButtonDown("Submit"))
                 {
-                    tutorialHud.SetActive(false);
                     inTutorial = false;
-                    pisoTutorial.enabled = false;
                     outPisoTutorial = false;
+                    tutorialHud.SetActive(false);
+                    pisoTutorial.enabled = false;
                     tutorialBasico.SetActive(false);
                 }
             }
@@ -652,19 +746,19 @@ public class GameController : MonoBehaviour
             {
                 if(pagTutorial == 0)
                 {
+                    ++pagTutorial;
                     inTutorial = true;
                     tutorialHud.SetActive(true);
                     tutorialCrafting.SetActive(true);
-                    ++pagTutorial;
 
                 }
                 if (Input.GetButtonDown("Submit"))
                 {
                     if(pagTutorial == 1)
                     {
+                        ++pagTutorial;
                         tutorialCrafting.SetActive(false);
                         tutorialArremesso.SetActive(true);
-                        ++pagTutorial;
                     }
                     else if(pagTutorial == 2)
                     {
@@ -696,5 +790,26 @@ public class GameController : MonoBehaviour
                 Player.instance.isPaused = false;
             }
         }
+    }
+
+
+    public IEnumerator GatoDor()
+    {
+        FaceGato[1].SetActive(true);
+        FaceGato[0].SetActive(false);
+        yield return new WaitForSeconds(1);
+        FaceGato[0].SetActive(true);
+        FaceGato[1].SetActive(false);
+    }
+    public IEnumerator SairMenu()
+    {
+        yield return new WaitForSeconds(0.3f);
+        Player.instance.isPaused = false;
+    }
+    IEnumerator ShowTextInventario()
+    {
+        naoTem.enabled = true;
+        yield return new WaitForSeconds(2.5f);
+        naoTem.enabled = false;
     }
 }

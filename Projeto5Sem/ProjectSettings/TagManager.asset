@@ -18,6 +18,9 @@ TagManager:
   - pisoTutorial
   - pisoTutorialCraft
   - Guspe
+  - caixa
+  - Porta
+  - Cartao
   layers:
   - Default
   - TransparentFX

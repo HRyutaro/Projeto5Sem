@@ -469,7 +469,7 @@ GameObject:
   - component: {fileID: 4036384771531613551}
   - component: {fileID: 4036384771531613544}
   m_Layer: 6
-  m_Name: Inimigo
+  m_Name: Orc
   m_TagString: inimigo
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -584,6 +584,8 @@ MonoBehaviour:
   CdAtack: 2
   atack: {fileID: 4036384770766996961}
   speedAtaque: 1
+  prefabDrop: {fileID: 0}
+  especialDrop: 0
 --- !u!195 &4036384771531613550
 NavMeshAgent:
   m_ObjectHideFlags: 0

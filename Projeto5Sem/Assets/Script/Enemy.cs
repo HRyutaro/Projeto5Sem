@@ -40,6 +40,10 @@ public class Enemy : MonoBehaviour
     private float nextattackTime;
     private bool isAttacking = false;
 
+    [Header("Especial")]
+    public GameObject prefabDrop;
+    public bool especialDrop;
+
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -89,12 +93,25 @@ public class Enemy : MonoBehaviour
         }
         if(VidaAtual <= 0)
         {
-            isDead = true;
-            Anim.SetFloat("Atack", 0);
-            Instantiate(radiacao, gameObject.transform.position,gameObject.transform.rotation);
-            GetComponent<MeshRenderer>().enabled = false;
-            GetComponent<Collider>().enabled = false;
-            Destroy(gameObject,1f);
+            if(especialDrop == true)
+            {
+                isDead = true;
+                Anim.SetFloat("Atack", 0);
+                GetComponent<Collider>().enabled = false;
+                GetComponent<MeshRenderer>().enabled = false;
+                Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
+                Instantiate(prefabDrop, gameObject.transform.position + new Vector3(0, 0.5f, 0), gameObject.transform.rotation);
+                Destroy(gameObject, 1f);
+            }
+            else if (especialDrop == false)
+            {
+                isDead = true;
+                Anim.SetFloat("Atack", 0);
+                Instantiate(radiacao, gameObject.transform.position,gameObject.transform.rotation);
+                GetComponent<MeshRenderer>().enabled = false;
+                GetComponent<Collider>().enabled = false;
+                Destroy(gameObject,1f);
+            }
         }
     }
     void tomarDanoFogo()

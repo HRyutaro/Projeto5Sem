@@ -40,6 +40,7 @@ public class GameControllerMenu : MonoBehaviour
     {
         controleTela();
         checkcontroles();
+
     }
 
     void checkcontroles()
@@ -75,6 +76,11 @@ public class GameControllerMenu : MonoBehaviour
         }
         else if(tela == 1) // tela opcoes
         {
+            sairCtz[0].SetActive(false);
+            novoJogo.SetActive(false);
+            opcoes.SetActive(false);
+            sair.SetActive(false);
+
             controles[0].SetActive(true);
             sons[0].SetActive(true);
             pularTutorialButoon.SetActive(true);
@@ -90,6 +96,11 @@ public class GameControllerMenu : MonoBehaviour
         }
         else if(tela == 2)// tela controles
         {
+            sairCtz[0].SetActive(false);
+            novoJogo.SetActive(false);
+            opcoes.SetActive(false);
+            sair.SetActive(false);
+
             controles[0].SetActive(false);
             sons[0].SetActive(false);
             pularTutorialButoon.SetActive(false);
@@ -105,6 +116,12 @@ public class GameControllerMenu : MonoBehaviour
         }
         else if (tela == 3)// tela Sons
         {
+
+            sairCtz[0].SetActive(false);
+            novoJogo.SetActive(false);
+            opcoes.SetActive(false);
+            sair.SetActive(false);
+
             controles[0].SetActive(false);
             sons[0].SetActive(false);
             pularTutorialButoon.SetActive(false);
@@ -158,7 +175,7 @@ public class GameControllerMenu : MonoBehaviour
     {
         SceneManager.LoadScene(x);
         Time.timeScale = 1;
-        Cursor.lockState = CursorLockMode.Locked;
+        
     }
     public void Opcoes()
     {
