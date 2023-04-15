@@ -40,6 +40,10 @@ public class Brutamontes : MonoBehaviour
     private float nextattackTime;
     private bool isAttacking = false;
 
+    [Header("Especial")]
+    public GameObject prefabDrop;
+    public bool especialDrop;
+
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -88,13 +92,29 @@ public class Brutamontes : MonoBehaviour
         }
         if (vidaAtual <= 0)
         {
-            isDead = true;
-            Anim.SetFloat("golpe", 0);
-            GetComponent<Collider>().enabled = false;
-            GetComponent<MeshRenderer>().enabled = false;
-            GetComponentInChildren<MeshRenderer>().enabled = false;
-            Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
-            Destroy(gameObject, 1f);
+            if(especialDrop == true)
+            {
+                isDead = true;
+                Anim.SetFloat("golpe", 0);
+                GetComponent<Collider>().enabled = false;
+                GetComponent<MeshRenderer>().enabled = false;
+                GetComponentInChildren<MeshRenderer>().enabled = false;
+                Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
+                Instantiate(prefabDrop, gameObject.transform.position, gameObject.transform.rotation);
+                Destroy(gameObject, 1f);
+
+            }
+            else if(especialDrop == false)
+            {
+                isDead = true;
+                Anim.SetFloat("golpe", 0);
+                GetComponent<Collider>().enabled = false;
+                GetComponent<MeshRenderer>().enabled = false;
+                GetComponentInChildren<MeshRenderer>().enabled = false;
+                Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
+                Destroy(gameObject, 1f);
+
+            }
         }
     }
     void tomarDanoFogo()

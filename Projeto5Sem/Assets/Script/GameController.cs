@@ -21,7 +21,7 @@ public class GameController : MonoBehaviour
 
     [Header("Pause")]
     public GameObject Pause;
-    private bool isPause = false;
+    [HideInInspector] public bool isPause = false;
     public GameObject[] sairCtz;
 
     [Header("Botões")]
@@ -54,7 +54,7 @@ public class GameController : MonoBehaviour
     public Text naoTem;
     public Text inventarioBancada;
     public GameObject[] cartaoKey;
-    public int pagKeys;
+    public GameObject[] infocartaoKey;
 
 
     [SerializeField]
@@ -85,9 +85,9 @@ public class GameController : MonoBehaviour
     public int pagTutorial;
 
 
-
     void Start()
     {
+        DialogoControl.dialogo = 1;
         instance = this;
         slideTutorial.value = pularTutorialSlideValue;
         Time.timeScale = 1;
@@ -327,6 +327,8 @@ public class GameController : MonoBehaviour
                 inventPocaoTela[2].SetActive(false);
                 inventPocaoTela[3].SetActive(false);
                 inventPocaoTela[4].SetActive(false);
+                infocartaoKey[0].SetActive(false);
+                infocartaoKey[1].SetActive(false);
             }
             if (EventSystem.current.currentSelectedGameObject == inventButtons[1])
             {
@@ -335,6 +337,8 @@ public class GameController : MonoBehaviour
                 inventPocaoTela[2].SetActive(false);
                 inventPocaoTela[3].SetActive(false);
                 inventPocaoTela[4].SetActive(false);
+                infocartaoKey[0].SetActive(false);
+                infocartaoKey[1].SetActive(false);
             }
             if (EventSystem.current.currentSelectedGameObject == inventButtons[2])
             {
@@ -343,6 +347,8 @@ public class GameController : MonoBehaviour
                 inventPocaoTela[2].SetActive(true);
                 inventPocaoTela[3].SetActive(false);
                 inventPocaoTela[4].SetActive(false);
+                infocartaoKey[0].SetActive(false);
+                infocartaoKey[1].SetActive(false);
             }
             if (EventSystem.current.currentSelectedGameObject == inventButtons[3])
             {
@@ -351,6 +357,8 @@ public class GameController : MonoBehaviour
                 inventPocaoTela[2].SetActive(false);
                 inventPocaoTela[3].SetActive(true);
                 inventPocaoTela[4].SetActive(false);
+                infocartaoKey[0].SetActive(false);
+                infocartaoKey[1].SetActive(false);
             }
             if (EventSystem.current.currentSelectedGameObject == inventButtons[4])
             {
@@ -359,6 +367,28 @@ public class GameController : MonoBehaviour
                 inventPocaoTela[2].SetActive(false);
                 inventPocaoTela[3].SetActive(false);
                 inventPocaoTela[4].SetActive(true);
+                infocartaoKey[0].SetActive(false);
+                infocartaoKey[1].SetActive(false);
+            }
+            if (EventSystem.current.currentSelectedGameObject == inventButtons[5])
+            {
+                inventPocaoTela[0].SetActive(false);
+                inventPocaoTela[1].SetActive(false);
+                inventPocaoTela[2].SetActive(false);
+                inventPocaoTela[3].SetActive(false);
+                inventPocaoTela[4].SetActive(false);
+                infocartaoKey[0].SetActive(true);
+                infocartaoKey[1].SetActive(false);
+            }
+            if (EventSystem.current.currentSelectedGameObject == inventButtons[6])
+            {
+                inventPocaoTela[0].SetActive(false);
+                inventPocaoTela[1].SetActive(false);
+                inventPocaoTela[2].SetActive(false);
+                inventPocaoTela[3].SetActive(false);
+                inventPocaoTela[4].SetActive(false);
+                infocartaoKey[0].SetActive(false);
+                infocartaoKey[1].SetActive(true);
             }
         }
         if(Input.GetButtonDown("Cancel"))
@@ -692,47 +722,24 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void TrocarKeys()
-    {
-        if(pagKeys == 0)
-        {
-            pagKeys = 1;
-        }
-        else if(pagKeys == 1)
-        {
-            pagKeys = 0;
-        }
-    }
-
     void ControleKeys()
     {
         if(Player.instance.TemCartao == true)
         {
-            if(pagKeys == 0)
-            {
-                cartaoKey[0].SetActive(true);
-                cartaoKey[1].SetActive(false);
-            }
-            else if(pagKeys == 1)
-            {
-                cartaoKey[0].SetActive(false);
-                cartaoKey[1].SetActive(true);
-            }
+            cartaoKey[0].SetActive(true);
         }
-        else if(Player.instance.TemCartao2 == true)
+        else if(Player.instance.TemCartao == false)
         {
-            if (pagKeys == 0)
-            {
-                cartaoKey[0].SetActive(true);
-                cartaoKey[1].SetActive(false);
-            }
-            else if (pagKeys == 1)
-            {
-                cartaoKey[0].SetActive(false);
-                cartaoKey[1].SetActive(true);
-            }
+            cartaoKey[0].SetActive(false);
         }
-
+        if(Player.instance.TemCartao2 == true)
+        {
+            cartaoKey[1].SetActive(true);
+        }
+        else if (Player.instance.TemCartao2 == false)
+        {
+            cartaoKey[1].SetActive(false);
+        }
     }
 
     void UpdateInventario()
@@ -839,7 +846,6 @@ public class GameController : MonoBehaviour
             }
         }
     }
-
 
     public IEnumerator GatoDor()
     {

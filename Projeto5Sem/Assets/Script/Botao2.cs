@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Botao : MonoBehaviour
+public class Botao2 : MonoBehaviour
 {
 
     private Color Green;
@@ -23,22 +23,22 @@ public class Botao : MonoBehaviour
 
     void Update()
     {
-        if(passouCartao == true)
+        if (passouCartao == true)
         {
             animPorta.SetFloat("Abrir", 1);
             botao.material.color = Green;
         }
-        if(PodePassarCartao == true)
+        if (PodePassarCartao == true)
         {
-            if(Input.GetButtonDown("Interacao") || Input.GetKeyDown(KeyCode.E))
+            if (Input.GetButtonDown("Interacao") || Input.GetKeyDown(KeyCode.E))
             {
-                if(Player.instance.TemCartao == true)
+                if (Player.instance.TemCartao2 == true)
                 {
                     passouCartao = true;
                 }
-                else if(Player.instance.TemCartao == false)
+                else if (Player.instance.TemCartao2 == false)
                 {
-                    textoInteracao.text = "Preciso de um cartao Azul";
+                    textoInteracao.text = "Preciso de um cartao Vermelho";
                 }
             }
         }
@@ -46,7 +46,7 @@ public class Botao : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Player") && passouCartao == false)
+        if (other.gameObject.CompareTag("Player") && passouCartao == false)
         {
             PodePassarCartao = true;
             textoInte.SetActive(true);
