@@ -6,7 +6,7 @@ public class Dialogo : MonoBehaviour
 {
     public Sprite[] profile;
     public string[] speechtxt;
-    public string nome;
+    public string[] nome;
 
     public GameObject interecao;
 
@@ -17,6 +17,9 @@ public class Dialogo : MonoBehaviour
 
     private bool podeInteragir;
     private bool interagiu;
+    public static bool podeSeguir;
+
+    public int proxSprite = 0;
 
     private void Start()
     {
@@ -33,7 +36,7 @@ public class Dialogo : MonoBehaviour
             if (interagiu == false)
             {
                 GameController.instance.isPause = true;
-                dc.Speech(profile[0], speechtxt, nome);
+                dc.Speech(profile[0], speechtxt, nome[0]);
                 Player.instance.isPaused = true;
                 Player.instance.stop = true;
                 interagiu = true;
@@ -41,11 +44,13 @@ public class Dialogo : MonoBehaviour
 
             
         }
-        if (interagiu == true)
+        if (interagiu == true && podeSeguir == true)
         {
             if (Input.GetButtonDown("Submit"))
             {
-                dc.NextSentence(profile[0],nome);
+                ++proxSprite;
+                dc.NextSentence(profile[proxSprite],nome[proxSprite]);
+                podeSeguir = false;
             }
         }
     }
@@ -60,8 +65,8 @@ public class Dialogo : MonoBehaviour
         }
         else
         {
-            interecao.SetActive(false);
             podeInteragir = false;
+            interecao.SetActive(false);
         }
 
     }

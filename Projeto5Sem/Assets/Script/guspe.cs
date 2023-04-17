@@ -24,5 +24,15 @@ public class guspe : MonoBehaviour
             col.enabled = false;
             Destroy(gameObject, 0);
         }
+        if (other.gameObject.tag == "Porta")
+        {
+            col.enabled = false;
+            Destroy(gameObject, 0);
+        }
+        if (other.gameObject.tag == "Buraco")
+        {
+            col.enabled = false;
+            Destroy(gameObject, 0);
+        }
     }
 }

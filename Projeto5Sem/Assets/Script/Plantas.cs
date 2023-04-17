@@ -12,6 +12,7 @@ public class Plantas : MonoBehaviour
     public Text quantosPegou;
     private bool podePegar;
     public Color[] cor;
+    public GameObject[] tipoDaMesh;
 
     void Start()
     {
@@ -78,22 +79,27 @@ public class Plantas : MonoBehaviour
         if(planta == 1)
         {
             GetComponent<Renderer>().material.color = cor[0];
+            tipoDaMesh[0].SetActive(true);
         }
         if (planta == 2)
         {
             GetComponent<Renderer>().material.color = cor[1];
+            tipoDaMesh[1].SetActive(true);
         }
         if (planta == 3)
         {
             GetComponent<Renderer>().material.color = cor[2];
+            tipoDaMesh[2].SetActive(true);
         }
         if (planta == 4)
         {
             GetComponent<Renderer>().material.color = cor[3];
+            tipoDaMesh[3].SetActive(true);
         }
         if (planta == 5)
         {
             GetComponent<Renderer>().material.color = cor[4];
+            tipoDaMesh[4].SetActive(true);
         }
     }
 

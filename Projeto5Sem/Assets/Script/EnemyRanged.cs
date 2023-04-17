@@ -128,8 +128,8 @@ public class EnemyRanged : MonoBehaviour
                 if (!isAttacking && Vector3.Distance(transform.position, alvo.position) <= distanciaMin)
                 {
                     Vector3 direcao = transform.forward;
-                    GameObject magia = Instantiate(atackprefab, atackRespawn.position, atackRespawn.rotation);
-                    magia.GetComponent<Rigidbody>().AddForce(direcao * forcaAtack, ForceMode.Impulse);
+                    GameObject guspe = Instantiate(atackprefab, atackRespawn.position, atackRespawn.rotation);
+                    guspe.GetComponent<Rigidbody>().AddForce(direcao * forcaAtack, ForceMode.Impulse);
                     StartCoroutine(AnimacaoGuspe());
                 }
                 nextattackTime = Time.time + CdAtack;

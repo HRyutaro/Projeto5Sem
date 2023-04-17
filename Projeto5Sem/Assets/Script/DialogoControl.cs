@@ -25,6 +25,8 @@ public class DialogoControl : MonoBehaviour
     public string[] speechtxt;
     public string[] nome;
 
+    [Header("DialogoBoss")]
+    public static bool bossDialago = false;
 
 
     private void Update()
@@ -65,6 +67,8 @@ public class DialogoControl : MonoBehaviour
             yield return new WaitForSeconds(typingSpeed);
         }
         podeApertar = true;
+        Dialogo.podeSeguir = true;
+        EnterDialogo.podeSeguir = true;
     }
 
     public void NextSentence(Sprite p,string newname)
@@ -90,6 +94,11 @@ public class DialogoControl : MonoBehaviour
                 Player.instance.isPaused = false;
                 GameController.instance.isPause = false;
                 podeApertar = false;
+                Dialogo.podeSeguir = false;
+                if(bossDialago == true)
+                {
+                    BossCobra.startBossBattle = true;
+                }
             }
             
         }

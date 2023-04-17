@@ -94,6 +94,7 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
+
         ControleConfig();
         if (isPaused == false)
         {
@@ -190,7 +191,7 @@ public class Player : MonoBehaviour
                 StartCoroutine("AtackMeleeTime");
                 StartCoroutine("CDAtackMelee");
                 Vector3 atackingfoward= transform.forward;
-                rb.AddForce(3.5f * atackingfoward, ForceMode.Impulse);
+                rb.AddForce(4.5f * atackingfoward, ForceMode.Impulse);
             }
 
         }
@@ -221,14 +222,14 @@ public class Player : MonoBehaviour
                 {
                     if(dashing == false)
                     {
+                        stop = false;
                         manaAtual -= 1;
+                        Anim.SetFloat("Feitico", 0);
+                        StartCoroutine(TimetoAiming());
+                        StartCoroutine("CDAtackRange2");
                         Vector3 direcao = transform.forward;
                         GameObject magia = Instantiate(feiticoPrefab, feiticoRespawn.position, feiticoRespawn.rotation);
                         magia.GetComponent<Rigidbody>().AddForce(direcao * forcaArremessoFeitico, ForceMode.Impulse);
-                        StartCoroutine("CDAtackRange2");
-                        stop = false;
-                        StartCoroutine(TimetoAiming());
-                        Anim.SetFloat("Feitico", 0);
 
                     }
                 }
@@ -385,17 +386,20 @@ public class Player : MonoBehaviour
     
     public void TomarDano(int Dano,float Empurrao)
     {
-        if(dashing == false)
+        if(GameController.instance.modoDeus == false)
         {
-            StartCoroutine("CDTomarDano");
-            VidaAtual -= Dano;
-            forcaEmpurrao = Empurrao;
+            if(dashing == false)
+            {
+                StartCoroutine("CDTomarDano");
+                VidaAtual -= Dano;
+                forcaEmpurrao = Empurrao;
 
-            Vector3 empurrar = -transform.forward;
+                Vector3 empurrar = -transform.forward;
 
-            rb.AddForce(empurrar * forcaEmpurrao, ForceMode.Impulse);
-            GameController.instance.DorGato();
+                rb.AddForce(empurrar * forcaEmpurrao, ForceMode.Impulse);
+                GameController.instance.DorGato();
 
+            }
         }
     }
 
@@ -591,6 +595,15 @@ public class Player : MonoBehaviour
         {
             TomarDano(1, 5);
         }
+        if (other.gameObject.tag == "CobraBoss" && TomouDano == false)
+        {
+            TomarDano(1, 7);
+        }
+        if (other.gameObject.tag == "StartBoss")
+        {
+            GameController.instance.voltarCheckpoint();
+        }
+
         if (GameController.pularTutorial == false)
         {
             if (other.gameObject.tag == "pisoTutorialCraft")

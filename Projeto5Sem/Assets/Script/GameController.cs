@@ -37,6 +37,7 @@ public class GameController : MonoBehaviour
     public Slider controlSlide1;
     public Slider controlSlide2;
     public Slider slideTutorial;
+    public bool modoDeus;
 
     [Header("Sons")]
     public Slider musica;
@@ -84,6 +85,8 @@ public class GameController : MonoBehaviour
     public GameObject tutorialArremesso;
     public int pagTutorial;
 
+    [Header("checkpoint")]
+    public Vector3 checkpointPosition;
 
     void Start()
     {
@@ -120,6 +123,21 @@ public class GameController : MonoBehaviour
         ControleKeys();
     }
 
+    public void ModoDeus()
+    {
+        if(modoDeus == true)
+        {
+
+        }
+    }
+    public void voltarCheckpoint()
+    {
+        checkpointPosition = transform.position;
+    }
+    public Vector3 GetCheckpointPosition()
+    {
+        return checkpointPosition;
+    }
     void checkcontroles()
     {
         if(Player.op == 1)

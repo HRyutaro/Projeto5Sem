@@ -21,6 +21,9 @@ TagManager:
   - caixa
   - Porta
   - Cartao
+  - CobraBoss
+  - buraco
+  - StartBoss
   layers:
   - Default
   - TransparentFX
