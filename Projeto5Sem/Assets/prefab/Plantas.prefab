@@ -145,7 +145,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planta: 1
   textoInte: {fileID: 0}
-  quantosPegoutext: {fileID: 0}
   quantosPegou: {fileID: 0}
   cor:
   - {r: 0.33910358, g: 1, b: 0, a: 0.43137255}
@@ -159,6 +158,12 @@ MonoBehaviour:
   - {fileID: 4877364226249009842}
   - {fileID: 6741841991105862690}
   - {fileID: 4404285343899148950}
+  imagemPlanta:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &4404285343899148950
 GameObject:
   m_ObjectHideFlags: 0

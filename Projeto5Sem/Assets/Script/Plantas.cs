@@ -7,17 +7,17 @@ public class Plantas : MonoBehaviour
 {
     public int planta;
     public GameObject textoInte;
-    public GameObject quantosPegoutext;
     private int quantidadeDePlantas;
     public Text quantosPegou;
     private bool podePegar;
     public Color[] cor;
     public GameObject[] tipoDaMesh;
+    public Image[] imagemPlanta;
 
     void Start()
     {
         quantidadeDePlantas = Random.Range(1, 3);
-        planta = Random.Range(1, 6);
+        planta = Random.Range(0, 5);
         quantosPegou.text = quantidadeDePlantas.ToString();
         tipoDePlanta();
     }
@@ -31,43 +31,43 @@ public class Plantas : MonoBehaviour
     {
         if (Input.GetButtonDown("Interacao") && podePegar == true || Input.GetKeyDown(KeyCode.E) && podePegar == true)
         {
-            if (planta == 1)
+            if (planta == 0)
             {
                 Player.instance.temPlantaCura += quantidadeDePlantas;
+                quantosPegou.text = ("Pegou " + quantidadeDePlantas + " Raiz da Vida");
                 StartCoroutine(PegouPlanta());
-                StartCoroutine(PegouPlanta2());
+                textoInte.SetActive(false);
+                Destroy(gameObject, 1);
+            }
+            else if (planta == 1)
+            {
+                Player.instance.temPlantaMana += quantidadeDePlantas;
+                quantosPegou.text = ("Pegou " + quantidadeDePlantas + " Raiz Magica");
+                StartCoroutine(PegouPlanta());
                 textoInte.SetActive(false);
                 Destroy(gameObject, 1);
             }
             else if (planta == 2)
             {
-                Player.instance.temPlantaMana += quantidadeDePlantas;
+                Player.instance.temPlantaGelo += quantidadeDePlantas;
+                quantosPegou.text = ("Pegou " + quantidadeDePlantas + " Cogumelos Gelidos");
                 StartCoroutine(PegouPlanta());
-                StartCoroutine(PegouPlanta2());
                 textoInte.SetActive(false);
                 Destroy(gameObject, 1);
             }
             else if (planta == 3)
             {
-                Player.instance.temPlantaGelo += quantidadeDePlantas;
+                Player.instance.temPlantaFumaca += quantidadeDePlantas;
+                quantosPegou.text = ("Pegou " + quantidadeDePlantas + " Pinhas Fumacentas");
                 StartCoroutine(PegouPlanta());
-                StartCoroutine(PegouPlanta2());
                 textoInte.SetActive(false);
                 Destroy(gameObject, 1);
             }
             else if (planta == 4)
             {
-                Player.instance.temPlantaFumaca += quantidadeDePlantas;
-                StartCoroutine(PegouPlanta());
-                StartCoroutine(PegouPlanta2());
-                textoInte.SetActive(false);
-                Destroy(gameObject, 1);
-            }
-            else if (planta == 5)
-            {
                 Player.instance.temPlantaFogo += quantidadeDePlantas;
+                quantosPegou.text = ("Pegou " + quantidadeDePlantas + " Tentaculos Vulcanicos");
                 StartCoroutine(PegouPlanta());
-                StartCoroutine(PegouPlanta2());
                 textoInte.SetActive(false);
                 Destroy(gameObject, 1);
             }
@@ -76,27 +76,27 @@ public class Plantas : MonoBehaviour
 
     void tipoDePlanta()
     {
-        if(planta == 1)
+        if(planta == 0)
         {
             GetComponent<Renderer>().material.color = cor[0];
             tipoDaMesh[0].SetActive(true);
         }
-        if (planta == 2)
+        if (planta == 1)
         {
             GetComponent<Renderer>().material.color = cor[1];
             tipoDaMesh[1].SetActive(true);
         }
-        if (planta == 3)
+        if (planta == 2)
         {
             GetComponent<Renderer>().material.color = cor[2];
             tipoDaMesh[2].SetActive(true);
         }
-        if (planta == 4)
+        if (planta == 3)
         {
             GetComponent<Renderer>().material.color = cor[3];
             tipoDaMesh[3].SetActive(true);
         }
-        if (planta == 5)
+        if (planta == 4)
         {
             GetComponent<Renderer>().material.color = cor[4];
             tipoDaMesh[4].SetActive(true);
@@ -127,13 +127,9 @@ public class Plantas : MonoBehaviour
     IEnumerator PegouPlanta()
     {
         quantosPegou.enabled = true;
-        yield return new WaitForSeconds(0.5f);
+        imagemPlanta[planta].enabled = true;
+        yield return new WaitForSeconds(0.8f);
+        imagemPlanta[planta].enabled = false;
         quantosPegou.enabled = false;
-    }
-    IEnumerator PegouPlanta2()
-    {
-        quantosPegoutext.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
-        quantosPegoutext.SetActive(false);
     }
 }

@@ -49,6 +49,7 @@ public class BossCobra : MonoBehaviour
     {
         if(startBossBattle == true)
         {
+
             if(isDead == false)
             {
                 controleVida();
@@ -78,6 +79,8 @@ public class BossCobra : MonoBehaviour
         {
             gameObject.transform.position = spawn[0].position;
             gameObject.transform.rotation = spawn[0].rotation;
+            gameObject.tag = "BossParado";
+            
             if (guspiu == false)
             {
                 guspiu = true;
@@ -86,6 +89,7 @@ public class BossCobra : MonoBehaviour
         }
         else if(spawnNumber > 0)
         {
+            gameObject.tag = "CobraBoss";
             Andar();
         }
 
@@ -225,16 +229,6 @@ public class BossCobra : MonoBehaviour
         mesh2.material.color = corNormal;
         mesh3.material.color = corNormal;
     }
-    IEnumerator DanoCorCDFogo()
-    {
-        mesh.material.color = corOrange;
-        mesh2.material.color = corOrange;
-        mesh3.material.color = corOrange;
-        yield return new WaitForSeconds(0.3f);
-        mesh.material.color = corNormal;
-        mesh2.material.color = corNormal;
-        mesh3.material.color = corNormal;
-    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -248,11 +242,6 @@ public class BossCobra : MonoBehaviour
             StartCoroutine("CDTomarDano");
             Congelado();
             GetComponent<Renderer>().material.color = corGelado;
-        }
-        if (other.gameObject.tag == "fogo" && !tomouDano)
-        {
-            StartCoroutine("CDTomarDano");
-            TomarDanoFogo();
         }
 
     }

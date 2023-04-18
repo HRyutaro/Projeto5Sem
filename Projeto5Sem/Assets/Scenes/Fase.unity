@@ -108,7 +108,7 @@ NavMeshSettings:
     agentTypeID: 0
     agentRadius: 0.5
     agentHeight: 2
-    agentSlope: 45
+    agentSlope: 35.8
     agentClimb: 0.4
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
@@ -532,7 +532,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1 &26575819
@@ -2709,85 +2729,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 130403532}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &136174316
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 136174317}
-  - component: {fileID: 136174319}
-  - component: {fileID: 136174318}
-  m_Layer: 5
-  m_Name: Quantos Pegou
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &136174317
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 136174316}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 3}
-  m_LocalScale: {x: 2.5655253, y: 1.1780034, z: 2.103018}
-  m_Children: []
-  m_Father: {fileID: 1983324345}
-  m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 198.6336}
-  m_SizeDelta: {x: 199.3927, y: 54.5632}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &136174318
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 136174316}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 12800000, guid: 449861d82a54a414b934a1b3848edd4c, type: 3}
-    m_FontSize: 21
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 8
-    m_MaxSize: 57
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 0
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: Pegou    Plantas
---- !u!222 &136174319
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 136174316}
-  m_CullTransparentMesh: 1
 --- !u!1 &136539454
 GameObject:
   m_ObjectHideFlags: 0
@@ -3578,7 +3519,6 @@ MonoBehaviour:
   speechtxt:
   - "Ssss... quem \xE9 voc\xEA gato imundo ..ssS"
   - "Ssss... aa n\xE3o importa, irei te matar ...ssS"
-  - "Oqu\xE9 ? Pera?"
   - "Oqu\xE9 ? Pera?"
   nome:
   - Cobra
@@ -4442,7 +4382,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1 &241232078
@@ -4725,7 +4685,7 @@ GameObject:
   - component: {fileID: 258928160}
   m_Layer: 0
   m_Name: BuracoCobra (3)
-  m_TagString: Parede
+  m_TagString: buraco
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -4902,7 +4862,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1 &262959113
@@ -5011,7 +4991,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1 &275392699
@@ -5537,7 +5537,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 303469484}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -73.96, y: -11.4, z: 42.24}
+  m_LocalPosition: {x: -73.96, y: -11.4, z: 46.88}
   m_LocalScale: {x: 3.7734, y: 3.7734, z: 3.7734}
   m_Children:
   - {fileID: 137084157}
@@ -5563,7 +5563,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67d0a05921fb9554bafdd1f44e24a288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vida: 6
+  vida: 8
   isDead: 0
   Corpo: {fileID: 818451268}
   calda: {fileID: 514031259}
@@ -5577,7 +5577,7 @@ MonoBehaviour:
   rb: {fileID: 303469486}
   speed: 20
   speedAtual: 0
-  corNormal: {r: 0.13725491, g: 0.5686275, b: 0.2784314, a: 0}
+  corNormal: {r: 1, g: 0.49574798, b: 0, a: 0}
   corOrange: {r: 1, g: 0.400387, b: 0, a: 0}
   corGelado: {r: 0.514151, g: 0.9857293, b: 1, a: 0}
   anim: {fileID: 303469485}
@@ -5813,7 +5813,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1 &330314516
@@ -6800,6 +6820,7 @@ GameObject:
   - component: {fileID: 414130966}
   - component: {fileID: 414130965}
   - component: {fileID: 414130964}
+  - component: {fileID: 414130969}
   m_Layer: 0
   m_Name: NpcRato
   m_TagString: Untagged
@@ -6864,9 +6885,9 @@ MonoBehaviour:
     mim. Mas voc\xEA tem cara de ser inteligente, ent\xE3o n\xE3o vai ser uma tarefa
     t\xE3o dif\xEDcil. At\xE9 logo "
   nome:
-  - "O Incr\xEDvel Senhor Mortimer"
-  - "O Incr\xEDvel Senhor Mortimer"
-  - "O Incr\xEDvel Senhor Mortimer"
+  - ???
+  - ???
+  - ???
   - "O Incr\xEDvel Senhor Mortimer"
   - Ivan Ivanov
   - "O Incr\xEDvel Senhor Mortimer"
@@ -6959,6 +6980,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &414130969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414130963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42cd7b0e4582f174b8b2ca1f89c62378, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ocultar: 0
 --- !u!4 &430111034 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4036384771531613548, guid: 5cf9feac90bd0cc479762b5bc491144a, type: 3}
@@ -7034,7 +7068,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!4 &436713731 stripped
@@ -7503,7 +7557,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1 &471886128
@@ -7807,7 +7881,7 @@ GameObject:
   - component: {fileID: 484834068}
   m_Layer: 0
   m_Name: BuracoCobra (1)
-  m_TagString: Parede
+  m_TagString: buraco
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -7913,7 +7987,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 511f9ba7fee606d4db2bcace1ae56f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  col: {fileID: 258928157}
+  col: {fileID: 484834065}
 --- !u!1 &484870603
 GameObject:
   m_ObjectHideFlags: 0
@@ -8290,6 +8364,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 495580287}
   m_CullTransparentMesh: 1
+--- !u!1 &501669432
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 501669433}
+  - component: {fileID: 501669435}
+  - component: {fileID: 501669434}
+  m_Layer: 5
+  m_Name: Mana
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &501669433
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501669432}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 908688243}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 148, y: 1.3905}
+  m_SizeDelta: {x: 85.8723, y: 90.9359}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &501669434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501669432}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 83968cb3b47806d49a68fc233d304fe5, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &501669435
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501669432}
+  m_CullTransparentMesh: 1
 --- !u!4 &503201427 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4290766404489204478, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
@@ -8365,7 +8514,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1 &513826507
@@ -8703,7 +8872,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1 &531217867
@@ -9028,9 +9217,9 @@ MonoBehaviour:
   - "-O QUE?! EU TENHO UM RABO O QUE EST\xC1 ACONTECENDO COMIGO?! Ivan respira."
   nome:
   - Ivan Ivanov
-  - Ivan Ivanov 2
-  - Ivan Ivanov 3
-  - Ivan Ivanov 3
+  - 'Ivan Ivanov '
+  - 'Ivan Ivanov '
+  - 'Ivan Ivanov '
 --- !u!1 &538271063
 GameObject:
   m_ObjectHideFlags: 0
@@ -15801,6 +15990,81 @@ RectTransform:
   m_AnchoredPosition: {x: 813, y: -439}
   m_SizeDelta: {x: 58.63, y: 51.88}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &697379617
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 697379618}
+  - component: {fileID: 697379620}
+  - component: {fileID: 697379619}
+  m_Layer: 5
+  m_Name: Fogo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &697379618
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697379617}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 908688243}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 148, y: 1.3905}
+  m_SizeDelta: {x: 85.8723, y: 90.9359}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &697379619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697379617}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: d4434151e3f030a48927f7eff54523ed, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &697379620
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697379617}
+  m_CullTransparentMesh: 1
 --- !u!1 &697530661
 GameObject:
   m_ObjectHideFlags: 0
@@ -18110,7 +18374,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!4 &847326013 stripped
@@ -18723,7 +19007,7 @@ GameObject:
   - component: {fileID: 908688242}
   - component: {fileID: 908688241}
   m_Layer: 5
-  m_Name: numero
+  m_Name: QuantosPegou
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18750,18 +19034,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 449861d82a54a414b934a1b3848edd4c, type: 3}
-    m_FontSize: 21
+    m_Font: {fileID: 12800000, guid: 80652e2a0bc03684fa0fad0a06e4bf1b, type: 3}
+    m_FontSize: 19
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 2
-    m_MaxSize: 57
-    m_Alignment: 4
-    m_AlignByGeometry: 0
+    m_MinSize: 0
+    m_MaxSize: 185
+    m_Alignment: 3
+    m_AlignByGeometry: 1
     m_RichText: 0
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 1
+    m_LineSpacing: 1.09
   m_Text: 
 --- !u!222 &908688242
 CanvasRenderer:
@@ -18781,14 +19065,19 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 3}
   m_LocalScale: {x: 2.5655253, y: 1.1780034, z: 2.103018}
-  m_Children: []
+  m_Children:
+  - {fileID: 2053595934}
+  - {fileID: 501669433}
+  - {fileID: 1983913272}
+  - {fileID: 1763883073}
+  - {fileID: 697379618}
   m_Father: {fileID: 1983324345}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -27.156, y: 198.63}
-  m_SizeDelta: {x: 163.67, y: 50.149}
+  m_AnchoredPosition: {x: -657.66644, y: -210.61545}
+  m_SizeDelta: {x: 217.8893, y: 116.4482}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &910994822
 PrefabInstance:
@@ -18860,7 +19149,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1 &928944767
@@ -19688,7 +19997,7 @@ GameObject:
   - component: {fileID: 1007383085}
   m_Layer: 0
   m_Name: BuracoCobra
-  m_TagString: Parede
+  m_TagString: buraco
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -19794,7 +20103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 511f9ba7fee606d4db2bcace1ae56f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  col: {fileID: 258928157}
+  col: {fileID: 1007383082}
 --- !u!1 &1020006961
 GameObject:
   m_ObjectHideFlags: 0
@@ -20551,7 +20860,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1 &1055461051
@@ -20992,7 +21321,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1 &1070670239
@@ -23049,7 +23398,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1 &1169828515
@@ -23217,7 +23586,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1 &1195632653
@@ -26853,7 +27242,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1001 &1412395913
@@ -26926,7 +27335,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1001 &1412901275
@@ -26999,7 +27428,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1 &1414580392
@@ -27201,7 +27650,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1 &1426947131
@@ -27814,7 +28283,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1 &1464938388
@@ -33242,7 +33731,7 @@ GameObject:
   - component: {fileID: 1497697583}
   m_Layer: 0
   m_Name: BuracoCobra (2)
-  m_TagString: Parede
+  m_TagString: buraco
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -33348,7 +33837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 511f9ba7fee606d4db2bcace1ae56f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  col: {fileID: 258928157}
+  col: {fileID: 1497697580}
 --- !u!1 &1507347251
 GameObject:
   m_ObjectHideFlags: 0
@@ -33586,7 +34075,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1 &1525140575
@@ -34523,7 +35032,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1 &1591337623
@@ -35724,7 +36253,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1 &1648372122
@@ -36918,7 +37467,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1 &1719445624
@@ -37936,6 +38505,81 @@ MonoBehaviour:
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
   m_ForceModuleActive: 0
+--- !u!1 &1763883072
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1763883073}
+  - component: {fileID: 1763883075}
+  - component: {fileID: 1763883074}
+  m_Layer: 5
+  m_Name: Fumaca
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1763883073
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763883072}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 908688243}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 148, y: -11.918}
+  m_SizeDelta: {x: 132.4729, y: 140.2844}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1763883074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763883072}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: c50bf5a7f2c560e4e97dd6a6dbb64eb0, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1763883075
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763883072}
+  m_CullTransparentMesh: 1
 --- !u!1 &1765486598
 GameObject:
   m_ObjectHideFlags: 0
@@ -38343,7 +38987,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1 &1785721746
@@ -39074,7 +39738,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1 &1845829269
@@ -39887,7 +40571,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1001 &1895250249
@@ -39960,7 +40664,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!4 &1895766726 stripped
@@ -41285,7 +42009,7 @@ GameObject:
   - component: {fileID: 1975612109}
   m_Layer: 0
   m_Name: BuracoCobra
-  m_TagString: Parede
+  m_TagString: buraco
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -41391,7 +42115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 511f9ba7fee606d4db2bcace1ae56f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  col: {fileID: 258928157}
+  col: {fileID: 1975612106}
 --- !u!1 &1979087742
 GameObject:
   m_ObjectHideFlags: 0
@@ -41525,7 +42249,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1980067990}
   m_LocalRotation: {x: -0.057642102, y: -0.000000029802322, z: -0, w: 0.9983374}
-  m_LocalPosition: {x: -0.63, y: -1.01, z: -12.12}
+  m_LocalPosition: {x: -0.63, y: -1.11, z: -13}
   m_LocalScale: {x: 4.9167824, y: 3.238443, z: 15.551251}
   m_Children: []
   m_Father: {fileID: 1408621531}
@@ -41666,7 +42390,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -41719,7 +42443,6 @@ RectTransform:
   - {fileID: 340045149}
   - {fileID: 697530664}
   - {fileID: 1467046414}
-  - {fileID: 136174317}
   - {fileID: 908688243}
   m_Father: {fileID: 0}
   m_RootOrder: 5
@@ -41824,6 +42547,81 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1983619628}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1983913271
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1983913272}
+  - component: {fileID: 1983913274}
+  - component: {fileID: 1983913273}
+  m_Layer: 5
+  m_Name: Gelo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1983913272
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1983913271}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 908688243}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 148, y: -11.918}
+  m_SizeDelta: {x: 132.4729, y: 140.2844}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1983913273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1983913271}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 3a9d2b490941bfc41a76438775934a27, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1983913274
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1983913271}
+  m_CullTransparentMesh: 1
 --- !u!1 &1991387689
 GameObject:
   m_ObjectHideFlags: 0
@@ -42801,7 +43599,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!4 &2047793042 stripped
@@ -42809,6 +43627,81 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4290766404489204478, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
   m_PrefabInstance: {fileID: 1055069752}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2053595933
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2053595934}
+  - component: {fileID: 2053595936}
+  - component: {fileID: 2053595935}
+  m_Layer: 5
+  m_Name: vida
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2053595934
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053595933}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 908688243}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 148, y: 1.3905}
+  m_SizeDelta: {x: 85.8723, y: 90.9359}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2053595935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053595933}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 3e9a48b396310e149959301f3bb942b3, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2053595936
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053595933}
+  m_CullTransparentMesh: 1
 --- !u!1 &2056371249
 GameObject:
   m_ObjectHideFlags: 0
@@ -43142,7 +44035,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!4 &2097879429 stripped
@@ -44203,7 +45116,27 @@ PrefabInstance:
     - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
       propertyPath: quantosPegoutext
       value: 
-      objectReference: {fileID: 136174316}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053595935}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[1]
+      value: 
+      objectReference: {fileID: 501669434}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[2]
+      value: 
+      objectReference: {fileID: 1983913273}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763883074}
+    - target: {fileID: 4290766404489204482, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
+      propertyPath: imagemPlanta.Array.data[4]
+      value: 
+      objectReference: {fileID: 697379619}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e3bfbf26d231e4ca8ec2e962442fdf, type: 3}
 --- !u!1001 &5065624310768557097
@@ -44411,6 +45344,8 @@ GameObject:
   - component: {fileID: 7239461546751203968}
   - component: {fileID: 6041684998245553445}
   - component: {fileID: 8375735669735776751}
+  - component: {fileID: 8015399390464491580}
+  - component: {fileID: 8015399390464491579}
   m_Layer: 0
   m_Name: SM_bau
   m_TagString: Untagged
@@ -44418,6 +45353,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!208 &8015399390464491579
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8015399390464491578}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.028, y: 0.020000001, z: 0.020000001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!65 &8015399390464491580
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8015399390464491578}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.055260584, y: 0.039688047, z: 0.039027505}
+  m_Center: {x: 0.0000000027939684, y: 0.00045005977, z: 0.0004123953}
 --- !u!23 &8375735669735776751
 MeshRenderer:
   m_ObjectHideFlags: 0

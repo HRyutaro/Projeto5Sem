@@ -123,13 +123,6 @@ public class GameController : MonoBehaviour
         ControleKeys();
     }
 
-    public void ModoDeus()
-    {
-        if(modoDeus == true)
-        {
-
-        }
-    }
     public void voltarCheckpoint()
     {
         checkpointPosition = transform.position;
@@ -542,7 +535,7 @@ public class GameController : MonoBehaviour
     }
     public void fabricarPocaofogo()
     {
-        if (Player.instance.Radiacao >= 5 && Player.instance.temPocaoFogo < 2 && Player.instance.temPlantaFogo >= 2 && inInventario2 == false)
+        if (Player.instance.Radiacao >= 5 && Player.instance.temPocaoFogo < 3 && Player.instance.temPlantaFogo >= 2 && inInventario2 == false)
         {
             Player.instance.temPocaoFogo += 1;
             Player.instance.Radiacao -= 5;

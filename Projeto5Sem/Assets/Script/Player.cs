@@ -96,7 +96,7 @@ public class Player : MonoBehaviour
     {
 
         ControleConfig();
-        if (isPaused == false)
+        if (isPaused == false && stop == false)
         {
             AtackMelee();
             GatherInput();
@@ -123,7 +123,7 @@ public class Player : MonoBehaviour
     {
         if( input != Vector3.zero)
         {
-            if(isPaused == false && isAtacking == false )
+            if(isAtacking == false )
             {
                 var relative = (transform.position + input.toIso()) - transform.position;
                 var rot = Quaternion.LookRotation(relative, Vector3.up);
@@ -136,7 +136,7 @@ public class Player : MonoBehaviour
 
     void Move()//movimento cm velocidade
     {
-        if (stop == false && isAiming == false)
+        if (isAiming == false && isAtacking == false && stop == false)
         {
             rb.velocity = input.toIso() * speedAtual;
             if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0 && speedAtual >= 1)
@@ -251,7 +251,7 @@ public class Player : MonoBehaviour
                         if (VidaAtual < VidaTotal)
                         {
                             StartCoroutine("Cura");
-                            ++VidaAtual;
+                            VidaAtual += 3;
                             --temPocaoCura;
                             GameController.numeroPocoesAtual = temPocaoCura;
                         }
@@ -405,16 +405,15 @@ public class Player : MonoBehaviour
 
     void Dash()
     {
-        if(isPaused == false && stop == false )
-        {
-            if(Input.GetButton("bolinha") && isDashing == 4)
-            {
-                isDashing = 0;
-                Vector3 dashing = transform.forward;
-                rb.AddForce(dashing * forcaDash, ForceMode.Impulse);
-                StartCoroutine("CdDash");
-            }
-        }
+
+       if(Input.GetButton("bolinha") && isDashing == 4)
+       {
+            isDashing = 0;
+            Vector3 dashing = transform.forward;
+            rb.AddForce(dashing * forcaDash, ForceMode.Impulse);
+            StartCoroutine("CdDash");
+       }
+
     }
 
     void trocarPocao()
@@ -597,7 +596,7 @@ public class Player : MonoBehaviour
         }
         if (other.gameObject.tag == "CobraBoss" && TomouDano == false)
         {
-            TomarDano(1, 7);
+            TomarDano(1, 10);
         }
         if (other.gameObject.tag == "StartBoss")
         {

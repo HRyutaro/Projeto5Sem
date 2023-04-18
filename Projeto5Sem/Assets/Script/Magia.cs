@@ -39,5 +39,10 @@ public class Magia : MonoBehaviour
             col.enabled = false;
             Destroy(gameObject, 0);
         }
+        if (other.gameObject.tag == "BossParado")
+        {
+            col.enabled = false;
+            Destroy(gameObject, 0);
+        }
     }
 }

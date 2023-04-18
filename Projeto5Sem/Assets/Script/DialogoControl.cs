@@ -98,6 +98,7 @@ public class DialogoControl : MonoBehaviour
                 if(bossDialago == true)
                 {
                     BossCobra.startBossBattle = true;
+                    Player.instance.stop = false;
                 }
             }
             
