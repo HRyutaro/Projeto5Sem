@@ -5594,8 +5594,8 @@ MonoBehaviour:
   - {fileID: 1713215392}
   - {fileID: 1494898453}
   - {fileID: 813167090}
-  cdAtackGuspe: 5
-  cdTrocaDePosicao: 5
+  cdAtackGuspe: 4
+  cdTrocaDePosicao: 3.5
   forcaGuspe: 20
 --- !u!1 &307835289
 GameObject:

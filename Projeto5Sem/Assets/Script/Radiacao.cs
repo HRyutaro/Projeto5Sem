@@ -5,10 +5,13 @@ using UnityEngine;
 public class Radiacao : MonoBehaviour
 {
     public float timeDestroy;
-    public int valor;
+    public int valorMin;
+    public int valorMax;
+    private int valor;
 
     void Start()
     {
+        valor = Random.Range(valorMin, valorMax);
         Destroy(gameObject, timeDestroy);
     }
 
