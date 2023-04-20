@@ -2349,7 +2349,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Sombra de Chernobly:'
+  m_Text: 'Sombra de Chernobyl:'
 --- !u!222 &905283347
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -3518,8 +3518,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 24f8cc47ed2ca7148a53bc0801a3a954, type: 3}
   speechtxt:
   - "Ssss... quem \xE9 voc\xEA gato imundo ..ssS"
-  - "Ssss... aa n\xE3o importa, irei te matar ...ssS"
-  - "Oqu\xE9 ? Pera?"
+  - "Ssss... aa n\xE3o importa, irei te devorar agora! ...ssS"
+  - Pera ... O QUE?!
   nome:
   - Cobra
   - Cobra
@@ -6852,6 +6852,7 @@ MonoBehaviour:
   - {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 21300000, guid: 89ab82da63ac4934a8238145f47a241f, type: 3}
   - {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 21300000, guid: 24f8cc47ed2ca7148a53bc0801a3a954, type: 3}
   - {fileID: 21300000, guid: 24f8cc47ed2ca7148a53bc0801a3a954, type: 3}
   speechtxt:
@@ -6879,11 +6880,11 @@ MonoBehaviour:
     olho, barriquei algumas das portas para impedir os mutantes de chegarem at\xE9
     mim. Mas voc\xEA tem cara de ser inteligente, ent\xE3o n\xE3o vai ser uma tarefa
     t\xE3o dif\xEDcil. At\xE9 logo "
-  - "-Isso. N\xE3o temos tempo a perder, siga por essa porta e encontre e feche os
-    portais. Estarei logo atr\xE1s de voc\xEA arrumando essa bagun\xE7a. Fique de
-    olho, barriquei algumas das portas para impedir os mutantes de chegarem at\xE9
-    mim. Mas voc\xEA tem cara de ser inteligente, ent\xE3o n\xE3o vai ser uma tarefa
-    t\xE3o dif\xEDcil. At\xE9 logo "
+  - "-AH! E quase me esqueci, espalhados pela minha linda f\xE1brica voc\xEA encontrar\xE1
+    diversos reagentes para criar po\xE7\xF5es que te auxiliar\xE3o em sua jornada
+    - procure tamb\xE9m por bancadas  pela f\xE1brica, nelas voc\xEA poder\xE1 misturar
+    reagentes para criar suas po\xE7\xF5es. At\xE9 logo!  "
+  - -Mutantes ?!
   nome:
   - ???
   - ???
@@ -6895,6 +6896,7 @@ MonoBehaviour:
   - Ivan Ivanov
   - "O Incr\xEDvel Senhor Mortimer"
   - Ivan Ivanov
+  - "O Incr\xEDvel Senhor Mortimer"
   - "O Incr\xEDvel Senhor Mortimer"
   - Ivan Ivanov
   - Ivan Ivanov
@@ -9115,7 +9117,7 @@ MonoBehaviour:
   controlSlide1: {fileID: 561248355}
   controlSlide2: {fileID: 524168269}
   slideTutorial: {fileID: 981638331}
-  modoDeus: 0
+  modoDeus: 1
   musica: {fileID: 58237024}
   son: {fileID: 1151937887}
   pertoDaTable: 0
@@ -9210,13 +9212,18 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e9e4f2b65ad7a4044877dcdda1d2e733, type: 3}
   - {fileID: 21300000, guid: 24f8cc47ed2ca7148a53bc0801a3a954, type: 3}
   - {fileID: 21300000, guid: dddf9b764e784624caaaaa16c485dece, type: 3}
-  - {fileID: 21300000, guid: dddf9b764e784624caaaaa16c485dece, type: 3}
+  - {fileID: 21300000, guid: 89ab82da63ac4934a8238145f47a241f, type: 3}
+  - {fileID: 21300000, guid: 89ab82da63ac4934a8238145f47a241f, type: 3}
   speechtxt:
   - "-Ai\u2026 minha cabe\xE7a, o que aconteceu? "
   - "-U\xE9, onde estou? Cad\xEA a usina? Eu s\xF3 lembro da explos\xE3o e\u2026"
   - "-O QUE?! EU TENHO UM RABO O QUE EST\xC1 ACONTECENDO COMIGO?! Ivan respira."
+  - "-Preciso descobrir o que aconteceu, talvez tenha algu\xE9m aqui que possa me
+    ajudar."
   nome:
   - Ivan Ivanov
+  - 'Ivan Ivanov '
+  - 'Ivan Ivanov '
   - 'Ivan Ivanov '
   - 'Ivan Ivanov '
   - 'Ivan Ivanov '
