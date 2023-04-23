@@ -104,7 +104,6 @@ public class Player : MonoBehaviour
             Vida();
             trocarPocao();
             atackPocao();
-            AtackRange();
         }
     }
 
@@ -425,7 +424,7 @@ public class Player : MonoBehaviour
             {
                 GameController.numeroPocoesAtual = temPocaoMana;
                 pocao.tipoDapocao = 1;
-                print("pocao Mana");
+                print("pocao Raio");
             }
             else if(pocao.tipoDapocao == 1)
             {
@@ -464,7 +463,7 @@ public class Player : MonoBehaviour
         else if (pocao.tipoDapocao == 1)
         {
             GameController.numeroPocoesAtual = temPocaoMana; 
-            print("pocao Mana");
+            print("pocao Raio");
         }
         else if (pocao.tipoDapocao == 2)
         {
@@ -587,7 +586,7 @@ public class Player : MonoBehaviour
         }
         if(other.gameObject.tag == "Brutamontes" && TomouDano == false)
         {
-            TomarDano(3,9);
+            TomarDano(3,100);
         }
 
         if (other.gameObject.tag == "Guspe" && TomouDano == false)

@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour
     public Text numeroPocoes;
     public Text numeroRadiacao;
     public Slider vida;
-    public Slider mana;
+    //public Slider mana;
     public Slider dash;
     public GameObject[] FaceGato;
 
@@ -95,7 +95,7 @@ public class GameController : MonoBehaviour
         slideTutorial.value = pularTutorialSlideValue;
         Time.timeScale = 1;
         vida.maxValue = Player.instance.VidaTotal;
-        mana.maxValue = Player.instance.manaTotal;
+        //mana.maxValue = Player.instance.manaTotal;
         musica.value = GameControllerMenu.musicaValor;
         son.value = GameControllerMenu.musicaValor;
         pertoDaTable = false;
@@ -109,7 +109,6 @@ public class GameController : MonoBehaviour
         PocaoHud();
         dashHud();
         updateNumerosHud();
-        ManaHud();
         showPause();
         ControlePause();
         ShowInventario();
@@ -613,8 +612,8 @@ public class GameController : MonoBehaviour
     }
     void ManaHud()
     {
-        mana.maxValue = Player.instance.manaTotal;
-        mana.value = Player.instance.manaAtual;
+        //mana.maxValue = Player.instance.manaTotal;
+        //mana.value = Player.instance.manaAtual;
     }
 
     void PocaoHud()
