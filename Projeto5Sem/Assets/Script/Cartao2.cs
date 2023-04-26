@@ -5,7 +5,7 @@ using UnityEngine;
 public class Cartao2 : MonoBehaviour
 {
     public Animator anim;
-
+    public GameObject itemtodo;
     void Start()
     {
         anim.SetBool("Ativar", true);
@@ -17,6 +17,7 @@ public class Cartao2 : MonoBehaviour
         {
             Player.instance.TemCartao2 = true;
             Destroy(gameObject);
+            Destroy(itemtodo);
 
         }
     }

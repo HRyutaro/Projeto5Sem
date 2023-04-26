@@ -8,8 +8,6 @@ public class Dialogo : MonoBehaviour
     public string[] speechtxt;
     public string[] nome;
 
-    public GameObject interecao;
-
     public LayerMask playerLayer;
     public float radious;
 
@@ -21,6 +19,10 @@ public class Dialogo : MonoBehaviour
 
     public int proxSprite = 0;
 
+    public bool forcarInte;
+    private bool forcar;
+    private bool isForced = false;
+
     private void Start()
     {
         dc = FindObjectOfType<DialogoControl>();
@@ -31,7 +33,13 @@ public class Dialogo : MonoBehaviour
     }
     private void Update()
     {
-        if(Input.GetButtonDown("Interacao") && podeInteragir == true || Input.GetKeyDown(KeyCode.E) && podeInteragir == true)
+        Semforce();
+        Forcar();
+    }
+
+    void Semforce()
+    {
+        if (Input.GetButtonDown("Interacao") && podeInteragir == true && Player.tipoDeControle == 0)
         {
             if (interagiu == false)
             {
@@ -42,14 +50,51 @@ public class Dialogo : MonoBehaviour
                 interagiu = true;
             }
 
-            
+
         }
+        else if (Input.GetKeyDown(KeyCode.E) && podeInteragir == true && Player.tipoDeControle == 1)
+        {
+            if (interagiu == false)
+            {
+                GameController.instance.isPause = true;
+                dc.Speech(profile[0], speechtxt, nome[0]);
+                Player.instance.isPaused = true;
+                Player.instance.stop = true;
+                interagiu = true;
+            }
+
+
+        }
+
         if (interagiu == true && podeSeguir == true)
         {
             if (Input.GetButtonDown("Submit"))
             {
                 ++proxSprite;
-                dc.NextSentence(profile[proxSprite],nome[proxSprite]);
+                dc.NextSentence(profile[proxSprite], nome[proxSprite]);
+                podeSeguir = false;
+            }
+        }
+    }
+
+    void Forcar()
+    {
+        
+        if(forcar && !isForced)
+        {
+            GameController.instance.isPause = true;
+            dc.Speech(profile[0], speechtxt, nome[0]);
+            Player.instance.isPaused = true;
+            Player.instance.stop = true;
+            forcar = false;
+            isForced = true;
+        }
+        if (isForced == true && podeSeguir == true)
+        {
+            if (Input.GetButtonDown("Submit"))
+            {
+                ++proxSprite;
+                dc.NextSentence(profile[proxSprite], nome[proxSprite]);
                 podeSeguir = false;
             }
         }
@@ -58,15 +103,25 @@ public class Dialogo : MonoBehaviour
     public void Interacao()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, radious, playerLayer);
-        if (hits.Length > 0)
+        if(forcarInte == false)
         {
-            podeInteragir = true;
-            interecao.SetActive(true);
+            if (hits.Length > 0)
+            {
+                podeInteragir = true;
+                GameController.instance.interacaoNatela = true;
+            }
+            else
+            {
+                podeInteragir = false;
+                GameController.instance.interacaoNatela = false;
+            }
         }
-        else
+        else if(forcarInte == true)
         {
-            podeInteragir = false;
-            interecao.SetActive(false);
+            if (hits.Length > 0)
+            {
+                forcar = true;
+            }
         }
 
     }

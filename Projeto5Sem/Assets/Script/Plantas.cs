@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class Plantas : MonoBehaviour
 {
     public int planta;
-    public GameObject textoInte;
     private int quantidadeDePlantas;
     public Text quantosPegou;
     private bool podePegar;
@@ -29,14 +28,14 @@ public class Plantas : MonoBehaviour
     }
     void PegarPlanta()
     {
-        if (Input.GetButtonDown("Interacao") && podePegar == true || Input.GetKeyDown(KeyCode.E) && podePegar == true)
+        if (Input.GetButtonDown("Interacao") && podePegar == true && Player.tipoDeControle == 0 || Input.GetKeyDown(KeyCode.E) && podePegar == true && Player.tipoDeControle == 1)
         {
             if (planta == 0)
             {
                 Player.instance.temPlantaCura += quantidadeDePlantas;
                 quantosPegou.text = ("Pegou " + quantidadeDePlantas + " Raiz da Vida");
                 StartCoroutine(PegouPlanta());
-                textoInte.SetActive(false);
+                GameController.instance.interacaoNatela = false;
                 Destroy(gameObject, 1);
             }
             else if (planta == 1)
@@ -44,7 +43,7 @@ public class Plantas : MonoBehaviour
                 Player.instance.temPlantaMana += quantidadeDePlantas;
                 quantosPegou.text = ("Pegou " + quantidadeDePlantas + " Raiz Magica");
                 StartCoroutine(PegouPlanta());
-                textoInte.SetActive(false);
+                GameController.instance.interacaoNatela = false;
                 Destroy(gameObject, 1);
             }
             else if (planta == 2)
@@ -52,7 +51,7 @@ public class Plantas : MonoBehaviour
                 Player.instance.temPlantaGelo += quantidadeDePlantas;
                 quantosPegou.text = ("Pegou " + quantidadeDePlantas + " Cogumelos Gelidos");
                 StartCoroutine(PegouPlanta());
-                textoInte.SetActive(false);
+                GameController.instance.interacaoNatela = false;
                 Destroy(gameObject, 1);
             }
             else if (planta == 3)
@@ -60,7 +59,7 @@ public class Plantas : MonoBehaviour
                 Player.instance.temPlantaFumaca += quantidadeDePlantas;
                 quantosPegou.text = ("Pegou " + quantidadeDePlantas + " Pinhas Fumacentas");
                 StartCoroutine(PegouPlanta());
-                textoInte.SetActive(false);
+                GameController.instance.interacaoNatela = false;
                 Destroy(gameObject, 1);
             }
             else if (planta == 4)
@@ -68,7 +67,7 @@ public class Plantas : MonoBehaviour
                 Player.instance.temPlantaFogo += quantidadeDePlantas;
                 quantosPegou.text = ("Pegou " + quantidadeDePlantas + " Tentaculos Vulcanicos");
                 StartCoroutine(PegouPlanta());
-                textoInte.SetActive(false);
+                GameController.instance.interacaoNatela = false;
                 Destroy(gameObject, 1);
             }
         }
@@ -107,8 +106,7 @@ public class Plantas : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            textoInte.SetActive(true);
-            Player.instance.blockByInt = true;
+            GameController.instance.interacaoNatela = true;
             podePegar = true;
 
         }
@@ -119,8 +117,7 @@ public class Plantas : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            textoInte.SetActive(false);
-            Player.instance.blockByInt = false;
+            GameController.instance.interacaoNatela = false;
             podePegar = false;
         }
     }

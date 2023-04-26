@@ -30,6 +30,8 @@ public class BossCobra : MonoBehaviour
     public MeshRenderer mesh2;
     public MeshRenderer mesh3;
     public static bool startBossBattle;
+    public GameObject olhoD;
+    public GameObject olhoE;
 
     [Header("Ataque")]
     public GameObject prefabGuspe;
@@ -38,11 +40,14 @@ public class BossCobra : MonoBehaviour
     public float cdTrocaDePosicao;
     public float forcaGuspe;
     private bool guspiu;
+    private float primeiroAtack;
 
+    public GameObject frioEffect;
     void Start()
     {
         vidaAtual = vida;
         speedAtual = speed;
+        primeiroAtack = 3;
     }
 
     void Update()
@@ -57,18 +62,28 @@ public class BossCobra : MonoBehaviour
                 Atacar();
             }
         }
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            startBossBattle = true;
+        }
     }
 
     void controleVida()
     {
         if(vidaAtual <= 4)
         {
-            anim.SetBool("dieing", true);
-            Corpo.SetActive(false);
+            anim.speed = 1;
+            olhoD.SetActive(true);
+            olhoE.SetActive(true);
         }
         else if(vidaAtual <= 0)
         {
             isDead = true;
+            col.enabled = false;
+            mesh.enabled = false;
+            mesh2.enabled = false;
+            mesh3.enabled = false;
+            Instantiate(drop, gameObject.transform.position, gameObject.transform.rotation);
             Destroy(gameObject, 1);
         }
     }
@@ -94,68 +109,32 @@ public class BossCobra : MonoBehaviour
         }
 
     }
+    void AtaqueGuspe()
+    {
+        GameObject guspe = Instantiate(prefabGuspe, spawnprefab[0].position, spawnprefab[0].rotation);
+        GameObject guspe1 = Instantiate(prefabGuspe, spawnprefab[1].position, spawnprefab[1].rotation);
+        GameObject guspe2 = Instantiate(prefabGuspe, spawnprefab[2].position, spawnprefab[2].rotation);
+        GameObject guspe3 = Instantiate(prefabGuspe, spawnprefab[3].position, spawnprefab[3].rotation);
+        GameObject guspe4 = Instantiate(prefabGuspe, spawnprefab[4].position, spawnprefab[4].rotation);
+    }
+    IEnumerator atacarGuspe()
+    {
+        yield return new WaitForSeconds(primeiroAtack);
+        AtaqueGuspe();
+        yield return new WaitForSeconds(cdAtackGuspe);
+        AtaqueGuspe();
+        yield return new WaitForSeconds(cdAtackGuspe);
+        guspiu = false;
+        trocar = true;
+        trocou = 0;
+        primeiroAtack = 1;
+    }
+
+
     void Andar()
     {
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
-    void Congelado()
-    {
-        StartCoroutine("EfeitoGelo");
-        if (vidaAtual >= 1)
-        {
-            anim.speed = 0.5f;
-            --vidaAtual;
-        }
-        else if (vidaAtual <= 0)
-        {
-            isDead = true;
-            col.enabled = false;
-            mesh.enabled = false;
-            mesh2.enabled = false;
-            mesh3.enabled = false;
-            Instantiate(drop, gameObject.transform.position, gameObject.transform.rotation);
-            Destroy(gameObject, 1f);
-        }
-    }
-    void TomarDano(float dano)
-    {
-        StartCoroutine("DanoCorCD");
-        if (vidaAtual >= 1)
-        {
-            vidaAtual -= 1;
-            tomouDano = true;
-        }
-        if (vidaAtual <= 0)
-        {
-            isDead = true;
-            col.enabled = false;
-            mesh.enabled = false;
-            mesh2.enabled = false;
-            mesh3.enabled = false;
-            Instantiate(drop, gameObject.transform.position, gameObject.transform.rotation);
-            Destroy(gameObject, 1f);
-        }
-    }
-    void TomarDanoFogo()
-    {
-        StartCoroutine("DanoCorCDFogo");
-        if (vidaAtual >= 1)
-        {
-            tomouDano = true;
-            --vidaAtual;
-        }
-        if (vidaAtual <= 0)
-        {
-            isDead = true;
-            col.enabled = false;
-            mesh.enabled = false;
-            mesh2.enabled = false;
-            mesh3.enabled = false;
-            Instantiate(drop, gameObject.transform.position, gameObject.transform.rotation);
-            Destroy(gameObject, 1f);
-        }
-    }
-
     void trocarDePosicao()
     {
         if(trocou == 4)
@@ -176,49 +155,19 @@ public class BossCobra : MonoBehaviour
             }
         }
     }
-    void AtaqueGuspe()
-    {
-        GameObject guspe = Instantiate(prefabGuspe, spawnprefab[0].position, spawnprefab[0].rotation);
-        GameObject guspe1 = Instantiate(prefabGuspe, spawnprefab[1].position, spawnprefab[1].rotation);
-        GameObject guspe2 = Instantiate(prefabGuspe, spawnprefab[2].position, spawnprefab[2].rotation);
-        GameObject guspe3 = Instantiate(prefabGuspe, spawnprefab[3].position, spawnprefab[3].rotation);
-        GameObject guspe4 = Instantiate(prefabGuspe, spawnprefab[4].position, spawnprefab[4].rotation);
-    }
-
-    IEnumerator atacarGuspe()
-    {
-        AtaqueGuspe();
-        yield return new WaitForSeconds(cdAtackGuspe);
-        AtaqueGuspe();
-        yield return new WaitForSeconds(cdAtackGuspe);
-        guspiu = false;
-        trocar = true;
-        trocou = 0;
-    }
-
     IEnumerator TrocarDeposicao()
     {
         yield return new WaitForSeconds(cdTrocaDePosicao);
         ++ trocou;
         trocar = true;
     }
-    IEnumerator CDTomarDano()
-    {
-        tomouDano = true;
-        yield return new WaitForSeconds(0.3f);
-        tomouDano = false;
-    }
-    IEnumerator EfeitoGelo()
-    {
-        speedAtual = 0.01f;
-        yield return new WaitForSeconds(3f);
-        speedAtual = speed;
-        mesh.material.color = corNormal;
-        mesh2.material.color = corNormal;
-        mesh3.material.color = corNormal;
 
-    }
 
+    void TomarDano(float dano)
+    {
+        StartCoroutine(DanoCorCD());
+        --vidaAtual;
+    }
     IEnumerator DanoCorCD()
     {
         mesh.material.color = Color.red;
@@ -230,18 +179,47 @@ public class BossCobra : MonoBehaviour
         mesh3.material.color = corNormal;
     }
 
+
+    IEnumerator CDTomarDano()
+    {
+        tomouDano = true;
+        yield return new WaitForSeconds(0.3f);
+        tomouDano = false;
+    }
+
+
+    void Congelado()
+    {
+        StartCoroutine(EfeitoGelo());
+    }
+    IEnumerator EfeitoGelo()
+    {
+        --vidaAtual;
+        frioEffect.SetActive(true);
+        mesh.material.color = corGelado;
+        mesh2.material.color = corGelado;
+        mesh3.material.color = corGelado;
+        yield return new WaitForSeconds(1f);
+        --vidaAtual;
+        yield return new WaitForSeconds(1f);
+        frioEffect.SetActive(false);
+        mesh.material.color = corNormal;
+        mesh2.material.color = corNormal;
+        mesh3.material.color = corNormal;
+
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("espada") && !tomouDano)
         {
-            StartCoroutine("CDTomarDano");
+            StartCoroutine(CDTomarDano());
             TomarDano(1);
         }
         if (other.gameObject.tag == "gelo" && !tomouDano)
         {
-            StartCoroutine("CDTomarDano");
+            StartCoroutine(CDTomarDano());
             Congelado();
-            GetComponent<Renderer>().material.color = corGelado;
         }
 
     }

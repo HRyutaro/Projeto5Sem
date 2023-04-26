@@ -9,6 +9,12 @@ public class GameController : MonoBehaviour
 {
     public static GameController instance;
 
+    [Header("CheckPoint")]
+    public int almasTotal;
+    public static int almasAtual;
+    public GameObject[] checkPoint;
+    public static int checkpointNumber;
+
     [Header("HUD")]
     public GameObject[] Pocoes;
     public static int numeroPocoesAtual;
@@ -18,6 +24,10 @@ public class GameController : MonoBehaviour
     //public Slider mana;
     public Slider dash;
     public GameObject[] FaceGato;
+    public Image interacao;
+    public Text interacao2;
+    public bool interacaoNatela;
+
 
     [Header("Pause")]
     public GameObject Pause;
@@ -34,10 +44,11 @@ public class GameController : MonoBehaviour
     public GameObject pularTutorialBotao;
 
     [Header("config")]
-    public Slider controlSlide1;
-    public Slider controlSlide2;
+    public Slider controlSlide;
     public Slider slideTutorial;
     public bool modoDeus;
+    public GameObject eventSytem;
+    public GameObject eventSytem1;
 
     [Header("Sons")]
     public Slider musica;
@@ -56,6 +67,9 @@ public class GameController : MonoBehaviour
     public Text inventarioBancada;
     public GameObject[] cartaoKey;
     public GameObject[] infocartaoKey;
+    public GameObject botaoFabricar;
+    public Image imageInteracaoInventario;
+    public Text textoInteracaoInventario;
 
 
     [SerializeField]
@@ -74,7 +88,7 @@ public class GameController : MonoBehaviour
     private bool inTutorial;
     public static bool pularTutorial;
     public static int pularTutorialSlideValue;
-
+    public Image imageInteracaotutorial;
     public Collider pisoTutorial;
     public GameObject tutorialBasico;
     [HideInInspector]public bool outPisoTutorial;
@@ -85,12 +99,10 @@ public class GameController : MonoBehaviour
     public GameObject tutorialArremesso;
     public int pagTutorial;
 
-    [Header("checkpoint")]
-    public Vector3 checkpointPosition;
-
     void Start()
     {
         DialogoControl.dialogo = 1;
+        almasAtual = almasTotal;
         instance = this;
         slideTutorial.value = pularTutorialSlideValue;
         Time.timeScale = 1;
@@ -120,27 +132,39 @@ public class GameController : MonoBehaviour
         ShowTutorial();
         controleTutorial();
         ControleKeys();
+        ShowInteracao();
+        controleEventeSystem();
     }
 
-    public void voltarCheckpoint()
+    void Cheat()
     {
-        checkpointPosition = transform.position;
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            Player.instance.Radiacao++;
+        }
     }
-    public Vector3 GetCheckpointPosition()
+    void controleEventeSystem()
     {
-        return checkpointPosition;
+        if(Player.tipoDeControle == 0)
+        {
+            eventSytem.SetActive(true);
+            eventSytem1.SetActive(false);
+        }
+        if (Player.tipoDeControle == 1)
+        {
+            eventSytem.SetActive(false);
+            eventSytem1.SetActive(true);
+        }
     }
     void checkcontroles()
     {
-        if(Player.op == 1)
+        if(Player.tipoDeControle == 0)
         {
-            controlSlide1.value = 0;
-            controlSlide2.value = 1;
+            controlSlide.value = 0;
         }
-        else if(Player.op == 2)
+        else if(Player.tipoDeControle == 1)
         {
-            controlSlide1.value = 1;
-            controlSlide2.value = 0;
+            controlSlide.value = 1;
         }
     }
     public void ControlePause()
@@ -155,7 +179,6 @@ public class GameController : MonoBehaviour
                 sounds[1].SetActive(false);
                 sairCtz[0].SetActive(false);
                 controls[0].SetActive(false);
-                controls[1].SetActive(false);
                 menuButtons[0].SetActive(true);
                 menuButtons[1].SetActive(true);
                 menuButtons[2].SetActive(true);
@@ -179,7 +202,6 @@ public class GameController : MonoBehaviour
                 sounds[0].SetActive(false);
                 sounds[1].SetActive(false);
                 controls[0].SetActive(false);
-                controls[1].SetActive(false);
                 menuButtons[0].SetActive(false);
                 menuButtons[1].SetActive(false);
                 menuButtons[2].SetActive(false);
@@ -195,11 +217,10 @@ public class GameController : MonoBehaviour
             {
             
                 sound.SetActive(false);
-                control.SetActive(true);
+                control.SetActive(false);
                 sounds[0].SetActive(false);
                 sounds[1].SetActive(false);
                 controls[0].SetActive(true);
-                controls[1].SetActive(true);
                 menuButtons[0].SetActive(false);
                 menuButtons[1].SetActive(false);
                 menuButtons[2].SetActive(false);
@@ -213,12 +234,11 @@ public class GameController : MonoBehaviour
             else if(PaginasMenu == 3) // Sounds
             {
             
-                sound.SetActive(true);
+                sound.SetActive(false);
                 control.SetActive(false);
                 sounds[0].SetActive(true);
                 sounds[1].SetActive(true);
                 controls[0].SetActive(false);
-                controls[1].SetActive(false);
                 menuButtons[0].SetActive(false);
                 menuButtons[1].SetActive(false);
                 menuButtons[2].SetActive(false);
@@ -237,7 +257,6 @@ public class GameController : MonoBehaviour
                 sounds[1].SetActive(false);
                 sairCtz[0].SetActive(true);
                 controls[0].SetActive(false);
-                controls[1].SetActive(false);
                 menuButtons[0].SetActive(true);
                 menuButtons[1].SetActive(true);
                 menuButtons[2].SetActive(true);
@@ -299,25 +318,13 @@ public class GameController : MonoBehaviour
     }
     public void controleConfig()
     {
-        if (controlSlide1.value == 0)
+        if (controlSlide.value == 0)
         {
-            Player.op = 1;
-            controlSlide2.value = 1;
+            Player.tipoDeControle = 0;
         }
-        else if(controlSlide1.value == 1)
+        else if(controlSlide.value == 1)
         {
-            Player.op = 2;
-            controlSlide2.value = 0;
-        }
-        if(controlSlide2.value == 0)
-        {
-            Player.op = 2;
-            controlSlide1.value = 1;
-        }
-        else if (controlSlide1.value == 1)
-        {
-            Player.op = 1;
-            controlSlide2.value = 0;
+            Player.tipoDeControle = 1;
         }
     }
     public void Restart()
@@ -668,7 +675,7 @@ public class GameController : MonoBehaviour
 
     void ShowGameOver()
     {
-        if(Player.VidaAtual <= 0)
+        if(almasAtual <= 0)
         {
             gameOver.SetActive(true);
             if(Input.GetButtonDown("Submit"))
@@ -684,7 +691,7 @@ public class GameController : MonoBehaviour
 
     public void ShowInventario2()
     {
-        if (Input.GetButtonDown("Inventario") && isPause == false || Input.GetKeyDown(KeyCode.Tab) && isPause == false)
+        if (Input.GetButtonDown("Inventario") && isPause == false && Player.tipoDeControle == 0)
         {
             if (inInventario == false)
             {
@@ -695,6 +702,32 @@ public class GameController : MonoBehaviour
                 Player.instance.isPaused = true;
                 inventarioBancada.text = "Inventario";
                 EventSystem.current.SetSelectedGameObject(inventButtons[0]);
+                imageInteracaoInventario.enabled = false;
+                textoInteracaoInventario.enabled = false;
+            }
+            else if (inInventario == true)
+            {
+                inInventario = false;
+                inInventario2 = false;
+                StartCoroutine(SairMenu());
+                Inventario.SetActive(false);
+                Player.instance.stop = false;
+                Player.instance.isPaused = false;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Tab) && isPause == false && Player.tipoDeControle == 1)
+        {
+            if (inInventario == false)
+            {
+                inInventario = true;
+                inInventario2 = true;
+                Inventario.SetActive(true);
+                Player.instance.stop = true;
+                Player.instance.isPaused = true;
+                inventarioBancada.text = "Inventario";
+                EventSystem.current.SetSelectedGameObject(inventButtons[0]);
+                imageInteracaoInventario.enabled = true;
+                textoInteracaoInventario.enabled = true;
             }
             else if (inInventario == true)
             {
@@ -710,7 +743,7 @@ public class GameController : MonoBehaviour
 
     public void ShowInventario()
     {
-        if (Input.GetButtonDown("Interacao") && pertoDaTable == true && isPause == false || Input.GetKeyDown(KeyCode.E) && pertoDaTable == true && isPause == false)
+        if (Input.GetButtonDown("Interacao") && pertoDaTable == true && isPause == false && Player.tipoDeControle == 0)
         {
             if (inInventario == false)
             {
@@ -718,8 +751,10 @@ public class GameController : MonoBehaviour
                 Inventario.SetActive(true);
                 Player.instance.stop = true;
                 Player.instance.isPaused = true;
-                inventarioBancada.text = "Inventario";
+                inventarioBancada.text = "Bancada de Alquimia";
                 EventSystem.current.SetSelectedGameObject(inventButtons[0]);
+                imageInteracaoInventario.enabled = true;
+                textoInteracaoInventario.enabled = false;
             }
             else if (inInventario == true)
             {
@@ -728,6 +763,32 @@ public class GameController : MonoBehaviour
                 Inventario.SetActive(false);
                 Player.instance.stop = false;
                 Player.instance.isPaused = false;
+                imageInteracaoInventario.enabled = false;
+                textoInteracaoInventario.enabled = false;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.E) && pertoDaTable == true && isPause == false && Player.tipoDeControle == 1)
+        {
+            if (inInventario == false)
+            {
+                inInventario = true;
+                Inventario.SetActive(true);
+                Player.instance.stop = true;
+                Player.instance.isPaused = true;
+                inventarioBancada.text = "Bancada de Alquimia";
+                EventSystem.current.SetSelectedGameObject(inventButtons[0]);
+                imageInteracaoInventario.enabled = false;
+                textoInteracaoInventario.enabled = true;
+            }
+            else if (inInventario == true)
+            {
+                inInventario = false;
+                StartCoroutine(SairMenu());
+                Inventario.SetActive(false);
+                Player.instance.stop = false;
+                Player.instance.isPaused = false;
+                imageInteracaoInventario.enabled = false;
+                textoInteracaoInventario.enabled = false;
             }
         }
     }
@@ -767,8 +828,37 @@ public class GameController : MonoBehaviour
         plantasInvent[3].text = Player.instance.temPlantaFumaca.ToString();
         plantasInvent[4].text = Player.instance.temPlantaFogo.ToString();
 
+        if(Player.tipoDeControle == 0)
+        {
+            imageInteracaoInventario.enabled = true;
+            textoInteracaoInventario.enabled = false;
+        }
+        if (Player.tipoDeControle == 1)
+        {
+            imageInteracaoInventario.enabled = false;
+            textoInteracaoInventario.enabled = true;
+        }
     }
 
+    void ShowInteracao()
+    {
+        if(interacaoNatela == true)
+        {
+            if(Player.tipoDeControle == 0)
+            {
+                interacao.enabled = true;
+            }
+            else if (Player.tipoDeControle == 1)
+            {
+                interacao2.enabled = true;
+            }
+        }
+        else if(interacaoNatela == false)
+        {
+            interacao.enabled = false;
+            interacao2.enabled = false;
+        }
+    }
 
     public void voltarInvetario()
     {
@@ -792,13 +882,21 @@ public class GameController : MonoBehaviour
     {
         if(pularTutorial == false)
         {
-            if(outPisoTutorial == true)
+            if (Player.tipoDeControle == 0)
+            {
+                imageInteracaotutorial.enabled = true;
+            }
+            if (Player.tipoDeControle == 1)
+            {
+                imageInteracaotutorial.enabled = false;
+            }
+            if (outPisoTutorial == true)
             {
                 inTutorial = true;
                 tutorialHud.SetActive(true);
                 tutorialBasico.SetActive(true);
 
-                if(Input.GetButtonDown("Submit"))
+                if (Input.GetButtonDown("Submit"))
                 {
                     inTutorial = false;
                     outPisoTutorial = false;
@@ -873,7 +971,9 @@ public class GameController : MonoBehaviour
     IEnumerator ShowTextInventario()
     {
         naoTem.enabled = true;
+        botaoFabricar.SetActive(false);
         yield return new WaitForSeconds(2.5f);
         naoTem.enabled = false;
+        botaoFabricar.SetActive(true);
     }
 }

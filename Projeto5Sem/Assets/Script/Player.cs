@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public ParticleSystem curar;
     public ParticleSystem curarMana;
     public MeshRenderer playerMesh;
+    public GameObject playerMeshCorpo;
     
 
     [Header("Movimento")]
@@ -27,6 +28,7 @@ public class Player : MonoBehaviour
     [Header("Combat")]
     public GameObject espadaCosta;
     public GameObject espada;
+    public GameObject efeitoEspada;
     public float CDAtack;
     public float CDRange2;
     private bool isCdAtack;
@@ -75,12 +77,10 @@ public class Player : MonoBehaviour
     public float CdTomarDano;
     private bool dashing;
     private bool TomouDano = false;
+    public Color corNormal;
 
     //controles
-    public string op1;
-    public string op2;
-    public bool blockByInt;
-    public static int op;
+    public static int tipoDeControle;
 
     public GameObject Interacao;
 
@@ -94,8 +94,6 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-
-        ControleConfig();
         if (isPaused == false && stop == false)
         {
             AtackMelee();
@@ -109,14 +107,24 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move();
-        Dash();
+        if(isPaused == false && stop == false)
+        {
+            Move();
+            Dash();
+        }
     }
 
     void GatherInput()
     {
-        input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-        input2 = new Vector3(Input.GetAxisRaw("Horizontal2"), 0, Input.GetAxisRaw("Vertical2"));
+        if(tipoDeControle == 0)
+        {
+            input = new Vector3(Input.GetAxisRaw("HorizontalJoystick"), 0, Input.GetAxisRaw("VerticalJoystick"));
+            input2 = new Vector3(Input.GetAxisRaw("Horizontal2"), 0, Input.GetAxisRaw("Vertical2"));
+        }
+        if (tipoDeControle == 1)
+        {
+            input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        }
     }
     void Look()
     {
@@ -138,7 +146,7 @@ public class Player : MonoBehaviour
         if (isAiming == false && isAtacking == false && stop == false)
         {
             rb.velocity = input.toIso() * speedAtual;
-            if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0 && speedAtual >= 1)
+            if (Input.GetAxisRaw("Horizontal") != 0 && speedAtual >= 1 && tipoDeControle == 0 || Input.GetAxisRaw("Vertical") != 0 && speedAtual >= 1 && tipoDeControle == 0)
             {
                 Anim.SetFloat("isRun", 1);
             }
@@ -146,7 +154,6 @@ public class Player : MonoBehaviour
             {
                 Anim.SetFloat("isRun", 0);
             }
-
         }
         
     }
@@ -167,32 +174,29 @@ public class Player : MonoBehaviour
         }
     } //movimento cm transform
 
-    void ControleConfig()
-    {
-        if(op == 1)
-        {
-            op1 = "R1";
-            op2 = "R2";
-        }
-        else if(op == 2)
-        {
-            op1 = "quadrado";
-            op2 = "R1";
-        }
-    }
     void AtackMelee()
     {
-        if(blockByInt == false)
+        if (tipoDeControle == 0)
         {
-            if(Input.GetButtonDown(op1) && isCdAtack == false || Input.GetButtonDown("mouse0") && isCdAtack == false)
+            if (Input.GetButtonDown("R1") && isCdAtack == false)
             {
                 Anim.SetFloat("isRun", 0);
                 StartCoroutine("AtackMeleeTime");
                 StartCoroutine("CDAtackMelee");
-                Vector3 atackingfoward= transform.forward;
+                Vector3 atackingfoward = transform.forward;
                 rb.AddForce(4.5f * atackingfoward, ForceMode.Impulse);
             }
-
+        }
+        else if (tipoDeControle == 1)
+        {
+            if (Input.GetButtonDown("mouse0") && isCdAtack == false)
+            {
+                Anim.SetFloat("isRun", 0);
+                StartCoroutine("AtackMeleeTime");
+                StartCoroutine("CDAtackMelee");
+                Vector3 atackingfoward = transform.forward;
+                rb.AddForce(4.5f * atackingfoward, ForceMode.Impulse);
+            }
         }
     }
 
@@ -239,7 +243,7 @@ public class Player : MonoBehaviour
 
     void atackPocao()
     {
-        if(Input.GetButtonDown(op2) || Input.GetButtonDown("mouse2"))
+        if(Input.GetButtonDown("L1") && tipoDeControle == 0)
         {
             if(isCdRange == false)
             {
@@ -284,7 +288,53 @@ public class Player : MonoBehaviour
                 } // pocao mana
             }
         }
-        if (Input.GetButton(op2) || Input.GetButton("mouse2"))
+        if (Input.GetButtonDown("mouse1") && tipoDeControle == 1)
+        {
+            if (isCdRange == false)
+            {
+                if (pocao.tipoDapocao == 0)
+                {
+                    if (temPocaoCura > 0)
+                    {
+                        if (VidaAtual < VidaTotal)
+                        {
+                            StartCoroutine("Cura");
+                            VidaAtual += 3;
+                            --temPocaoCura;
+                            GameController.numeroPocoesAtual = temPocaoCura;
+                        }
+                        else
+                        {
+                            StartCoroutine("Cura");
+                            --temPocaoCura;
+                            GameController.numeroPocoesAtual = temPocaoCura;
+                        }
+                    }
+                } // pocao cura
+                if (pocao.tipoDapocao == 1)
+                {
+                    if (temPocaoMana > 0)
+                    {
+                        if (manaAtual < manaTotal)
+                        {
+                            StartCoroutine("ManaCura");
+                            manaAtual += 3;
+                            --temPocaoMana;
+                            GameController.numeroPocoesAtual = temPocaoMana;
+                        }
+                        else
+                        {
+                            StartCoroutine("ManaCura");
+                            --temPocaoMana;
+                            GameController.numeroPocoesAtual = temPocaoMana;
+                        }
+                    }
+
+                } // pocao mana
+            }
+        }
+
+        if (Input.GetButton("L1") && tipoDeControle == 0)
         {
             if(isCdRange == false)
             {
@@ -317,7 +367,41 @@ public class Player : MonoBehaviour
                 } // pocao fumaça
             }
         }
-        if (Input.GetButtonUp(op2) || Input.GetButtonUp("mouse2"))
+        if (Input.GetButton("mouse1") && tipoDeControle == 1)
+        {
+            if (isCdRange == false)
+            {
+                if (pocao.tipoDapocao == 2)
+                {
+                    if (temPocaoFogo > 0)
+                    {
+                        isAiming = true;
+                        Anim.SetFloat("Pocao", 1);
+                        Anim.SetFloat("isRun", 0);
+                    }
+                } // pocao Fogo
+                if (pocao.tipoDapocao == 3)
+                {
+                    if (temPocaoGelo > 0)
+                    {
+                        isAiming = true;
+                        Anim.SetFloat("Pocao", 1);
+                        Anim.SetFloat("isRun", 0);
+                    }
+                } // pocao Gelo
+                if (pocao.tipoDapocao == 4)
+                {
+                    if (temPocaoFumaca > 0)
+                    {
+                        isAiming = true;
+                        Anim.SetFloat("Pocao", 1);
+                        Anim.SetFloat("isRun", 0);
+                    }
+                } // pocao fumaça
+            }
+        }
+
+        if (Input.GetButtonUp("L1") && tipoDeControle == 0)
         {
             if (pocao.tipoDapocao == 2)
             {
@@ -372,17 +456,81 @@ public class Player : MonoBehaviour
                 }
             } // pocao fumaça
         }
+        if (Input.GetButtonUp("mouse1") && tipoDeControle == 1)
+        {
+            if (pocao.tipoDapocao == 2)
+            {
+                if (temPocaoFogo > 0)
+                {
+                    if (isCdRange == false)
+                    {
+                        --temPocaoFogo;
+                        Anim.SetFloat("Pocao", 0);
+                        StartCoroutine("CDAtackRange");
+                        StartCoroutine(TimetoAiming());
+                        Vector3 direcao = transform.forward;
+                        GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
+                        pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
+                        GameController.numeroPocoesAtual = temPocaoFogo;
 
+                    }
+                }
+            } // pocao Fogo
+            if (pocao.tipoDapocao == 3)
+            {
+                if (temPocaoGelo > 0)
+                {
+                    if (isCdRange == false)
+                    {
+                        --temPocaoGelo;
+                        Anim.SetFloat("Pocao", 0);
+                        StartCoroutine("CDAtackRange");
+                        StartCoroutine(TimetoAiming());
+                        Vector3 direcao = transform.forward;
+                        GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
+                        pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
+                        GameController.numeroPocoesAtual = temPocaoGelo;
+                    }
+                }
+            } // pocao Gelo
+            if (pocao.tipoDapocao == 4)
+            {
+                if (temPocaoFumaca > 0)
+                {
+                    if (isCdRange == false)
+                    {
+                        --temPocaoFumaca;
+                        Anim.SetFloat("Pocao", 0);
+                        StartCoroutine("CDAtackRange");
+                        StartCoroutine(TimetoAiming());
+                        Vector3 direcao = transform.forward;
+                        GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
+                        pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
+                        GameController.numeroPocoesAtual = temPocaoFumaca;
+                    }
+                }
+            } // pocao fumaça
+        }
     }
     
     void Vida()
     {
-        if(VidaAtual <= 0)
+        if(GameController.almasAtual <= 0)
         {
             gameObject.SetActive(false);
+
+        }
+        else if(VidaAtual <= 0)
+        {
+            GameController.almasAtual --;
+            reiniciar();
         }
     }
-    
+
+    void reiniciar()
+    {
+        gameObject.transform.position = GameController.instance.checkPoint[GameController.checkpointNumber].transform.position;
+    }
     public void TomarDano(int Dano,float Empurrao)
     {
         if(GameController.instance.modoDeus == false)
@@ -404,21 +552,30 @@ public class Player : MonoBehaviour
 
     void Dash()
     {
+        if(isPaused == false && stop == false )
+        {
+           if(Input.GetButton("bolinha") && isDashing == 4 && tipoDeControle == 0 && stop == false)
+           {
+                isDashing = 0;
+                Vector3 dashing = transform.forward;
+                rb.AddForce(dashing * forcaDash, ForceMode.Impulse);
+                StartCoroutine("CdDash");
+           }
+           else if (Input.GetKeyDown(KeyCode.LeftShift) && isDashing == 4 && tipoDeControle == 1)
+           {
+                isDashing = 0;
+                Vector3 dashing = transform.forward;
+                rb.AddForce(dashing * forcaDash, ForceMode.Impulse);
+                StartCoroutine("CdDash");
+           }
 
-       if(Input.GetButton("bolinha") && isDashing == 4)
-       {
-            isDashing = 0;
-            Vector3 dashing = transform.forward;
-            rb.AddForce(dashing * forcaDash, ForceMode.Impulse);
-            StartCoroutine("CdDash");
-       }
-
+        }
     }
 
     void trocarPocao()
     {
 
-        if (Input.GetButtonDown("triangulo") || Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetButtonDown("triangulo") && tipoDeControle == 0)
         {
             if(pocao.tipoDapocao == 0)
             {
@@ -427,6 +584,39 @@ public class Player : MonoBehaviour
                 print("pocao Raio");
             }
             else if(pocao.tipoDapocao == 1)
+            {
+                GameController.numeroPocoesAtual = temPocaoFogo;
+                pocao.tipoDapocao = 2;
+                print("pocao Fogo");
+            }
+            else if (pocao.tipoDapocao == 2)
+            {
+                GameController.numeroPocoesAtual = temPocaoGelo;
+                pocao.tipoDapocao = 3;
+                print("pocao gelo");
+            }
+            else if (pocao.tipoDapocao == 3)
+            {
+                GameController.numeroPocoesAtual = temPocaoFumaca;
+                pocao.tipoDapocao = 4;
+                print("pocao fumaca");
+            }
+            else if (pocao.tipoDapocao == 4)
+            {
+                GameController.numeroPocoesAtual = temPocaoCura;
+                pocao.tipoDapocao = 0;
+                print("pocao Cura");
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Q) && tipoDeControle == 1)
+        {
+            if (pocao.tipoDapocao == 0)
+            {
+                GameController.numeroPocoesAtual = temPocaoMana;
+                pocao.tipoDapocao = 1;
+                print("pocao Raio");
+            }
+            else if (pocao.tipoDapocao == 1)
             {
                 GameController.numeroPocoesAtual = temPocaoFogo;
                 pocao.tipoDapocao = 2;
@@ -491,13 +681,13 @@ public class Player : MonoBehaviour
     {
         dashing = true;
         speedAtual = speedAtual + 5;
-        playerMesh.enabled = false;
+        playerMeshCorpo.SetActive(false);
         espadaCosta.SetActive(false);
         rastroDash.emitting = true;
         yield return new WaitForSeconds(timeInDashing);
         dashing = false;
         speedAtual = speed;
-        playerMesh.enabled = true;
+        playerMeshCorpo.SetActive(true);
         rastroDash.emitting = false;
         espadaCosta.SetActive(true);
         isDashing += 1;
@@ -516,12 +706,14 @@ public class Player : MonoBehaviour
         stop = true; 
         isAtacking = true;
         espada.SetActive(true);
+        efeitoEspada.SetActive(true);
         Anim.SetFloat("Atack", 1);
         espadaCosta.SetActive(false);
         yield return new WaitForSeconds(0.5f);
         stop = false;
         isAtacking = false;
         espada.SetActive(false);
+        efeitoEspada.SetActive(false);
         Anim.SetFloat("Atack", 0);
         espadaCosta.SetActive(true);
     }
@@ -550,7 +742,9 @@ public class Player : MonoBehaviour
     {
         stop = true;
         TomouDano = true;
+        playerMesh.material.color = Color.red;
         yield return new WaitForSeconds(CdTomarDano);
+        playerMesh.material.color = corNormal;
         TomouDano = false;
         stop = false;
 
@@ -580,8 +774,7 @@ public class Player : MonoBehaviour
 
         if (other.gameObject.CompareTag("worktable"))
         {
-            blockByInt = true;
-            Interacao.SetActive(true);
+            GameController.instance.interacaoNatela = true;
             GameController.instance.pertoDaTable = true;
         }
         if(other.gameObject.tag == "Brutamontes" && TomouDano == false)
@@ -597,10 +790,6 @@ public class Player : MonoBehaviour
         {
             TomarDano(1, 10);
         }
-        if (other.gameObject.tag == "StartBoss")
-        {
-            GameController.instance.voltarCheckpoint();
-        }
 
         if (GameController.pularTutorial == false)
         {
@@ -615,8 +804,7 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.CompareTag("worktable"))
         {
-            blockByInt = false;
-            Interacao.SetActive(false);
+            GameController.instance.interacaoNatela = false;
             GameController.instance.pertoDaTable = false;
         }
         if(GameController.pularTutorial == false)

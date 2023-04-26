@@ -13,6 +13,8 @@ public class DialogoControl : MonoBehaviour
     static public int dialogo = 0;
     public bool onDialogo;
     public bool podeApertar = true;
+    public GameObject passarText;
+    public GameObject passarImagem;
 
     [Header("Configurações")]
     public float typingSpeed;
@@ -57,6 +59,16 @@ public class DialogoControl : MonoBehaviour
         sentences = txt;
         nomeText.text = nomePerfil;
         StartCoroutine(TypeSentence());
+        if(Player.tipoDeControle == 0)
+        {
+            passarImagem.SetActive(true);
+            passarText.SetActive(false);
+        }
+        else if(Player.tipoDeControle == 1)
+        {
+            passarImagem.SetActive(false);
+            passarText.SetActive(true);
+        }
     }
 
     IEnumerator TypeSentence()
@@ -97,8 +109,7 @@ public class DialogoControl : MonoBehaviour
                 Dialogo.podeSeguir = false;
                 if(bossDialago == true)
                 {
-                    BossCobra.startBossBattle = true;
-                    Player.instance.stop = false;
+                    StartCoroutine(StartBossBattle());
                 }
             }
             
@@ -113,5 +124,11 @@ public class DialogoControl : MonoBehaviour
         Speech(profile[0], speechtxt, nome[0]);
         Player.instance.isPaused = true;
         Player.instance.stop = true;
+    }
+    IEnumerator StartBossBattle()
+    {
+        Player.instance.stop = false;
+        yield return new WaitForSeconds(2f);
+        BossCobra.startBossBattle = true;
     }
 }

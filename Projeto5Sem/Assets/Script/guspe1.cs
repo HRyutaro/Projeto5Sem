@@ -42,4 +42,23 @@ public class guspe1 : MonoBehaviour
             Destroy(gameObject, 0);
         }
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Player")
+        {
+            Destroy(gameObject, 0);
+        }
+        if (collision.gameObject.tag == "Parede")
+        {
+            Destroy(gameObject, 0);
+        }
+        if (collision.gameObject.tag == "Porta")
+        {
+            Destroy(gameObject, 0);
+        }
+        if (collision.gameObject.tag == "Buraco")
+        {
+            Destroy(gameObject, 0);
+        }
+    }
 }

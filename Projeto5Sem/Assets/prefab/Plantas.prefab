@@ -145,7 +145,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planta: 1
-  textoInte: {fileID: 0}
   quantosPegou: {fileID: 0}
   cor:
   - {r: 0.33910358, g: 1, b: 0, a: 0.43137255}
@@ -1637,7 +1636,8 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 29e7a92cbf5ed1c48ad4b637332a33ac, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 324026218214099736, guid: 9d96437b1954fd74c84a5e1999bb2cb1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 9d96437b1954fd74c84a5e1999bb2cb1, type: 3}
 --- !u!4 &3494726200771791982 stripped
 Transform:

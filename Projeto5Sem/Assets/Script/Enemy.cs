@@ -32,6 +32,8 @@ public class Enemy : MonoBehaviour
     public Color corNormal;
     public Color corGelado;
     private bool tomouDano = false;
+    public GameObject deBuff;
+    public GameObject danoFrio;
 
     [Header("ataque")]
     public float CdAtack;
@@ -43,9 +45,11 @@ public class Enemy : MonoBehaviour
     [Header("Especial")]
     public GameObject prefabDrop;
     public bool especialDrop;
+    private int numeroDrops;
 
     void Start()
     {
+        numeroDrops = Random.Range(0, 2);
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.stoppingDistance = distanciaMin;
         navMeshAgent.speed = speed;
@@ -61,6 +65,7 @@ public class Enemy : MonoBehaviour
     {
         Life.value = VidaAtual;
         atacar();
+        ControleVida();
     }
 
     void FixedUpdate()
@@ -83,50 +88,48 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void tomarDano(float dano)
+    void ControleVida()
     {
-        StartCoroutine("DanoCorCD");
-        if(VidaAtual >= 1)
+        if (VidaAtual <= 0 && isDead == false)
         {
-            Anim.SetFloat("Atack", 0);
-            VidaAtual -= 1;
-        }
-        if(VidaAtual <= 0)
-        {
-            if(especialDrop == true)
+            if (especialDrop == true)
             {
                 isDead = true;
                 Anim.SetFloat("Atack", 0);
                 GetComponent<Collider>().enabled = false;
                 GetComponent<MeshRenderer>().enabled = false;
-                Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
-                Instantiate(prefabDrop, gameObject.transform.position + new Vector3(0, 0.5f, 0), gameObject.transform.rotation);
                 Destroy(gameObject, 1f);
+                Instantiate(prefabDrop, gameObject.transform.position + new Vector3(0, 0.5f, 0), gameObject.transform.rotation);
+                if (numeroDrops == 1)
+                {
+                    Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
+                }
+                else if (numeroDrops == 2)
+                {
+                    Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
+                    Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
+                }
             }
             else if (especialDrop == false)
             {
                 isDead = true;
                 Anim.SetFloat("Atack", 0);
-                Instantiate(radiacao, gameObject.transform.position,gameObject.transform.rotation);
                 GetComponent<MeshRenderer>().enabled = false;
                 GetComponent<Collider>().enabled = false;
-                Destroy(gameObject,1f);
+                Destroy(gameObject, 1f);
+                if(numeroDrops == 1)
+                {
+                    Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
+                }
+                else if(numeroDrops == 2)
+                {
+                    Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
+                    Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
+                }
             }
         }
     }
-    void tomarDanoFogo()
-    {
-        StartCoroutine("DanoCorCDFogo");
-        if (VidaAtual >= 1)
-        {
-            --VidaAtual;
-        }
-        if (VidaAtual <= 0)
-        {
-            isDead = true;
-            Destroy(gameObject, 1f);
-        }
-    }
+
     void atacar()
     {
         if(isDead == false)
@@ -136,46 +139,12 @@ public class Enemy : MonoBehaviour
                 gameObject.transform.LookAt(alvo);
                 if (!isAttacking && Vector3.Distance(transform.position, alvo.position) <= distanciaMin)
                 {
-                    StartCoroutine("AtackGarra");
+                    StartCoroutine(AtackGarra());
                 }
                 nextattackTime = Time.time + CdAtack;
             }
         }
     }
-
-    void Congelado()
-    {
-        StartCoroutine("EfeitoGelo");
-        if(VidaAtual >= 1)
-        {
-            Anim.SetFloat("Atack", 0);
-            --VidaAtual;
-        }
-        else if(VidaAtual <= 0)
-        {
-            isDead = true;
-            Anim.SetFloat("Atack", 0);
-            Destroy(gameObject, 1f);
-        }
-    }
-
-    IEnumerator CDTomarDano()
-    {
-        tomouDano = true;
-        yield return new WaitForSeconds(0.3f);
-        tomouDano = false;
-    }
-    IEnumerator EfeitoGelo()
-    {
-        navMeshAgent.speed = 1.5f;
-        Anim.speed = 0.5f;
-        yield return new WaitForSeconds(3f);
-        navMeshAgent.speed = speed;
-        Anim.speed = 1;
-        GetComponent<Renderer>().material.color = corNormal;
-
-    }
-
     IEnumerator AtackGarra()
     {
         isAttacking = true;
@@ -188,60 +157,109 @@ public class Enemy : MonoBehaviour
         Anim.SetFloat("Atack", 0);
         navMeshAgent.isStopped = false;
     }
+    IEnumerator CDTomarDano()
+    {
+        tomouDano = true;
+        yield return new WaitForSeconds(0.3f);
+        tomouDano = false;
+    }
 
+    void tomarDano(int dano)
+    {
+        StartCoroutine(DanoCorCD());
+        VidaAtual -= dano;
+        Anim.SetFloat("Atack", 0);
+    }
     IEnumerator DanoCorCD()
     {
-        GetComponent<Renderer>().material.color = corDano;
-        //skin.material.color = corDano;
         navMeshAgent.isStopped = true;
-        //Anim.SetFloat("isRun", 0);
+        GetComponent<Renderer>().material.color = Color.red;
         yield return new WaitForSeconds(1f);
-        //Anim.SetFloat("isRun", 1);
         navMeshAgent.isStopped = false;
-        //skin.material.color = corNormal;
         GetComponent<Renderer>().material.color = corNormal;
+    }
+
+    void tomarDanoFogo()
+    {
+        StartCoroutine(DanoCorCDFogo());
     }
     IEnumerator DanoCorCDFogo()
     {
-        GetComponent<Renderer>().material.color = corDano;
-        //skin.material.color = corDano;
+        --VidaAtual;
         navMeshAgent.isStopped = true;
-        //Anim.SetFloat("isRun", 0);
+        GetComponent<Renderer>().material.color = corDano;
         yield return new WaitForSeconds(0.3f);
-        //Anim.SetFloat("isRun", 1);
         navMeshAgent.isStopped = false;
-        //skin.material.color = corNormal;
+        yield return new WaitForSeconds(0.3f);
+
+        --VidaAtual;
+        navMeshAgent.isStopped = true;
+        yield return new WaitForSeconds(0.3f);
+        navMeshAgent.isStopped = false;
+        yield return new WaitForSeconds(0.3f);
+
+        --VidaAtual;
+        navMeshAgent.isStopped = true;
+        yield return new WaitForSeconds(0.3f);
+        navMeshAgent.isStopped = false;
         GetComponent<Renderer>().material.color = corNormal;
     }
+
+
+    void Congelado()
+    {
+        StartCoroutine(EfeitoGelo());
+    }
+
+    IEnumerator EfeitoGelo()
+    {
+        --VidaAtual;
+        danoFrio.SetActive(true);
+        navMeshAgent.isStopped = true;
+        yield return new WaitForSeconds(1f);
+        --VidaAtual;
+        yield return new WaitForSeconds(1f);
+        danoFrio.SetActive(false);
+        navMeshAgent.isStopped = false;
+        GetComponent<Renderer>().material.color = corNormal;
+
+    }
+
+
     IEnumerator inSmoke()
     {
-        yield return new WaitForSeconds(1f);
-        distMax = 1;
-        yield return new WaitForSeconds(2f);
-        distMax = distanciaMax;
-        
+        --VidaAtual;
+        Anim.speed = 0.5f;
+        deBuff.SetActive(true);
+        navMeshAgent.speed = 1.5f;
+        yield return new WaitForSeconds(3f);
+        --VidaAtual;
+        Anim.speed = 1;
+        deBuff.SetActive(false);
+        navMeshAgent.speed = speed;
     }
 
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("espada") && !tomouDano)
         {
-            StartCoroutine("CDTomarDano");
+            StartCoroutine(CDTomarDano());
             tomarDano(1);
         }
         if(other.gameObject.tag == "gelo" && !tomouDano)
         {
-            StartCoroutine("CDTomarDano");
+            StartCoroutine(CDTomarDano());
             Congelado();
             GetComponent<Renderer>().material.color = corGelado;
         }
         if(other.gameObject.tag == "fogo" && !tomouDano)
         {
-            StartCoroutine("CDTomarDano");
+            StartCoroutine(CDTomarDano());
             tomarDanoFogo();
         }
         if (other.gameObject.tag == "fumaca")
         {
+            StartCoroutine(CDTomarDano());
             StartCoroutine(inSmoke());
         }
 

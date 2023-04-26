@@ -5,19 +5,14 @@ using UnityEngine.UI;
 
 public class Botao : MonoBehaviour
 {
-
-    private Color Green;
     private bool passouCartao;
     private bool PodePassarCartao;
     public Animator animPorta;
-    public GameObject textoInte;
     public MeshRenderer botao;
-    public GameObject portao;
     public Text textoInteracao;
 
     void Start()
     {
-        Green = Color.green;
         passouCartao = false;
     }
 
@@ -25,12 +20,12 @@ public class Botao : MonoBehaviour
     {
         if(passouCartao == true)
         {
-            animPorta.SetFloat("Abrir", 1);
-            botao.material.color = Green;
+            animPorta.SetFloat("Aberta", 1);
+            botao.material.color = Color.blue;
         }
         if(PodePassarCartao == true)
         {
-            if(Input.GetButtonDown("Interacao") || Input.GetKeyDown(KeyCode.E))
+            if(Input.GetButtonDown("Interacao") && Player.tipoDeControle == 0)
             {
                 if(Player.instance.TemCartao == true)
                 {
@@ -38,7 +33,20 @@ public class Botao : MonoBehaviour
                 }
                 else if(Player.instance.TemCartao == false)
                 {
-                    textoInteracao.text = "Preciso de um cartao Azul";
+                    StartCoroutine(notificacao());
+                    textoInteracao.text = "Preciso de uma joia Azul";
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.E) && Player.tipoDeControle == 1)
+            {
+                if (Player.instance.TemCartao == true)
+                {
+                    passouCartao = true;
+                }
+                else if (Player.instance.TemCartao == false)
+                {
+                    StartCoroutine(notificacao());
+                    textoInteracao.text = "Preciso de uma joia Azul";
                 }
             }
         }
@@ -49,7 +57,8 @@ public class Botao : MonoBehaviour
         if(other.gameObject.CompareTag("Player") && passouCartao == false)
         {
             PodePassarCartao = true;
-            textoInte.SetActive(true);
+            textoInteracao.enabled = true;
+            GameController.instance.interacaoNatela = true;
         }
     }
     private void OnTriggerExit(Collider other)
@@ -57,8 +66,15 @@ public class Botao : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             PodePassarCartao = false;
-            textoInte.SetActive(false);
-            textoInteracao.text = "'E' / 'Quadrado' para interagir";
+            textoInteracao.enabled = false;
+            GameController.instance.interacaoNatela = false;
         }
+    }
+    IEnumerator notificacao()
+    {
+        GameController.instance.interacaoNatela = false;
+        textoInteracao.enabled = true;
+        yield return new WaitForSeconds(2f);
+        textoInteracao.enabled = false;
     }
 }

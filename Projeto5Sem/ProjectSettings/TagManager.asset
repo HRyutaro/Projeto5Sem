@@ -25,11 +25,12 @@ TagManager:
   - buraco
   - StartBoss
   - BossParado
+  - CheckPoint
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - piso
   - Water
   - UI
   - Game

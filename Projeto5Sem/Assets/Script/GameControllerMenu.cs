@@ -18,9 +18,11 @@ public class GameControllerMenu : MonoBehaviour
     public GameObject[] controles;
     public GameObject[] sons;
     public GameObject pularTutorialButoon;
+    public GameObject eventSytem;
+    public GameObject eventSytem1;
 
     [Header("Controles")]
-    public Slider[] controlSlide;
+    public Slider controlSlide;
 
     [Header("Sons")]
     public Slider[] sonSlides;
@@ -28,32 +30,46 @@ public class GameControllerMenu : MonoBehaviour
     public static float musicaValor;
 
     public Slider pularTutorialslide;
+
     void Start()
     {
         tela = 0;
+        Player.tipoDeControle = 1;
         sonSlides[0].value = somValor;
         sonSlides[1].value = musicaValor;
-        Player.op = 1;
     }
 
     void Update()
     {
         controleTela();
         checkcontroles();
+        controleEventeSystem();
+    }
 
+    void controleEventeSystem()
+    {
+        if (Player.tipoDeControle == 0)
+        {
+            eventSytem.SetActive(true);
+            eventSytem1.SetActive(false);
+        }
+        if (Player.tipoDeControle == 1)
+        {
+            eventSytem.SetActive(false);
+            eventSytem1.SetActive(true);
+        }
     }
 
     void checkcontroles()
     {
-        if (Player.op == 1)
+        if (Player.tipoDeControle == 0)
         {
-            controlSlide[0].value = 0;
-            controlSlide[1].value = 0;
+            controlSlide.value = 0;
         }
-        else if (Player.op == 2)
+        else if (Player.tipoDeControle == 1)
         {
-            controlSlide[0].value = 0;
-            controlSlide[1].value = 0;
+            controlSlide.value = 1;
+
         }
     }
     void controleTela()
@@ -69,7 +85,6 @@ public class GameControllerMenu : MonoBehaviour
             sons[0].SetActive(false);
             pularTutorialButoon.SetActive(false);
             controles[1].SetActive(false);
-            controles[2].SetActive(false);
             sons[1].SetActive(false);
             sons[2].SetActive(false);
 
@@ -85,7 +100,6 @@ public class GameControllerMenu : MonoBehaviour
             sons[0].SetActive(true);
             pularTutorialButoon.SetActive(true);
             controles[1].SetActive(false);
-            controles[2].SetActive(false);
             sons[1].SetActive(false);
             sons[2].SetActive(false);
             if (Input.GetButtonDown("Cancel"))
@@ -105,7 +119,6 @@ public class GameControllerMenu : MonoBehaviour
             sons[0].SetActive(false);
             pularTutorialButoon.SetActive(false);
             controles[1].SetActive(true);
-            controles[2].SetActive(true);
             sons[1].SetActive(false);
             sons[2].SetActive(false);
             if (Input.GetButtonDown("Cancel"))
@@ -126,7 +139,6 @@ public class GameControllerMenu : MonoBehaviour
             sons[0].SetActive(false);
             pularTutorialButoon.SetActive(false);
             controles[1].SetActive(false);
-            controles[2].SetActive(false);
             sons[1].SetActive(true);
             sons[2].SetActive(true);
             if (Input.GetButtonDown("Cancel"))
@@ -146,7 +158,6 @@ public class GameControllerMenu : MonoBehaviour
             sons[0].SetActive(false);
             pularTutorialButoon.SetActive(false);
             controles[1].SetActive(false);
-            controles[2].SetActive(false);
             sons[1].SetActive(false);
             sons[2].SetActive(false);
             if (Input.GetButtonDown("Cancel"))
@@ -194,25 +205,13 @@ public class GameControllerMenu : MonoBehaviour
     }
     public void controleConfig()
     {
-        if (controlSlide[0].value == 0)
+        if (controlSlide.value == 0)
         {
-            Player.op = 1;
-            controlSlide[1].value = 1;
+            Player.tipoDeControle = 0;
         }
-        else if (controlSlide[0].value == 1)
+        else if (controlSlide.value == 1)
         {
-            Player.op = 2;
-            controlSlide[1].value = 0;
-        }
-        if (controlSlide[1].value == 0)
-        {
-            Player.op = 2;
-            controlSlide[0].value = 1;
-        }
-        else if (controlSlide[1].value == 1)
-        {
-            Player.op = 1;
-            controlSlide[0].value = 0;
+            Player.tipoDeControle = 1;
         }
     }
     public void VoltarSairCtz()

@@ -242,8 +242,8 @@ MonoBehaviour:
   timeDestroy: 1
   rb: {fileID: 1285749366412491564}
   tipo:
-  - {fileID: 7986504087968017091, guid: 627216d664530fb40894b6091ad9bf7d, type: 3}
-  - {fileID: 4932088507883938021, guid: 0e5709a7ddb77924090c112cf73bb98a, type: 3}
+  - {fileID: 1142580826027952291, guid: 8dcbfcb45530c6641a300adc4b068677, type: 3}
+  - {fileID: 1142580826027952291, guid: 860f6fda46247b54b8d4a7cd4a5534ca, type: 3}
   - {fileID: 7957833072274404953, guid: 3355f6bfa6db8b24281b827de929694c, type: 3}
   colisor: {fileID: 254188078917807762}
   CorPocao: {fileID: 975178362268410720}

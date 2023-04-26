@@ -14732,7 +14732,6 @@ GameObject:
   - component: {fileID: 8037160467862551414}
   - component: {fileID: 6211125795773073634}
   - component: {fileID: 959509697232157438}
-  - component: {fileID: 5253268260594208046}
   m_Layer: 0
   m_Name: Fire Circle
   m_TagString: Untagged
@@ -14749,7 +14748,7 @@ Transform:
   m_GameObject: {fileID: 7986504087968017091}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.12716594, y: 0.96544385, z: 0.12716594}
   m_Children:
   - {fileID: 7457615570839298223}
   - {fileID: 7834758006639453080}
@@ -19587,16 +19586,3 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &5253268260594208046
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7986504087968017091}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d44a9629c6eae84e91925630eb67534, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  duracao: 3
