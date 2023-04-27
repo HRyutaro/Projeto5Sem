@@ -28,6 +28,10 @@ TagManager:
   - CheckPoint
   - BossUrso
   - BossInvestida
+  - AtivarQueda
+  - DesativadorQueda
+  - pisoFora
+  - Queda
   layers:
   - Default
   - TransparentFX

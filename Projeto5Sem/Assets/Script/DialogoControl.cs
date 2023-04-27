@@ -122,10 +122,12 @@ public class DialogoControl : MonoBehaviour
                 if(bossDialagoCobra == true)
                 {
                     StartCoroutine(StartBossBattleCobra());
+                    bossDialagoCobra = false;
                 }
                 if (bossDialagoUrso == true)
                 {
                     StartCoroutine(StartBossBattleUrso());
+                    bossDialagoUrso = true;
                 }
                 if (checkpoint.renasceu == true)
                 {

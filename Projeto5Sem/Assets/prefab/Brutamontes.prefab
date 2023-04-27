@@ -203,6 +203,7 @@ MonoBehaviour:
   radiacao: {fileID: 5997781118116321888, guid: 4bc7d4c35ce26f04aae83f6c9e4d94ff, type: 3}
   life: {fileID: 5528414497663042515}
   rb: {fileID: 5528414497201244012}
+  Corpo: {fileID: 1237129166090424070}
   speed: 2
   speedAtual: 0
   alvo: {fileID: 0}
@@ -219,7 +220,7 @@ MonoBehaviour:
   danoFrio: {fileID: 4827809572648402004}
   danoPedra: {fileID: 1629793865268598589}
   CdAtack: 3
-  atack: {fileID: 1019466660635339261}
+  atack: {fileID: 2838881996782381999}
   speedAtaque: 1
   prefabDrop: {fileID: 5997781118116321888, guid: 4bc7d4c35ce26f04aae83f6c9e4d94ff, type: 3}
   especialDrop: 1
@@ -811,8 +812,8 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -6999215314274396616, guid: 5b5d62cd1d89f9b4baabce8ed2e953b8, type: 3}
   m_PrefabInstance: {fileID: 2155609854471139927}
   m_PrefabAsset: {fileID: 0}
---- !u!64 &1019466660635339261
-MeshCollider:
+--- !u!65 &2838881996782381999
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -821,10 +822,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -5002835603401446712, guid: 5b5d62cd1d89f9b4baabce8ed2e953b8, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.248386, y: 0.051759712, z: 0.049226664}
+  m_Center: {x: -0.00000023841858, y: -0.000000059604645, z: 0}
 --- !u!64 &6389171875022072877
 MeshCollider:
   m_ObjectHideFlags: 0

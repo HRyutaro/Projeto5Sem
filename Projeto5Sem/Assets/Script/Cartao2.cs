@@ -6,6 +6,8 @@ public class Cartao2 : MonoBehaviour
 {
     public Animator anim;
     public GameObject itemtodo;
+
+    public static bool saber;
     void Start()
     {
         anim.SetBool("Ativar", true);
@@ -15,9 +17,17 @@ public class Cartao2 : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            if (saber == true)
+            {
+                GameController.instance.ShowInformacao("Deve ser essa Joia");
+            }
+            else
+            {
+                GameController.instance.ShowInformacao("Deve abrir alguma porta que nem a outra");
+            }
             Player.instance.TemCartao2 = true;
-            Destroy(gameObject);
             Destroy(itemtodo);
+            Destroy(gameObject);
 
         }
     }

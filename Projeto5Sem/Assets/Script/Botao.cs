@@ -34,6 +34,7 @@ public class Botao : MonoBehaviour
                 else if(Player.instance.TemCartao == false)
                 {
                     GameController.instance.ShowInformacao("Preciso de uma joia Azul");
+                    Cartao.saber = true;
                 }
             }
             if (Input.GetKeyDown(KeyCode.E) && Player.tipoDeControle == 0)
@@ -45,6 +46,7 @@ public class Botao : MonoBehaviour
                 else if (Player.instance.TemCartao == false)
                 {
                     GameController.instance.ShowInformacao("Preciso de uma joia Azul");
+                    Cartao.saber = true;
                 }
             }
         }

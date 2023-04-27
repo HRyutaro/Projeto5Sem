@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
     private Vector3 input2;
     [SerializeField] public bool isPaused;
     [SerializeField] public bool stop;
+    public bool QuedaAtivada;
+    public bool queda1;
 
     [Header("Combat")]
     public GameObject espadaCosta;
@@ -90,6 +92,7 @@ public class Player : MonoBehaviour
         VidaAtual = VidaTotal;
         StartNumeroPocao();
         speedAtual = speed;
+        QuedaAtivada = false;
     }
     void Update()
     {
@@ -101,6 +104,7 @@ public class Player : MonoBehaviour
             Vida();
             trocarPocao();
             atackPocao();
+            Queda();
         }
     }
 
@@ -111,6 +115,10 @@ public class Player : MonoBehaviour
             Move();
             Dash();
         }
+        if (stop == true)
+        {
+            rb.velocity = Vector3.zero;
+        }
     }
 
     void GatherInput()
@@ -118,7 +126,6 @@ public class Player : MonoBehaviour
         if(tipoDeControle == 1)
         {
             input = new Vector3(Input.GetAxisRaw("HorizontalJoystick"), 0, Input.GetAxisRaw("VerticalJoystick"));
-            input2 = new Vector3(Input.GetAxisRaw("Horizontal2"), 0, Input.GetAxisRaw("Vertical2"));
         }
         if (tipoDeControle == 0)
         {
@@ -147,14 +154,13 @@ public class Player : MonoBehaviour
             rb.velocity = input.toIso() * speedAtual;
             if (Input.GetAxisRaw("Horizontal") != 0 && speedAtual >= 1 && tipoDeControle == 0 || Input.GetAxisRaw("Vertical") != 0 && speedAtual >= 1 && tipoDeControle == 0)
             {
-                Anim.SetFloat("isRun", 1);
+                //Anim.SetFloat("isRun", 1);
             }
             else
             {
-                Anim.SetFloat("isRun", 0);
+                //Anim.SetFloat("isRun", 0);
             }
         }
-        
     }
     void Move2()
     {
@@ -173,6 +179,23 @@ public class Player : MonoBehaviour
         }
     } //movimento cm transform
 
+    void Queda()
+    {
+        if(queda1 == true)
+        {
+            rb.constraints &= ~RigidbodyConstraints.FreezePositionY;
+            rb.mass = 10;
+            if (QuedaAtivada == true)
+            {
+                rb.AddForce(Vector3.down * 15, ForceMode.Impulse);
+            }
+        }
+        else
+        {
+            rb.constraints |= RigidbodyConstraints.FreezePositionY;
+        }
+    }
+
     void AtackMelee()
     {
         
@@ -184,7 +207,7 @@ public class Player : MonoBehaviour
                 StartCoroutine("AtackMeleeTime");
                 StartCoroutine("CDAtackMelee");
                 Vector3 atackingfoward = transform.forward;
-                rb.AddForce(4.5f * atackingfoward, ForceMode.Impulse);
+                rb.AddForce(1.5f * atackingfoward, ForceMode.Impulse);
             }
         }
         else if (tipoDeControle == 0)
@@ -195,7 +218,7 @@ public class Player : MonoBehaviour
                 StartCoroutine("AtackMeleeTime");
                 StartCoroutine("CDAtackMelee");
                 Vector3 atackingfoward = transform.forward;
-                rb.AddForce(4.5f * atackingfoward, ForceMode.Impulse);
+                rb.AddForce(1.5f * atackingfoward, ForceMode.Impulse);
             }
         }
     }
@@ -345,6 +368,7 @@ public class Player : MonoBehaviour
                         isAiming = true;
                         Anim.SetFloat("Pocao", 1);
                         Anim.SetFloat("isRun", 0);
+                        stop = true;
                     }
                 } // pocao Fogo
                 if (pocao.tipoDapocao == 3)
@@ -354,6 +378,7 @@ public class Player : MonoBehaviour
                         isAiming = true;
                         Anim.SetFloat("Pocao", 1);
                         Anim.SetFloat("isRun", 0);
+                        stop = true;
                     }
                 } // pocao Gelo
                 if (pocao.tipoDapocao == 4)
@@ -363,6 +388,7 @@ public class Player : MonoBehaviour
                         isAiming = true;
                         Anim.SetFloat("Pocao", 1);
                         Anim.SetFloat("isRun", 0);
+                        stop = true;
                     }
                 } // pocao fumaça
             }
@@ -378,6 +404,7 @@ public class Player : MonoBehaviour
                         isAiming = true;
                         Anim.SetFloat("Pocao", 1);
                         Anim.SetFloat("isRun", 0);
+                        stop = true;
                     }
                 } // pocao Fogo
                 if (pocao.tipoDapocao == 3)
@@ -387,6 +414,7 @@ public class Player : MonoBehaviour
                         isAiming = true;
                         Anim.SetFloat("Pocao", 1);
                         Anim.SetFloat("isRun", 0);
+                        stop = true;
                     }
                 } // pocao Gelo
                 if (pocao.tipoDapocao == 4)
@@ -396,6 +424,7 @@ public class Player : MonoBehaviour
                         isAiming = true;
                         Anim.SetFloat("Pocao", 1);
                         Anim.SetFloat("isRun", 0);
+                        stop = true;
                     }
                 } // pocao fumaça
             }
@@ -417,7 +446,7 @@ public class Player : MonoBehaviour
                         GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
                         pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
                         GameController.numeroPocoesAtual = temPocaoFogo;
-
+                        stop = false;
                     }
                 }
             } // pocao Fogo
@@ -435,6 +464,7 @@ public class Player : MonoBehaviour
                         GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
                         pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
                         GameController.numeroPocoesAtual = temPocaoGelo;
+                        stop = false;
                     }
                 }
             } // pocao Gelo
@@ -452,6 +482,7 @@ public class Player : MonoBehaviour
                         GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
                         pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
                         GameController.numeroPocoesAtual = temPocaoFumaca;
+                        stop = false;
                     }
                 }
             } // pocao fumaça
@@ -472,7 +503,7 @@ public class Player : MonoBehaviour
                         GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
                         pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
                         GameController.numeroPocoesAtual = temPocaoFogo;
-
+                        stop = false;
                     }
                 }
             } // pocao Fogo
@@ -490,6 +521,7 @@ public class Player : MonoBehaviour
                         GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
                         pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
                         GameController.numeroPocoesAtual = temPocaoGelo;
+                        stop = false;
                     }
                 }
             } // pocao Gelo
@@ -507,6 +539,7 @@ public class Player : MonoBehaviour
                         GameObject pocao = Instantiate(pocaoPrefab, pocaoRespawn.position, Quaternion.identity);
                         pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
                         GameController.numeroPocoesAtual = temPocaoFumaca;
+                        stop = false;
                     }
                 }
             } // pocao fumaça
@@ -802,6 +835,19 @@ public class Player : MonoBehaviour
         {
             TomarDano(0, 5);
         }
+        if(other.gameObject.tag == "AtivarQueda" && QuedaAtivada == false)
+        {
+            QuedaAtivada = true;
+        }
+        if(other.gameObject.tag == "DesativadorQueda" && queda1 == false)
+        {
+            queda1 = false;
+            QuedaAtivada = false;
+        }
+        if (other.gameObject.tag == "Queda" && queda1 == false)
+        {
+            queda1 = true;
+        }
 
         if (GameController.pularTutorial == false)
         {
@@ -834,6 +880,14 @@ public class Player : MonoBehaviour
         {
             Anim.SetFloat("Empurrar", 1);
             Anim.SetFloat("isRun", 1.1f);
+        }
+        if(collision.gameObject.tag == "pisoFora")
+        {
+            VidaAtual -= 2;
+            checkpoint.renasceu = true;
+            queda1 = false;
+            QuedaAtivada = false;
+            gameObject.transform.position = GameController.instance.checkPoint[GameController.checkpointNumber].transform.position;
         }
     }
     private void OnCollisionExit(Collision collision)

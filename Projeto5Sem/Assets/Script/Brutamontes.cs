@@ -198,7 +198,20 @@ public class Brutamontes : MonoBehaviour
     }
     IEnumerator DanoCorCDFogo()
     {
+        --vidaAtual;
+        stop = true;
         mesh.material.color = corDano;
+        yield return new WaitForSeconds(0.3f);
+        stop = false;
+        yield return new WaitForSeconds(0.3f);
+
+        --vidaAtual;
+        stop = true;
+        yield return new WaitForSeconds(0.3f);
+        stop = false;
+        yield return new WaitForSeconds(0.3f);
+
+        --vidaAtual;
         stop = true;
         yield return new WaitForSeconds(0.3f);
         stop = false;

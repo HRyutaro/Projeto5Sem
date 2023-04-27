@@ -45,6 +45,7 @@ public class BloqueadoPeloBoss : MonoBehaviour
         {
             porta.enabled = true;
             bloqueador.enabled = false;
+            anim.SetFloat("Aberta", 1);
         }
         else if (tipoDeBoss == 0 && BossUrso.startBoss == true)
         {

@@ -65,13 +65,13 @@ public class BossCobra : MonoBehaviour
 
     void controleVida()
     {
-        if(vidaAtual <= 4)
+        if(vidaAtual <= 4 && vidaAtual > 0)
         {
             anim.speed = 1;
             olhoD.SetActive(true);
             olhoE.SetActive(true);
         }
-        else if(vidaAtual <= 0)
+        if(vidaAtual <= 0)
         {
             BloqueadoPeloBoss.bossCobraisDead = true;
             isDead = true;

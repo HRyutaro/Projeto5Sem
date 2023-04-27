@@ -126,10 +126,10 @@ public class BossUrso : MonoBehaviour
         Anim.SetFloat("Investida", 0);
         yield return new WaitForSeconds(3);
         stop = false;
-        yield return new WaitForSeconds(CdInvestida);
-        podeInvestida = true;
         gameObject.tag = "BossUrso";
         col.isTrigger = false;
+        yield return new WaitForSeconds(CdInvestida);
+        podeInvestida = true;
 
     }
 

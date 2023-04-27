@@ -12,12 +12,14 @@ GameObject:
   - component: {fileID: 6583491107526353129}
   - component: {fileID: 1891503604949382279}
   - component: {fileID: 8706498086559648309}
+  - component: {fileID: 1115546708897223337}
+  - component: {fileID: 5954766379158258369}
   m_Layer: 0
   m_Name: grades
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &8658826975651601233
 Transform:
@@ -95,3 +97,34 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.6175098, y: 0.27972487, z: 2.5489838}
   m_Center: {x: -0.019044995, y: 0.14623944, z: 1.2475644}
+--- !u!54 &1115546708897223337
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1652918237898053684}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!114 &5954766379158258369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1652918237898053684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5c23649647107e4080c8835d7362e22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 1115546708897223337}
+  queda: 0
+  spawn: {fileID: 0}
