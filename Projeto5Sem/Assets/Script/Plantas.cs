@@ -28,7 +28,7 @@ public class Plantas : MonoBehaviour
     }
     void PegarPlanta()
     {
-        if (Input.GetButtonDown("Interacao") && podePegar == true && Player.tipoDeControle == 0 || Input.GetKeyDown(KeyCode.E) && podePegar == true && Player.tipoDeControle == 1)
+        if (Input.GetButtonDown("Interacao") && podePegar == true && Player.tipoDeControle == 1 || Input.GetKeyDown(KeyCode.E) && podePegar == true && Player.tipoDeControle == 0)
         {
             if (planta == 0)
             {

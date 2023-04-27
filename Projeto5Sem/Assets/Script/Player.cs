@@ -87,7 +87,6 @@ public class Player : MonoBehaviour
     void Start()
     {
         instance = this;
-        rb.GetComponent<Rigidbody>();
         VidaAtual = VidaTotal;
         StartNumeroPocao();
         speedAtual = speed;
@@ -116,12 +115,12 @@ public class Player : MonoBehaviour
 
     void GatherInput()
     {
-        if(tipoDeControle == 0)
+        if(tipoDeControle == 1)
         {
             input = new Vector3(Input.GetAxisRaw("HorizontalJoystick"), 0, Input.GetAxisRaw("VerticalJoystick"));
             input2 = new Vector3(Input.GetAxisRaw("Horizontal2"), 0, Input.GetAxisRaw("Vertical2"));
         }
-        if (tipoDeControle == 1)
+        if (tipoDeControle == 0)
         {
             input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         }
@@ -176,7 +175,8 @@ public class Player : MonoBehaviour
 
     void AtackMelee()
     {
-        if (tipoDeControle == 0)
+        
+        if (tipoDeControle == 1)
         {
             if (Input.GetButtonDown("R1") && isCdAtack == false)
             {
@@ -187,7 +187,7 @@ public class Player : MonoBehaviour
                 rb.AddForce(4.5f * atackingfoward, ForceMode.Impulse);
             }
         }
-        else if (tipoDeControle == 1)
+        else if (tipoDeControle == 0)
         {
             if (Input.GetButtonDown("mouse0") && isCdAtack == false)
             {
@@ -243,7 +243,7 @@ public class Player : MonoBehaviour
 
     void atackPocao()
     {
-        if(Input.GetButtonDown("L1") && tipoDeControle == 0)
+        if(Input.GetButtonDown("L1") && tipoDeControle == 1)
         {
             if(isCdRange == false)
             {
@@ -288,7 +288,7 @@ public class Player : MonoBehaviour
                 } // pocao mana
             }
         }
-        if (Input.GetButtonDown("mouse1") && tipoDeControle == 1)
+        if (Input.GetButtonDown("mouse1") && tipoDeControle == 0)
         {
             if (isCdRange == false)
             {
@@ -334,7 +334,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (Input.GetButton("L1") && tipoDeControle == 0)
+        if (Input.GetButton("L1") && tipoDeControle == 1)
         {
             if(isCdRange == false)
             {
@@ -367,7 +367,7 @@ public class Player : MonoBehaviour
                 } // pocao fumaça
             }
         }
-        if (Input.GetButton("mouse1") && tipoDeControle == 1)
+        if (Input.GetButton("mouse1") && tipoDeControle == 0)
         {
             if (isCdRange == false)
             {
@@ -401,7 +401,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonUp("L1") && tipoDeControle == 0)
+        if (Input.GetButtonUp("L1") && tipoDeControle == 1)
         {
             if (pocao.tipoDapocao == 2)
             {
@@ -456,7 +456,7 @@ public class Player : MonoBehaviour
                 }
             } // pocao fumaça
         }
-        if (Input.GetButtonUp("mouse1") && tipoDeControle == 1)
+        if (Input.GetButtonUp("mouse1") && tipoDeControle == 0)
         {
             if (pocao.tipoDapocao == 2)
             {
@@ -523,20 +523,24 @@ public class Player : MonoBehaviour
         else if(VidaAtual <= 0)
         {
             GameController.almasAtual --;
-            reiniciar();
+            Reiniciar();
         }
     }
 
-    void reiniciar()
+    void Reiniciar()
     {
+        VidaAtual = VidaTotal;
+        checkpoint.renasceu = true;
         gameObject.transform.position = GameController.instance.checkPoint[GameController.checkpointNumber].transform.position;
     }
+
     public void TomarDano(int Dano,float Empurrao)
     {
         if(GameController.instance.modoDeus == false)
         {
             if(dashing == false)
             {
+                
                 StartCoroutine("CDTomarDano");
                 VidaAtual -= Dano;
                 forcaEmpurrao = Empurrao;
@@ -554,14 +558,14 @@ public class Player : MonoBehaviour
     {
         if(isPaused == false && stop == false )
         {
-           if(Input.GetButton("bolinha") && isDashing == 4 && tipoDeControle == 0 && stop == false)
+           if(Input.GetButton("bolinha") && isDashing == 4 && tipoDeControle == 1 && stop == false)
            {
                 isDashing = 0;
                 Vector3 dashing = transform.forward;
                 rb.AddForce(dashing * forcaDash, ForceMode.Impulse);
                 StartCoroutine("CdDash");
            }
-           else if (Input.GetKeyDown(KeyCode.LeftShift) && isDashing == 4 && tipoDeControle == 1)
+           else if (Input.GetKeyDown(KeyCode.LeftShift) && isDashing == 4 && tipoDeControle == 0)
            {
                 isDashing = 0;
                 Vector3 dashing = transform.forward;
@@ -575,7 +579,7 @@ public class Player : MonoBehaviour
     void trocarPocao()
     {
 
-        if (Input.GetButtonDown("triangulo") && tipoDeControle == 0)
+        if (Input.GetButtonDown("triangulo") && tipoDeControle == 1)
         {
             if(pocao.tipoDapocao == 0)
             {
@@ -608,7 +612,7 @@ public class Player : MonoBehaviour
                 print("pocao Cura");
             }
         }
-        if (Input.GetKeyDown(KeyCode.Q) && tipoDeControle == 1)
+        if (Input.GetKeyDown(KeyCode.Q) && tipoDeControle == 0)
         {
             if (pocao.tipoDapocao == 0)
             {
@@ -779,7 +783,7 @@ public class Player : MonoBehaviour
         }
         if(other.gameObject.tag == "Brutamontes" && TomouDano == false)
         {
-            TomarDano(3,100);
+            TomarDano(3,10);
         }
 
         if (other.gameObject.tag == "Guspe" && TomouDano == false)
@@ -789,6 +793,14 @@ public class Player : MonoBehaviour
         if (other.gameObject.tag == "CobraBoss" && TomouDano == false)
         {
             TomarDano(1, 10);
+        }
+        if(other.gameObject.tag == "BossInvestida" && TomouDano == false)
+        {
+            TomarDano(3, 15);
+        }
+        if (other.gameObject.tag == "BossUrso" && TomouDano == false)
+        {
+            TomarDano(0, 5);
         }
 
         if (GameController.pularTutorial == false)

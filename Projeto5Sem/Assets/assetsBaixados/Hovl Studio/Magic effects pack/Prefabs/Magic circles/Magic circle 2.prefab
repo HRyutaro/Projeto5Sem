@@ -222,7 +222,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.8395061, g: 0.36470592, b: 1, a: 1}
+      maxColor: {r: 0, g: 0.40710735, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -9849,7 +9849,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.67576694, g: 0, b: 1, a: 1}
+      maxColor: {r: 0, g: 0.52395105, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -14625,9 +14625,11 @@ GameObject:
   - component: {fileID: 3423388300971593625}
   - component: {fileID: 1601506141239540749}
   - component: {fileID: 5574110145886096913}
+  - component: {fileID: 886741148811008247}
+  - component: {fileID: 8591994822586268893}
   m_Layer: 0
   m_Name: Magic circle 2
-  m_TagString: Untagged
+  m_TagString: CheckPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14647,6 +14649,7 @@ Transform:
   - {fileID: 1025236002006986783}
   - {fileID: 2843229867266135104}
   - {fileID: 3220440682565326711}
+  - {fileID: 6045213445601534518}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19480,6 +19483,116 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!136 &886741148811008247
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3377181292992421420}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 1.0006278
+  m_Height: 3.5018566
+  m_Direction: 1
+  m_Center: {x: -0.0059831142, y: 1.9334663, z: 0}
+--- !u!114 &8591994822586268893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3377181292992421420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f82833b249565e54395708ee4589ef6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  col: {fileID: 886741148811008247}
+  primeiroRenascimento: {fileID: 4446595240232347426}
+  Jarenasceu: 0
+  ef1: {fileID: 1531768878563115421}
+  ef2: {fileID: 151920881395052490}
+  ef3: {fileID: 8598798586939600705}
+  ef4: {fileID: 3220440682565326704}
+--- !u!1 &4446595240232347426
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6045213445601534518}
+  - component: {fileID: 471701432705868528}
+  - component: {fileID: 4047577086538017519}
+  m_Layer: 0
+  m_Name: Dialogo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &6045213445601534518
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4446595240232347426}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3423388300971593625}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &471701432705868528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4446595240232347426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a36e04d40b73d1429d973d74da19d99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile:
+  - {fileID: 21300000, guid: dddf9b764e784624caaaaa16c485dece, type: 3}
+  - {fileID: 21300000, guid: 24f8cc47ed2ca7148a53bc0801a3a954, type: 3}
+  - {fileID: 21300000, guid: 24f8cc47ed2ca7148a53bc0801a3a954, type: 3}
+  - {fileID: 21300000, guid: 24f8cc47ed2ca7148a53bc0801a3a954, type: 3}
+  speechtxt:
+  - -Oque? Oque aconteceu?
+  - "-Eu n\xE3o morri?"
+  - -Sera que esse circulo me salvou?
+  nome:
+  - Ivan
+  - Ivan
+  - Ivan
+  - Ivan
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  radious: 3.01
+  proxSprite: 0
+  forcarInte: 0
+--- !u!65 &4047577086538017519
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4446595240232347426}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.7394238, z: 1}
+  m_Center: {x: 0, y: 1.2930901, z: 0}
 --- !u!1 &8598798586939600705
 GameObject:
   m_ObjectHideFlags: 0
@@ -19702,7 +19815,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.7508297, g: 0.33333337, b: 1, a: 1}
+      maxColor: {r: 0, g: 0.5211582, b: 0.990566, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}

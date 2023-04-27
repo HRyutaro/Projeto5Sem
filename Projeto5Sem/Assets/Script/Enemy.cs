@@ -49,7 +49,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        numeroDrops = Random.Range(0, 2);
+        numeroDrops = Random.Range(1, 2);
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.stoppingDistance = distanciaMin;
         navMeshAgent.speed = speed;
@@ -157,12 +157,7 @@ public class Enemy : MonoBehaviour
         Anim.SetFloat("Atack", 0);
         navMeshAgent.isStopped = false;
     }
-    IEnumerator CDTomarDano()
-    {
-        tomouDano = true;
-        yield return new WaitForSeconds(0.3f);
-        tomouDano = false;
-    }
+
 
     void tomarDano(int dano)
     {
@@ -170,6 +165,13 @@ public class Enemy : MonoBehaviour
         VidaAtual -= dano;
         Anim.SetFloat("Atack", 0);
     }
+    IEnumerator CDTomarDano()
+    {
+        tomouDano = true;
+        yield return new WaitForSeconds(0.3f);
+        tomouDano = false;
+    }
+
     IEnumerator DanoCorCD()
     {
         navMeshAgent.isStopped = true;

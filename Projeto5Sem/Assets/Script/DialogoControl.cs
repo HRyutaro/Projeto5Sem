@@ -28,7 +28,8 @@ public class DialogoControl : MonoBehaviour
     public string[] nome;
 
     [Header("DialogoBoss")]
-    public static bool bossDialago = false;
+    public static bool bossDialagoCobra = false;
+    public static bool bossDialagoUrso = false;
 
 
     private void Update()
@@ -49,6 +50,17 @@ public class DialogoControl : MonoBehaviour
                     podeApertar = false;
                 }
             }
+        }
+        if(Player.tipoDeControle == 1)
+        {
+            passarText.SetActive(false);
+            passarImagem.SetActive(true);
+
+        }
+        if (Player.tipoDeControle == 0)
+        {
+            passarText.SetActive(true);
+            passarImagem.SetActive(false);
         }
     }
 
@@ -107,9 +119,17 @@ public class DialogoControl : MonoBehaviour
                 GameController.instance.isPause = false;
                 podeApertar = false;
                 Dialogo.podeSeguir = false;
-                if(bossDialago == true)
+                if(bossDialagoCobra == true)
                 {
-                    StartCoroutine(StartBossBattle());
+                    StartCoroutine(StartBossBattleCobra());
+                }
+                if (bossDialagoUrso == true)
+                {
+                    StartCoroutine(StartBossBattleUrso());
+                }
+                if (checkpoint.renasceu == true)
+                {
+                    checkpoint.JaLeu = true;
                 }
             }
             
@@ -125,10 +145,17 @@ public class DialogoControl : MonoBehaviour
         Player.instance.isPaused = true;
         Player.instance.stop = true;
     }
-    IEnumerator StartBossBattle()
+
+    IEnumerator StartBossBattleCobra()
     {
         Player.instance.stop = false;
         yield return new WaitForSeconds(2f);
         BossCobra.startBossBattle = true;
+    }
+    IEnumerator StartBossBattleUrso()
+    {
+        Player.instance.stop = false;
+        yield return new WaitForSeconds(2f);
+        BossUrso.startBoss = true;
     }
 }

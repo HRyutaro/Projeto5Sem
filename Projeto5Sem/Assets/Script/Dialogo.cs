@@ -39,7 +39,7 @@ public class Dialogo : MonoBehaviour
 
     void Semforce()
     {
-        if (Input.GetButtonDown("Interacao") && podeInteragir == true && Player.tipoDeControle == 0)
+        if (Input.GetButtonDown("Interacao") && podeInteragir == true && Player.tipoDeControle == 1)
         {
             if (interagiu == false)
             {
@@ -52,7 +52,7 @@ public class Dialogo : MonoBehaviour
 
 
         }
-        else if (Input.GetKeyDown(KeyCode.E) && podeInteragir == true && Player.tipoDeControle == 1)
+        if (Input.GetKeyDown(KeyCode.E) && podeInteragir == true && Player.tipoDeControle == 0)
         {
             if (interagiu == false)
             {

@@ -27,6 +27,8 @@ public class GameController : MonoBehaviour
     public Image interacao;
     public Text interacao2;
     public bool interacaoNatela;
+    public Text notificacao;
+    public GameObject[] almasImagens;
 
 
     [Header("Pause")]
@@ -106,8 +108,8 @@ public class GameController : MonoBehaviour
         instance = this;
         slideTutorial.value = pularTutorialSlideValue;
         Time.timeScale = 1;
-        vida.maxValue = Player.instance.VidaTotal;
         //mana.maxValue = Player.instance.manaTotal;
+        vida.maxValue = Player.instance.VidaTotal;
         musica.value = GameControllerMenu.musicaValor;
         son.value = GameControllerMenu.musicaValor;
         pertoDaTable = false;
@@ -134,6 +136,8 @@ public class GameController : MonoBehaviour
         ControleKeys();
         ShowInteracao();
         controleEventeSystem();
+        AlmasHud();
+        Cheat();
     }
 
     void Cheat()
@@ -143,14 +147,15 @@ public class GameController : MonoBehaviour
             Player.instance.Radiacao++;
         }
     }
+
     void controleEventeSystem()
     {
-        if(Player.tipoDeControle == 0)
+        if(Player.tipoDeControle == 1)
         {
             eventSytem.SetActive(true);
             eventSytem1.SetActive(false);
         }
-        if (Player.tipoDeControle == 1)
+        if (Player.tipoDeControle == 0)
         {
             eventSytem.SetActive(false);
             eventSytem1.SetActive(true);
@@ -158,11 +163,11 @@ public class GameController : MonoBehaviour
     }
     void checkcontroles()
     {
-        if(Player.tipoDeControle == 0)
+        if(Player.tipoDeControle == 1)
         {
             controlSlide.value = 0;
         }
-        else if(Player.tipoDeControle == 1)
+        if(Player.tipoDeControle == 0)
         {
             controlSlide.value = 1;
         }
@@ -318,11 +323,11 @@ public class GameController : MonoBehaviour
     }
     public void controleConfig()
     {
-        if (controlSlide.value == 0)
+        if (controlSlide.value == 1)
         {
             Player.tipoDeControle = 0;
         }
-        else if(controlSlide.value == 1)
+        else if(controlSlide.value == 0)
         {
             Player.tipoDeControle = 1;
         }
@@ -616,6 +621,35 @@ public class GameController : MonoBehaviour
     {
         vida.maxValue = Player.instance.VidaTotal;
         vida.value = Player.VidaAtual;
+
+    }
+
+    void AlmasHud()
+    {
+        if(almasAtual == 3)
+        {
+            almasImagens[0].SetActive(true);
+            almasImagens[1].SetActive(true);
+            almasImagens[2].SetActive(true);
+        }
+        else if(almasAtual == 2)
+        {
+            almasImagens[0].SetActive(true);
+            almasImagens[1].SetActive(true);
+            almasImagens[2].SetActive(false);
+        }
+        else if (almasAtual == 1)
+        {
+            almasImagens[0].SetActive(true);
+            almasImagens[1].SetActive(false);
+            almasImagens[2].SetActive(false);
+        }
+        else if (almasAtual == 0)
+        {
+            almasImagens[0].SetActive(false);
+            almasImagens[1].SetActive(false);
+            almasImagens[2].SetActive(false);
+        }
     }
     void ManaHud()
     {
@@ -691,7 +725,7 @@ public class GameController : MonoBehaviour
 
     public void ShowInventario2()
     {
-        if (Input.GetButtonDown("Inventario") && isPause == false && Player.tipoDeControle == 0)
+        if (Input.GetButtonDown("Inventario") && isPause == false && Player.tipoDeControle == 1)
         {
             if (inInventario == false)
             {
@@ -715,7 +749,7 @@ public class GameController : MonoBehaviour
                 Player.instance.isPaused = false;
             }
         }
-        if (Input.GetKeyDown(KeyCode.Tab) && isPause == false && Player.tipoDeControle == 1)
+        if (Input.GetKeyDown(KeyCode.Tab) && isPause == false && Player.tipoDeControle == 0)
         {
             if (inInventario == false)
             {
@@ -743,7 +777,7 @@ public class GameController : MonoBehaviour
 
     public void ShowInventario()
     {
-        if (Input.GetButtonDown("Interacao") && pertoDaTable == true && isPause == false && Player.tipoDeControle == 0)
+        if (Input.GetButtonDown("Interacao") && pertoDaTable == true && isPause == false && Player.tipoDeControle == 1)
         {
             if (inInventario == false)
             {
@@ -767,7 +801,7 @@ public class GameController : MonoBehaviour
                 textoInteracaoInventario.enabled = false;
             }
         }
-        if (Input.GetKeyDown(KeyCode.E) && pertoDaTable == true && isPause == false && Player.tipoDeControle == 1)
+        if (Input.GetKeyDown(KeyCode.E) && pertoDaTable == true && isPause == false && Player.tipoDeControle == 0)
         {
             if (inInventario == false)
             {
@@ -828,12 +862,12 @@ public class GameController : MonoBehaviour
         plantasInvent[3].text = Player.instance.temPlantaFumaca.ToString();
         plantasInvent[4].text = Player.instance.temPlantaFogo.ToString();
 
-        if(Player.tipoDeControle == 0)
+        if(Player.tipoDeControle == 1)
         {
             imageInteracaoInventario.enabled = true;
             textoInteracaoInventario.enabled = false;
         }
-        if (Player.tipoDeControle == 1)
+        if (Player.tipoDeControle == 0)
         {
             imageInteracaoInventario.enabled = false;
             textoInteracaoInventario.enabled = true;
@@ -844,12 +878,14 @@ public class GameController : MonoBehaviour
     {
         if(interacaoNatela == true)
         {
-            if(Player.tipoDeControle == 0)
+            if(Player.tipoDeControle == 1)
             {
                 interacao.enabled = true;
+                interacao2.enabled = false;
             }
-            else if (Player.tipoDeControle == 1)
+            if (Player.tipoDeControle == 0)
             {
+                interacao.enabled = false;
                 interacao2.enabled = true;
             }
         }
@@ -882,11 +918,11 @@ public class GameController : MonoBehaviour
     {
         if(pularTutorial == false)
         {
-            if (Player.tipoDeControle == 0)
+            if (Player.tipoDeControle == 1)
             {
                 imageInteracaotutorial.enabled = true;
             }
-            if (Player.tipoDeControle == 1)
+            if (Player.tipoDeControle == 0)
             {
                 imageInteracaotutorial.enabled = false;
             }
@@ -975,5 +1011,17 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(2.5f);
         naoTem.enabled = false;
         botaoFabricar.SetActive(true);
+    }
+
+    public void ShowInformacao(string x)
+    {
+        notificacao.text = x;
+        StartCoroutine(showInformacao());
+    }
+     IEnumerator showInformacao()
+    {
+        notificacao.enabled = true;
+        yield return new WaitForSeconds(3f);
+        notificacao.enabled = false;
     }
 }

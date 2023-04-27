@@ -34,7 +34,6 @@ public class GameControllerMenu : MonoBehaviour
     void Start()
     {
         tela = 0;
-        Player.tipoDeControle = 1;
         sonSlides[0].value = somValor;
         sonSlides[1].value = musicaValor;
     }
@@ -48,12 +47,12 @@ public class GameControllerMenu : MonoBehaviour
 
     void controleEventeSystem()
     {
-        if (Player.tipoDeControle == 0)
+        if (Player.tipoDeControle == 1)
         {
             eventSytem.SetActive(true);
             eventSytem1.SetActive(false);
         }
-        if (Player.tipoDeControle == 1)
+        if (Player.tipoDeControle == 0)
         {
             eventSytem.SetActive(false);
             eventSytem1.SetActive(true);
@@ -62,11 +61,11 @@ public class GameControllerMenu : MonoBehaviour
 
     void checkcontroles()
     {
-        if (Player.tipoDeControle == 0)
+        if (Player.tipoDeControle == 1)
         {
             controlSlide.value = 0;
         }
-        else if (Player.tipoDeControle == 1)
+        else if (Player.tipoDeControle == 0)
         {
             controlSlide.value = 1;
 
@@ -186,7 +185,8 @@ public class GameControllerMenu : MonoBehaviour
     {
         SceneManager.LoadScene(x);
         Time.timeScale = 1;
-        
+        GameController.almasAtual = GameController.instance.almasTotal;
+        Player.VidaAtual = Player.instance.VidaTotal;
     }
     public void Opcoes()
     {
@@ -205,11 +205,11 @@ public class GameControllerMenu : MonoBehaviour
     }
     public void controleConfig()
     {
-        if (controlSlide.value == 0)
+        if (controlSlide.value == 1)
         {
             Player.tipoDeControle = 0;
         }
-        else if (controlSlide.value == 1)
+        else if (controlSlide.value == 0)
         {
             Player.tipoDeControle = 1;
         }

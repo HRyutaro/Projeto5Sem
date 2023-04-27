@@ -26,6 +26,8 @@ TagManager:
   - StartBoss
   - BossParado
   - CheckPoint
+  - BossUrso
+  - BossInvestida
   layers:
   - Default
   - TransparentFX

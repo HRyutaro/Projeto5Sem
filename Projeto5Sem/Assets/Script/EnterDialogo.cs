@@ -8,8 +8,6 @@ public class EnterDialogo : MonoBehaviour
     public string[] speechtxt;
     public string[] nome;
 
-    public GameObject interecao;
-
     public LayerMask playerLayer;
     public float width;
     public float height;
@@ -22,6 +20,8 @@ public class EnterDialogo : MonoBehaviour
     public static bool podeSeguir;
 
     public int proxSprite = 0;
+
+    public int qualBoss;
 
     private void Start()
     {
@@ -63,7 +63,14 @@ public class EnterDialogo : MonoBehaviour
         if (hits.Length > 0)
         {
             podeInteragir = true;
-            DialogoControl.bossDialago = true;
+            if(qualBoss == 0)
+            {
+                DialogoControl.bossDialagoUrso = true;
+            }
+            if(qualBoss == 1)
+            {
+                DialogoControl.bossDialagoCobra = true;
+            }
         }
         else
         {

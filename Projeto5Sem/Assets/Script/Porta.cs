@@ -6,11 +6,11 @@ using UnityEngine.UI;
 public class Porta : MonoBehaviour
 {
     public Animator anim;
-    private bool abriu;
+    public bool abriu;
     private bool podeAbrir;
     public bool portaBloqueada;
     public bool podeInteragir;
-    public Text notificao;
+    public bool abriuFechouPorta;
 
     void Start()
     {
@@ -22,35 +22,42 @@ public class Porta : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if(podeAbrir == true && portaBloqueada == false)
+        AbrirFecharPorta();
+        if (podeAbrir == true && portaBloqueada == false)
         {
-            if (Player.tipoDeControle == 0 && Input.GetButtonDown("Interacao") && abriu == false ||
-                Player.tipoDeControle == 1 && Input.GetKeyDown(KeyCode.E) && abriu == false)
-            {
-                anim.SetFloat("Aberta", 1);
+            if (Player.tipoDeControle == 1 && Input.GetButtonDown("Interacao") && abriu == false ||
+                Player.tipoDeControle == 0 && Input.GetKeyDown(KeyCode.E) && abriu == false)
+            {  
                 abriu = true;
             }
-            else if (Player.tipoDeControle == 0 && Input.GetButtonDown("Interacao") && abriu == true ||
-                Player.tipoDeControle == 1 && Input.GetKeyDown(KeyCode.E) && abriu == true)
+            else if (Player.tipoDeControle == 1 && Input.GetButtonDown("Interacao") && abriu == true ||
+                Player.tipoDeControle == 0 && Input.GetKeyDown(KeyCode.E) && abriu == true)
             {
-
-                anim.SetFloat("Aberta", 0);
                 abriu = false;
-
             }
         }
         else if( portaBloqueada == true)
         {
             if(podeInteragir== true)
             {
-                if (Player.tipoDeControle == 0 && Input.GetButtonDown("Interacao") && abriu == false ||
-                        Player.tipoDeControle == 1 && Input.GetKeyDown(KeyCode.E) && abriu == false)
+                if (Player.tipoDeControle == 1 && Input.GetButtonDown("Interacao") && abriu == false ||
+                        Player.tipoDeControle == 0 && Input.GetKeyDown(KeyCode.E) && abriu == false)
                 {
-                    StartCoroutine(Notificao());
-                    notificao.text = "Essa porta parece emperrada";
+                    GameController.instance.ShowInformacao("Parece que a porta esta emperrada");
                 }
             }
+        }
+    }
+
+    void AbrirFecharPorta()
+    {
+        if(abriu == true)
+        {
+            anim.SetFloat("Aberta", 1);
+        }
+        if(abriu == false)
+        {
+            anim.SetFloat("Aberta", 0);
         }
     }
 
@@ -70,15 +77,7 @@ public class Porta : MonoBehaviour
         {
             GameController.instance.interacaoNatela = false;
             podeAbrir = false;
-            notificao.enabled = false;
             podeInteragir = false;
         }
-    }
-    IEnumerator Notificao()
-    {
-        notificao.enabled = true;
-        GameController.instance.interacaoNatela = false;
-        yield return new WaitForSeconds(3f);
-        notificao.enabled = false;
     }
 }

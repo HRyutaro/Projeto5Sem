@@ -54,17 +54,12 @@ public class BossCobra : MonoBehaviour
     {
         if(startBossBattle == true)
         {
-
             if(isDead == false)
             {
                 controleVida();
                 trocarDePosicao();
                 Atacar();
             }
-        }
-        if(Input.GetKeyDown(KeyCode.K))
-        {
-            startBossBattle = true;
         }
     }
 
@@ -78,6 +73,7 @@ public class BossCobra : MonoBehaviour
         }
         else if(vidaAtual <= 0)
         {
+            BloqueadoPeloBoss.bossCobraisDead = true;
             isDead = true;
             col.enabled = false;
             mesh.enabled = false;

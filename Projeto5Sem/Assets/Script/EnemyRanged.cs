@@ -42,6 +42,11 @@ public class EnemyRanged : MonoBehaviour
     public Transform atackRespawn;
     public float forcaAtack;
 
+    [Header("Especial")]
+    public GameObject prefabDrop;
+    public bool especialDrop;
+    private int numeroDrops;
+
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -58,11 +63,54 @@ public class EnemyRanged : MonoBehaviour
     {
         life.value = vidaAtual;
         atacar();
+        ControleVida();
     }
 
     void FixedUpdate()
     {
         move();
+    }
+
+    void ControleVida()
+    {
+        if (vidaAtual <= 0 && isDead == false)
+        {
+            if (especialDrop == true)
+            {
+                isDead = true;
+                Anim.SetFloat("Atack", 0);
+                GetComponent<Collider>().enabled = false;
+                GetComponent<MeshRenderer>().enabled = false;
+                Destroy(gameObject, 1f);
+                Instantiate(prefabDrop, gameObject.transform.position + new Vector3(0, 0.5f, 0), gameObject.transform.rotation);
+                if (numeroDrops == 1)
+                {
+                    Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
+                }
+                else if (numeroDrops == 2)
+                {
+                    Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
+                    Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
+                }
+            }
+            else if (especialDrop == false)
+            {
+                isDead = true;
+                Anim.SetFloat("Atack", 0);
+                GetComponent<MeshRenderer>().enabled = false;
+                GetComponent<Collider>().enabled = false;
+                Destroy(gameObject, 1f);
+                if (numeroDrops == 1)
+                {
+                    Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
+                }
+                else if (numeroDrops == 2)
+                {
+                    Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
+                    Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
+                }
+            }
+        }
     }
     void move()
     {

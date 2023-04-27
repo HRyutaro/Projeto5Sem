@@ -13,15 +13,18 @@ public class Brutamontes : MonoBehaviour
     public GameObject radiacao;
     public Slider life;
     private bool isDead;
+    public Rigidbody rb;
+    public GameObject Corpo;
 
     [Header("Perseguição")]
     public float speed;
+    public float speedAtual;
     private float distMax;
-    float distanciaDoAlvo;
     public Transform alvo;
     public float distanciaMin;
     public float distanciaMax;
     private NavMeshAgent navMeshAgent;
+    public bool stop;
 
     [Header("Animação")]
     public Animator Anim;
@@ -33,6 +36,9 @@ public class Brutamontes : MonoBehaviour
     private bool tomouDano = false;
     public GameObject corpo;
     public MeshRenderer mesh;
+    public GameObject deBuff;
+    public GameObject danoFrio;
+    public GameObject danoPedra;
 
     [Header("ataque")]
     public float CdAtack;
@@ -44,17 +50,19 @@ public class Brutamontes : MonoBehaviour
     [Header("Especial")]
     public GameObject prefabDrop;
     public bool especialDrop;
+    private int numeroDrops;
 
     void Start()
     {
+        numeroDrops = Random.Range(1, 2);
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.stoppingDistance = distanciaMin;
-        navMeshAgent.speed = speed;
         distMax = distanciaMax;
         atack.enabled = false;
         life.maxValue = vida;
         vidaAtual = vida;
         isDead = false;
+        speedAtual = speed;
     }
 
 
@@ -67,73 +75,74 @@ public class Brutamontes : MonoBehaviour
     void FixedUpdate()
     {
         move();
+        ControleVida();
+    }
+    void ControleVida()
+    {
+        if (vidaAtual <= 0 && isDead == false)
+        {
+            if (especialDrop == true)
+            {
+                isDead = true;
+                Anim.SetFloat("Atack", 0);
+                GetComponent<Collider>().enabled = false;
+                corpo.SetActive(false);
+                Destroy(gameObject, 1f);
+                Instantiate(prefabDrop, gameObject.transform.position + new Vector3(0, 0.5f, 0), gameObject.transform.rotation);
+                if (numeroDrops == 1)
+                {
+                    Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
+                }
+                else if (numeroDrops == 2)
+                {
+                    Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
+                    Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
+                }
+            }
+            else if (especialDrop == false)
+            {
+                isDead = true;
+                Anim.SetFloat("Atack", 0);
+                corpo.SetActive(false);
+                GetComponent<Collider>().enabled = false;
+                Destroy(gameObject, 1f);
+                if (numeroDrops == 1)
+                {
+                    Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
+                }
+                else if (numeroDrops == 2)
+                {
+                    Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
+                    Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
+                }
+            }
+        }
     }
     void move()
     {
-        if(isDead == false)
+        if (stop == false)
         {
-        distanciaDoAlvo = Vector3.Distance(transform.position, alvo.position);
-        if (distanciaDoAlvo > distMax)
-        {
-            navMeshAgent.SetDestination(transform.position);
-        }
-        else
-        {
-            navMeshAgent.SetDestination(alvo.position);
-        }
-        }
-    }
-
-    void tomarDano(float dano)
-    {
-        StartCoroutine(DanoCorCD());
-        if (vidaAtual >= 1)
-        {
-            vidaAtual -= 1;
-        }
-        if (vidaAtual <= 0)
-        {
-            if(especialDrop == true)
+            gameObject.transform.LookAt(alvo);
+            float distance = Vector3.Distance(transform.position, alvo.position);
+            Vector3 direction = alvo.position - transform.position;
+            direction.Normalize();
+            if (distance < distanciaMin)
             {
-                isDead = true;
-                Anim.SetFloat("golpe", 0);
-                GetComponent<Collider>().enabled = false;
-                corpo.SetActive(false);
-                Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
-                Instantiate(prefabDrop, gameObject.transform.position, gameObject.transform.rotation);
-                Destroy(gameObject, 1f);
-
+                rb.velocity = Vector3.zero;
             }
-            else if(especialDrop == false)
+            else if (distance > distMax)
             {
-                isDead = true;
-                Anim.SetFloat("golpe", 0);
-                GetComponent<Collider>().enabled = false;
-                corpo.SetActive(false);
-                GetComponentInChildren<MeshRenderer>().enabled = false;
-                Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
-                Destroy(gameObject, 1f);
-
+                rb.velocity = Vector3.zero;
             }
+            else
+            {
+                Vector3 velocity = direction * speedAtual;
+                rb.velocity = velocity;
+            }
+
         }
     }
-    void tomarDanoFogo()
-    {
-        StartCoroutine("DanoCorCDFogo");
-        if (vidaAtual >= 1)
-        {
-            --vidaAtual;
-        }
-        if (vidaAtual <= 0)
-        {
-            isDead = true;
-            Anim.SetFloat("golpe", 0);
-            Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
-            corpo.SetActive(false);
-            GetComponent<Collider>().enabled = false;
-            Destroy(gameObject, 1f);
-        }
-    }
+
     void atacar()
     {
         if(isDead == false)
@@ -150,25 +159,6 @@ public class Brutamontes : MonoBehaviour
             }
         }
     }
-
-    void Congelado()
-    {
-        StartCoroutine(EfeitoGelo());
-        if (vidaAtual >= 1)
-        {
-            Anim.SetFloat("golpe", 0);
-            --vidaAtual;
-        }
-        else if (vidaAtual <= 0)
-        {
-            isDead = true;
-            Anim.SetFloat("golpe", 0);
-            GetComponent<Collider>().enabled = false;
-            corpo.SetActive(false);
-            Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
-            Destroy(gameObject, 1f);
-        }
-    }
     IEnumerator AtackGarra()
     {
         Anim.SetFloat("golpe", 1);
@@ -180,49 +170,75 @@ public class Brutamontes : MonoBehaviour
     }
 
 
+    void tomarDano(int dano)
+    {
+        StartCoroutine(DanoCorCD());
+        vidaAtual -= dano;
+        Anim.SetFloat("golpe", 0);
+    }
     IEnumerator CDTomarDano()
     {
         tomouDano = true;
-        Anim.SetFloat("golpe", 0);
         yield return new WaitForSeconds(0.3f);
         tomouDano = false;
     }
-    IEnumerator EfeitoGelo()
+    IEnumerator DanoCorCD()
     {
-        navMeshAgent.speed = 1.5f;
-        Anim.speed = 0.5f;
-        Anim.SetFloat("golpe", 0);
-        yield return new WaitForSeconds(3f);
-        navMeshAgent.speed = speed;
-        Anim.speed = 1;
+        mesh.material.color = Color.red;
+        stop = true;
+        yield return new WaitForSeconds(1f);
+        stop = false;
         mesh.material.color = corNormal;
-
     }
 
 
-    IEnumerator DanoCorCD()
+    void tomarDanoFogo()
     {
-        mesh.material.color = corDano;
-        navMeshAgent.isStopped = true;
-        yield return new WaitForSeconds(1f);
-        navMeshAgent.isStopped = false;
-        mesh.material.color = corNormal;
+        StartCoroutine("DanoCorCDFogo");
     }
     IEnumerator DanoCorCDFogo()
     {
         mesh.material.color = corDano;
-        navMeshAgent.isStopped = true;
+        stop = true;
         yield return new WaitForSeconds(0.3f);
-        navMeshAgent.isStopped = false;
+        stop = false;
         mesh.material.color = corNormal;
     }
+
+
+    void Congelado()
+    {
+        StartCoroutine(EfeitoGelo());
+    }
+    IEnumerator EfeitoGelo()
+    {
+        --vidaAtual;
+        danoFrio.SetActive(true);
+        stop = true;
+        mesh.material.color = corGelado;
+        yield return new WaitForSeconds(1f);
+        --vidaAtual;
+        yield return new WaitForSeconds(1f);
+        danoFrio.SetActive(false);
+        stop = false;
+        mesh.material.color = corNormal;
+
+    }
+
+
     IEnumerator inSmoke()
     {
-        yield return new WaitForSeconds(1f);
-        distMax = 1;
-        yield return new WaitForSeconds(2f);
-        distMax = distanciaMax;
-
+        --vidaAtual;
+        Anim.speed = 0.5f;
+        deBuff.SetActive(true);
+        speedAtual = speed / 2;
+        danoPedra.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        danoPedra.SetActive(false);
+        --vidaAtual;
+        Anim.speed = 1;
+        deBuff.SetActive(false);
+        speedAtual = speed;
     }
 
     void OnTriggerEnter(Collider other)
@@ -232,12 +248,6 @@ public class Brutamontes : MonoBehaviour
             StartCoroutine(CDTomarDano());
             tomarDano(1);
         }
-        if (other.gameObject.tag == "gelo" && !tomouDano)
-        {
-            StartCoroutine(CDTomarDano());
-            Congelado();
-            GetComponent<Renderer>().material.color = corGelado;
-        }
         if (other.gameObject.tag == "fogo" && !tomouDano)
         {
             StartCoroutine(CDTomarDano());
@@ -245,6 +255,7 @@ public class Brutamontes : MonoBehaviour
         }
         if (other.gameObject.tag == "fumaca")
         {
+            StartCoroutine(CDTomarDano());
             StartCoroutine(inSmoke());
         }
 
