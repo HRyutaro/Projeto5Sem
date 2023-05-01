@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     public int VidaTotal;
     public static int VidaAtual;
     public ParticleSystem curar;
-    public ParticleSystem curarMana;
+    public ParticleSystem raioUtilizado;
     public MeshRenderer playerMesh;
     public GameObject playerMeshCorpo;
     
@@ -30,6 +30,7 @@ public class Player : MonoBehaviour
     [Header("Combat")]
     public GameObject espadaCosta;
     public GameObject espada;
+    public GameObject espadaGolpeRaio;
     public GameObject efeitoEspada;
     public float CDAtack;
     public float CDRange2;
@@ -54,12 +55,12 @@ public class Player : MonoBehaviour
     public int temPocaoFogo;
     public int temPocaoGelo;
     public int temPocaoFumaca;
-    public int temPocaoMana;
+    public int temPocaoRaio;
     public int temPocaoCura;
     public int temPlantaFogo;
     public int temPlantaGelo;
     public int temPlantaFumaca;
-    public int temPlantaMana;
+    public int temPlantaRaio;
     public int temPlantaCura;
     public bool TemCartao;
     public bool TemCartao2;
@@ -70,7 +71,8 @@ public class Player : MonoBehaviour
     public GameObject feiticoPrefab;
     public float forcaArremessoFeitico;
     public Transform feiticoRespawn;
-
+    public GameObject raioEffect;
+    private bool espadaInRaio = false;
 
     [Header("Dano")]
     public float forcaEmpurrao;
@@ -291,21 +293,12 @@ public class Player : MonoBehaviour
                 } // pocao cura
                 if (pocao.tipoDapocao == 1)
                 {
-                    if (temPocaoMana > 0)
+                    if(temPocaoRaio > 0)
                     {
-                        if (manaAtual < manaTotal)
-                        {
-                            StartCoroutine("ManaCura");
-                            manaAtual += 3;
-                            --temPocaoMana;
-                            GameController.numeroPocoesAtual = temPocaoMana;
-                        }
-                        else
-                        {
-                            StartCoroutine("ManaCura");
-                            --temPocaoMana;
-                            GameController.numeroPocoesAtual = temPocaoMana;
-                        }
+                        --temPocaoRaio;
+                        GameController.numeroPocoesAtual = temPocaoRaio;
+                        StartCoroutine(PocaoDeRaio());
+                        StartCoroutine(Raio());
                     }
 
                 } // pocao mana
@@ -336,23 +329,13 @@ public class Player : MonoBehaviour
                 } // pocao cura
                 if (pocao.tipoDapocao == 1)
                 {
-                    if (temPocaoMana > 0)
+                    if (temPocaoRaio > 0)
                     {
-                        if (manaAtual < manaTotal)
-                        {
-                            StartCoroutine("ManaCura");
-                            manaAtual += 3;
-                            --temPocaoMana;
-                            GameController.numeroPocoesAtual = temPocaoMana;
-                        }
-                        else
-                        {
-                            StartCoroutine("ManaCura");
-                            --temPocaoMana;
-                            GameController.numeroPocoesAtual = temPocaoMana;
-                        }
+                        --temPocaoRaio;
+                        GameController.numeroPocoesAtual = temPocaoRaio;
+                        StartCoroutine(PocaoDeRaio());
+                        StartCoroutine(Raio());
                     }
-
                 } // pocao mana
             }
         }
@@ -616,7 +599,7 @@ public class Player : MonoBehaviour
         {
             if(pocao.tipoDapocao == 0)
             {
-                GameController.numeroPocoesAtual = temPocaoMana;
+                GameController.numeroPocoesAtual = temPocaoRaio;
                 pocao.tipoDapocao = 1;
                 print("pocao Raio");
             }
@@ -649,7 +632,7 @@ public class Player : MonoBehaviour
         {
             if (pocao.tipoDapocao == 0)
             {
-                GameController.numeroPocoesAtual = temPocaoMana;
+                GameController.numeroPocoesAtual = temPocaoRaio;
                 pocao.tipoDapocao = 1;
                 print("pocao Raio");
             }
@@ -689,7 +672,7 @@ public class Player : MonoBehaviour
         }
         else if (pocao.tipoDapocao == 1)
         {
-            GameController.numeroPocoesAtual = temPocaoMana; 
+            GameController.numeroPocoesAtual = temPocaoRaio; 
             print("pocao Raio");
         }
         else if (pocao.tipoDapocao == 2)
@@ -742,14 +725,22 @@ public class Player : MonoBehaviour
     {
         stop = true; 
         isAtacking = true;
+        if(espadaInRaio == false)
+        {
+            efeitoEspada.SetActive(true);
+        }
+        else if(espadaInRaio == true)
+        {
+            espadaGolpeRaio.SetActive(true);
+        }
         espada.SetActive(true);
-        efeitoEspada.SetActive(true);
         Anim.SetFloat("Atack", 1);
         espadaCosta.SetActive(false);
         yield return new WaitForSeconds(0.5f);
         stop = false;
         isAtacking = false;
         espada.SetActive(false);
+        espadaGolpeRaio.SetActive(false);
         efeitoEspada.SetActive(false);
         Anim.SetFloat("Atack", 0);
         espadaCosta.SetActive(true);
@@ -794,12 +785,22 @@ public class Player : MonoBehaviour
         curar.Play(false);
 
     }
-    IEnumerator ManaCura()
+    IEnumerator Raio()
     {
-        curarMana.Play(true);
+        raioUtilizado.Play(true);
         yield return new WaitForSeconds(0.5f);
-        curarMana.Play(false);
+        raioUtilizado.Play(false);
+    }
 
+    IEnumerator PocaoDeRaio()
+    {
+        espada.tag = "Raio";
+        espadaInRaio = true;
+        raioEffect.SetActive(true);
+        yield return new WaitForSeconds(10f);
+        raioEffect.SetActive(false);
+        espadaInRaio = false;
+        espada.tag = "espada";
     }
 
     private void OnTriggerEnter(Collider other)
@@ -830,10 +831,6 @@ public class Player : MonoBehaviour
         if(other.gameObject.tag == "BossInvestida" && TomouDano == false)
         {
             TomarDano(3, 15);
-        }
-        if (other.gameObject.tag == "BossUrso" && TomouDano == false)
-        {
-            TomarDano(0, 5);
         }
         if(other.gameObject.tag == "AtivarQueda" && QuedaAtivada == false)
         {

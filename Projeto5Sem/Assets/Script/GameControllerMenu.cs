@@ -13,6 +13,8 @@ public class GameControllerMenu : MonoBehaviour
     public GameObject opcoes;
     public GameObject sair;
     public GameObject[] sairCtz;
+    public GameObject telaInicial;
+    public GameObject telaInicial1;
 
     [Header("Opcao")]
     public GameObject[] controles;
@@ -75,6 +77,8 @@ public class GameControllerMenu : MonoBehaviour
     {
         if (tela == 0)// tela menu
         {
+            telaInicial.SetActive(true);
+            telaInicial1.SetActive(false);
             sairCtz[0].SetActive(false);
             novoJogo.SetActive(true);
             opcoes.SetActive(true);
@@ -90,6 +94,8 @@ public class GameControllerMenu : MonoBehaviour
         }
         else if(tela == 1) // tela opcoes
         {
+            telaInicial.SetActive(false);
+            telaInicial1.SetActive(true);
             sairCtz[0].SetActive(false);
             novoJogo.SetActive(false);
             opcoes.SetActive(false);
@@ -109,6 +115,8 @@ public class GameControllerMenu : MonoBehaviour
         }
         else if(tela == 2)// tela controles
         {
+            telaInicial.SetActive(false);
+            telaInicial1.SetActive(true);
             sairCtz[0].SetActive(false);
             novoJogo.SetActive(false);
             opcoes.SetActive(false);
@@ -128,7 +136,8 @@ public class GameControllerMenu : MonoBehaviour
         }
         else if (tela == 3)// tela Sons
         {
-
+            telaInicial.SetActive(false);
+            telaInicial1.SetActive(true);
             sairCtz[0].SetActive(false);
             novoJogo.SetActive(false);
             opcoes.SetActive(false);
@@ -148,6 +157,8 @@ public class GameControllerMenu : MonoBehaviour
         }
         else if (tela == -1)// tela Sair Ctz
         {
+            telaInicial.SetActive(true);
+            telaInicial1.SetActive(false);
             sairCtz[0].SetActive(true);
             novoJogo.SetActive(true);
             opcoes.SetActive(true);
@@ -159,6 +170,7 @@ public class GameControllerMenu : MonoBehaviour
             controles[1].SetActive(false);
             sons[1].SetActive(false);
             sons[2].SetActive(false);
+
             if (Input.GetButtonDown("Cancel"))
             {
                 tela = 0;
@@ -185,8 +197,6 @@ public class GameControllerMenu : MonoBehaviour
     {
         SceneManager.LoadScene(x);
         Time.timeScale = 1;
-        GameController.almasAtual = GameController.instance.almasTotal;
-        Player.VidaAtual = Player.instance.VidaTotal;
     }
     public void Opcoes()
     {

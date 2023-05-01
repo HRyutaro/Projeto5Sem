@@ -40,8 +40,8 @@ public class Plantas : MonoBehaviour
             }
             else if (planta == 1)
             {
-                Player.instance.temPlantaMana += quantidadeDePlantas;
-                quantosPegou.text = ("Pegou " + quantidadeDePlantas + " Raiz Magica");
+                Player.instance.temPlantaRaio += quantidadeDePlantas;
+                quantosPegou.text = ("Pegou " + quantidadeDePlantas + " Raiz Elétrica");
                 StartCoroutine(PegouPlanta());
                 GameController.instance.interacaoNatela = false;
                 Destroy(gameObject, 1);
@@ -49,7 +49,7 @@ public class Plantas : MonoBehaviour
             else if (planta == 2)
             {
                 Player.instance.temPlantaGelo += quantidadeDePlantas;
-                quantosPegou.text = ("Pegou " + quantidadeDePlantas + " Cogumelos Gelidos");
+                quantosPegou.text = ("Pegou " + quantidadeDePlantas + " Cogumelos Glacial");
                 StartCoroutine(PegouPlanta());
                 GameController.instance.interacaoNatela = false;
                 Destroy(gameObject, 1);
@@ -57,7 +57,7 @@ public class Plantas : MonoBehaviour
             else if (planta == 3)
             {
                 Player.instance.temPlantaFumaca += quantidadeDePlantas;
-                quantosPegou.text = ("Pegou " + quantidadeDePlantas + " Pinhas Fumacentas");
+                quantosPegou.text = ("Pegou " + quantidadeDePlantas + " Pinhas Cósmicas");
                 StartCoroutine(PegouPlanta());
                 GameController.instance.interacaoNatela = false;
                 Destroy(gameObject, 1);
@@ -65,7 +65,7 @@ public class Plantas : MonoBehaviour
             else if (planta == 4)
             {
                 Player.instance.temPlantaFogo += quantidadeDePlantas;
-                quantosPegou.text = ("Pegou " + quantidadeDePlantas + " Tentaculos Vulcanicos");
+                quantosPegou.text = ("Pegou " + quantidadeDePlantas + " Tentáculos Vulcânicos");
                 StartCoroutine(PegouPlanta());
                 GameController.instance.interacaoNatela = false;
                 Destroy(gameObject, 1);

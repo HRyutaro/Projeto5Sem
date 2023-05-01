@@ -39,6 +39,9 @@ public class Brutamontes : MonoBehaviour
     public GameObject deBuff;
     public GameObject danoFrio;
     public GameObject danoPedra;
+    public GameObject raioeffect;
+    public GameObject raioArea;
+    private bool tomouRaio;
 
     [Header("ataque")]
     public float CdAtack;
@@ -51,6 +54,7 @@ public class Brutamontes : MonoBehaviour
     public GameObject prefabDrop;
     public bool especialDrop;
     private int numeroDrops;
+
 
     void Start()
     {
@@ -254,6 +258,30 @@ public class Brutamontes : MonoBehaviour
         speedAtual = speed;
     }
 
+    IEnumerator inShock()
+    {
+        tomouRaio = true;
+        stop = true;
+        yield return new WaitForSeconds(1f);
+        stop = false;
+        raioeffect.SetActive(true);
+        raioArea.SetActive(true);
+        --vidaAtual;
+        yield return new WaitForSeconds(4f);
+        --vidaAtual;
+        raioeffect.SetActive(false);
+        raioArea.SetActive(false);
+        tomouRaio = false;
+    }
+
+    IEnumerator InShock2()
+    {
+        raioeffect.SetActive(true);
+        stop = true;
+        yield return new WaitForSeconds(1f);
+        raioeffect.SetActive(false);
+        stop = false;
+    }
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("espada") && !tomouDano)
@@ -270,6 +298,18 @@ public class Brutamontes : MonoBehaviour
         {
             StartCoroutine(CDTomarDano());
             StartCoroutine(inSmoke());
+        }
+        if (other.gameObject.tag == "Raio")
+        {
+            StartCoroutine(inShock());
+        }
+        if (other.gameObject.tag == "AreaRaio")
+        {
+            if (tomouRaio == false)
+            {
+                StartCoroutine(InShock2());
+                --vidaAtual;
+            }
         }
 
     }

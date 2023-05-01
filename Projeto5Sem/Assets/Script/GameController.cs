@@ -25,11 +25,11 @@ public class GameController : MonoBehaviour
     public Slider dash;
     public GameObject[] FaceGato;
     public Image interacao;
-    public Text interacao2;
+    public Image interacao2;
     public bool interacaoNatela;
     public Text notificacao;
     public GameObject[] almasImagens;
-
+    public Slider vidaBoss;
 
     [Header("Pause")]
     public GameObject Pause;
@@ -66,12 +66,13 @@ public class GameController : MonoBehaviour
     public Text[] pocoesInvent;
     public Text[] plantasInvent;
     public Text naoTem;
-    public Text inventarioBancada;
+    public GameObject inventarioBancada;
+    public GameObject inventario;
     public GameObject[] cartaoKey;
     public GameObject[] infocartaoKey;
     public GameObject botaoFabricar;
     public Image imageInteracaoInventario;
-    public Text textoInteracaoInventario;
+    public Image textoInteracaoInventario;
 
 
     [SerializeField]
@@ -91,14 +92,17 @@ public class GameController : MonoBehaviour
     public static bool pularTutorial;
     public static int pularTutorialSlideValue;
     public Image imageInteracaotutorial;
+    public Image imageInteracaotutorial2;
     public Collider pisoTutorial;
     public GameObject tutorialBasico;
+    public GameObject tutorialBasico2;
     [HideInInspector]public bool outPisoTutorial;
     public Collider pisoTutorialCraft;
     public GameObject tutorialCrafting;
+    public GameObject tutorialCrafting2;
     [HideInInspector]public bool inPisoTutorialCraft;
-    
     public GameObject tutorialArremesso;
+    public GameObject tutorialArremesso2;
     public int pagTutorial;
 
     void Start()
@@ -137,7 +141,6 @@ public class GameController : MonoBehaviour
         ShowInteracao();
         controleEventeSystem();
         AlmasHud();
-        Cheat();
     }
 
     void Cheat()
@@ -334,8 +337,11 @@ public class GameController : MonoBehaviour
     }
     public void Restart()
     {
-        SceneManager.LoadScene("Fase");
+        BossUrso.startBoss = false;
+        BossCobra.startBossBattle = false;
+        checkpointNumber = 0;
         Time.timeScale = 0;
+        SceneManager.LoadScene("Fase");
     }
 
     public void controleInventario()
@@ -455,33 +461,33 @@ public class GameController : MonoBehaviour
     }
     public void fabricarPocaoMana()
     {
-        if (Player.instance.Radiacao >= 2 && Player.instance.temPocaoMana < 4 && Player.instance.temPlantaMana >= 1 && inInventario2 == false)
+        if (Player.instance.Radiacao >= 2 && Player.instance.temPocaoRaio < 4 && Player.instance.temPlantaRaio >= 1 && inInventario2 == false)
         {
-            Player.instance.temPocaoMana += 1;
+            Player.instance.temPocaoRaio += 1;
             Player.instance.Radiacao -= 2;
-            Player.instance.temPlantaMana -= 1;
+            Player.instance.temPlantaRaio -= 1;
             Player.instance.StartNumeroPocao();
         }
-        else if(Player.instance.Radiacao < 2 && Player.instance.temPlantaMana < 1 && inInventario2 == false)// os dois 
+        else if(Player.instance.Radiacao < 2 && Player.instance.temPlantaRaio < 1 && inInventario2 == false)// os dois 
         {
             StartCoroutine(ShowTextInventario());
-            naoTem.text = "não tem Radiação e Raiz Mágica suficiente";
+            naoTem.text = "não tem Radiação e Raiz Elétrica";
         }
-        else if(Player.instance.Radiacao >= 2 && Player.instance.temPlantaMana < 1 && inInventario2 == false)// raiz 
+        else if(Player.instance.Radiacao >= 2 && Player.instance.temPlantaRaio < 1 && inInventario2 == false)// raiz 
         {
             StartCoroutine(ShowTextInventario());
-            naoTem.text = "Não tem Raiz Mágica suficiente";
+            naoTem.text = "Não tem Raiz Elétrica";
         }
-        else if(Player.instance.Radiacao < 2 && Player.instance.temPlantaMana >= 1 && inInventario2 == false)// radiação
+        else if(Player.instance.Radiacao < 2 && Player.instance.temPlantaRaio >= 1 && inInventario2 == false)// radiação
 
         {
             StartCoroutine(ShowTextInventario());
             naoTem.text = "Não tem Radição suficiente";
         }
-        else if (Player.instance.temPocaoMana == 4 && inInventario2 == false)
+        else if (Player.instance.temPocaoRaio == 4 && inInventario2 == false)
         {
             StartCoroutine(ShowTextInventario());
-            naoTem.text = "Limite de Dose de Mana atingido";
+            naoTem.text = "Limite de Elixir Elétrico atingido";
         }
     }
     public void fabricarPocaoGelo()
@@ -526,12 +532,12 @@ public class GameController : MonoBehaviour
         else if(Player.instance.Radiacao < 3 && Player.instance.temPlantaFumaca < 1 && inInventario2 == false)// Os Dois
         {
             StartCoroutine(ShowTextInventario());
-            naoTem.text = "não tem Radiação e Pinha fumacenta  suficiente"; 
+            naoTem.text = "não tem Radiação e Pinhas Cósmicas  suficiente"; 
         }
         else if(Player.instance.Radiacao >= 3 && Player.instance.temPlantaFumaca < 1 && inInventario2 == false)//pinha
         {
             StartCoroutine(ShowTextInventario());
-            naoTem.text = "não tem Pinha fumacenta  suficiente";
+            naoTem.text = "não tem Pinhas Cósmicas  suficiente";
         }
         else if(Player.instance.Radiacao < 3 && Player.instance.temPlantaFumaca >= 1 && inInventario2 == false)//radiacao
         {
@@ -541,7 +547,7 @@ public class GameController : MonoBehaviour
         else if(Player.instance.temPocaoFumaca == 3 && inInventario2 == false)//limite
         {
             StartCoroutine(ShowTextInventario());
-            naoTem.text = "Limite de Essência de Fumaça atingido";
+            naoTem.text = "Limite de Colisão Cósmica atingido";
         }
     }
     public void fabricarPocaofogo()
@@ -556,12 +562,12 @@ public class GameController : MonoBehaviour
         else if(Player.instance.Radiacao < 5 && Player.instance.temPlantaFogo < 1 && inInventario2 == false)// os dois
         {
             StartCoroutine(ShowTextInventario());
-            naoTem.text = "não tem Radiação e Tentaculos Vulcanicos suficiente";
+            naoTem.text = "não tem Radiação e Tentáculos Vulcânicos suficiente";
         }
         else if (Player.instance.Radiacao >= 5 && Player.instance.temPlantaFogo < 2 && inInventario2 == false) // vuncanico
         {
             StartCoroutine(ShowTextInventario());
-            naoTem.text = "não tem Tentaculos Vulcanicos suficiente";
+            naoTem.text = "não tem Tentáculos Vulcânicos suficiente";
         }
         else if (Player.instance.Radiacao < 5 && Player.instance.temPlantaFogo >= 2 && inInventario2 == false) // radiacao
         {
@@ -734,7 +740,8 @@ public class GameController : MonoBehaviour
                 Inventario.SetActive(true);
                 Player.instance.stop = true;
                 Player.instance.isPaused = true;
-                inventarioBancada.text = "Inventario";
+                inventarioBancada.SetActive(false);
+                inventario.SetActive(true);
                 EventSystem.current.SetSelectedGameObject(inventButtons[0]);
                 imageInteracaoInventario.enabled = false;
                 textoInteracaoInventario.enabled = false;
@@ -758,10 +765,11 @@ public class GameController : MonoBehaviour
                 Inventario.SetActive(true);
                 Player.instance.stop = true;
                 Player.instance.isPaused = true;
-                inventarioBancada.text = "Inventario";
+                inventarioBancada.SetActive(false);
+                inventario.SetActive(true);
                 EventSystem.current.SetSelectedGameObject(inventButtons[0]);
-                imageInteracaoInventario.enabled = true;
-                textoInteracaoInventario.enabled = true;
+                imageInteracaoInventario.enabled = false;
+                textoInteracaoInventario.enabled = false;
             }
             else if (inInventario == true)
             {
@@ -785,7 +793,8 @@ public class GameController : MonoBehaviour
                 Inventario.SetActive(true);
                 Player.instance.stop = true;
                 Player.instance.isPaused = true;
-                inventarioBancada.text = "Bancada de Alquimia";
+                inventarioBancada.SetActive(true);
+                inventario.SetActive(false);
                 EventSystem.current.SetSelectedGameObject(inventButtons[0]);
                 imageInteracaoInventario.enabled = true;
                 textoInteracaoInventario.enabled = false;
@@ -809,7 +818,8 @@ public class GameController : MonoBehaviour
                 Inventario.SetActive(true);
                 Player.instance.stop = true;
                 Player.instance.isPaused = true;
-                inventarioBancada.text = "Bancada de Alquimia";
+                inventarioBancada.SetActive(true);
+                inventario.SetActive(false);
                 EventSystem.current.SetSelectedGameObject(inventButtons[0]);
                 imageInteracaoInventario.enabled = false;
                 textoInteracaoInventario.enabled = true;
@@ -850,14 +860,14 @@ public class GameController : MonoBehaviour
     void UpdateInventario()
     {
         pocoesInvent[0].text = Player.instance.temPocaoCura.ToString();
-        pocoesInvent[1].text = Player.instance.temPocaoMana.ToString();
+        pocoesInvent[1].text = Player.instance.temPocaoRaio.ToString();
         pocoesInvent[2].text = Player.instance.temPocaoGelo.ToString();
         pocoesInvent[3].text = Player.instance.temPocaoFumaca.ToString();
         pocoesInvent[4].text = Player.instance.temPocaoFogo.ToString();
         pocoesInvent[5].text = Player.instance.Radiacao.ToString();
 
         plantasInvent[0].text = Player.instance.temPlantaCura.ToString();
-        plantasInvent[1].text = Player.instance.temPlantaMana.ToString();
+        plantasInvent[1].text = Player.instance.temPlantaRaio.ToString();
         plantasInvent[2].text = Player.instance.temPlantaGelo.ToString();
         plantasInvent[3].text = Player.instance.temPlantaFumaca.ToString();
         plantasInvent[4].text = Player.instance.temPlantaFogo.ToString();
@@ -921,55 +931,102 @@ public class GameController : MonoBehaviour
             if (Player.tipoDeControle == 1)
             {
                 imageInteracaotutorial.enabled = true;
+                imageInteracaotutorial2.enabled = false;
+                if (outPisoTutorial == true)
+                {
+                    inTutorial = true;
+                    tutorialHud.SetActive(true);
+                    tutorialBasico2.SetActive(true);
+
+                    if (Input.GetButtonDown("Submit"))
+                    {
+                        inTutorial = false;
+                        outPisoTutorial = false;
+                        tutorialHud.SetActive(false);
+                        pisoTutorial.enabled = false;
+                        tutorialBasico2.SetActive(false);
+                    }
+                }
+                if (inPisoTutorialCraft == true)
+                {
+                    if (pagTutorial == 0)
+                    {
+                        ++pagTutorial;
+                        inTutorial = true;
+                        tutorialHud.SetActive(true);
+                        tutorialCrafting2.SetActive(true);
+
+                    }
+                    if (Input.GetButtonDown("Submit"))
+                    {
+                        if (pagTutorial == 1)
+                        {
+                            ++pagTutorial;
+                            tutorialCrafting2.SetActive(false);
+                            tutorialArremesso2.SetActive(true);
+                        }
+                        else if (pagTutorial == 2)
+                        {
+                            inTutorial = false;
+                            inPisoTutorialCraft = false;
+                            tutorialHud.SetActive(false);
+                            tutorialCrafting2.SetActive(false);
+                            pisoTutorialCraft.enabled = false;
+                            tutorialArremesso2.SetActive(false);
+                        }
+                    }
+                }
             }
             if (Player.tipoDeControle == 0)
             {
                 imageInteracaotutorial.enabled = false;
-            }
-            if (outPisoTutorial == true)
-            {
-                inTutorial = true;
-                tutorialHud.SetActive(true);
-                tutorialBasico.SetActive(true);
-
-                if (Input.GetButtonDown("Submit"))
+                imageInteracaotutorial2.enabled = true;
+                if (outPisoTutorial == true)
                 {
-                    inTutorial = false;
-                    outPisoTutorial = false;
-                    tutorialHud.SetActive(false);
-                    pisoTutorial.enabled = false;
-                    tutorialBasico.SetActive(false);
-                }
-            }
-            if(inPisoTutorialCraft == true)
-            {
-                if(pagTutorial == 0)
-                {
-                    ++pagTutorial;
                     inTutorial = true;
                     tutorialHud.SetActive(true);
-                    tutorialCrafting.SetActive(true);
+                    tutorialBasico.SetActive(true);
 
-                }
-                if (Input.GetButtonDown("Submit"))
-                {
-                    if(pagTutorial == 1)
-                    {
-                        ++pagTutorial;
-                        tutorialCrafting.SetActive(false);
-                        tutorialArremesso.SetActive(true);
-                    }
-                    else if(pagTutorial == 2)
+                    if (Input.GetButtonDown("Submit"))
                     {
                         inTutorial = false;
-                        inPisoTutorialCraft = false;
+                        outPisoTutorial = false;
                         tutorialHud.SetActive(false);
-                        tutorialCrafting.SetActive(false);
-                        pisoTutorialCraft.enabled = false;
-                        tutorialArremesso.SetActive(false);
+                        pisoTutorial.enabled = false;
+                        tutorialBasico.SetActive(false);
+                    }
+                }
+                if (inPisoTutorialCraft == true)
+                {
+                    if (pagTutorial == 0)
+                    {
+                        ++pagTutorial;
+                        inTutorial = true;
+                        tutorialHud.SetActive(true);
+                        tutorialCrafting.SetActive(true);
+
+                    }
+                    if (Input.GetButtonDown("Submit"))
+                    {
+                        if (pagTutorial == 1)
+                        {
+                            ++pagTutorial;
+                            tutorialCrafting.SetActive(false);
+                            tutorialArremesso.SetActive(true);
+                        }
+                        else if (pagTutorial == 2)
+                        {
+                            inTutorial = false;
+                            inPisoTutorialCraft = false;
+                            tutorialHud.SetActive(false);
+                            tutorialCrafting.SetActive(false);
+                            pisoTutorialCraft.enabled = false;
+                            tutorialArremesso.SetActive(false);
+                        }
                     }
                 }
             }
+ 
         }
     }
     void controleTutorial()

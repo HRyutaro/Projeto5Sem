@@ -199,6 +199,7 @@ MonoBehaviour:
   destrocos: {fileID: 5951138652701214254, guid: 2a87ee6273b54d74bb2a6cef249a6e8b, type: 3}
   destrocos1: {fileID: 4274712008788805108, guid: 960df9530e6ede64bad640294f29b839, type: 3}
   destrocos2: {fileID: 3990396618663929511, guid: b003fd1db7309cc49bc2ee7befe12088, type: 3}
+  radiacao: {fileID: 7332170286092028550, guid: 7e8dc7748acb56a489c75363d190ad1f, type: 3}
 --- !u!65 &3376717313844210701
 BoxCollider:
   m_ObjectHideFlags: 0

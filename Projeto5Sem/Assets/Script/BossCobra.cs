@@ -43,6 +43,9 @@ public class BossCobra : MonoBehaviour
     private float primeiroAtack;
 
     public GameObject frioEffect;
+    public GameObject deBuff;
+    public GameObject raioeffect;
+    public GameObject raioArea;
     void Start()
     {
         vidaAtual = vida;
@@ -56,6 +59,7 @@ public class BossCobra : MonoBehaviour
         {
             if(isDead == false)
             {
+                vidaCobra();
                 controleVida();
                 trocarDePosicao();
                 Atacar();
@@ -63,6 +67,14 @@ public class BossCobra : MonoBehaviour
         }
     }
 
+    void vidaCobra()
+    {
+        
+        GameController.instance.vidaBoss.maxValue = vida;
+        GameController.instance.vidaBoss.value = vidaAtual;
+        GameController.instance.vidaBoss.enabled = true;
+
+    }
     void controleVida()
     {
         if(vidaAtual <= 4 && vidaAtual > 0)
@@ -79,6 +91,7 @@ public class BossCobra : MonoBehaviour
             mesh.enabled = false;
             mesh2.enabled = false;
             mesh3.enabled = false;
+            GameController.instance.vidaBoss.enabled = false;
             Instantiate(drop, gameObject.transform.position, gameObject.transform.rotation);
             Destroy(gameObject, 1);
         }
@@ -205,6 +218,31 @@ public class BossCobra : MonoBehaviour
 
     }
 
+
+    IEnumerator inSmoke()
+    {
+        --vidaAtual;
+        deBuff.SetActive(true);
+        speedAtual = speed / 2;
+        yield return new WaitForSeconds(3f);
+        --vidaAtual;
+        deBuff.SetActive(false);
+        speedAtual = speed;
+    }
+
+    IEnumerator inShock()
+    {
+
+        raioeffect.SetActive(true);
+        raioArea.SetActive(true);
+        --vidaAtual;
+        yield return new WaitForSeconds(4f);
+        --vidaAtual;
+        raioeffect.SetActive(false);
+        raioArea.SetActive(false);
+    }
+
+
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("espada") && !tomouDano)
@@ -217,7 +255,18 @@ public class BossCobra : MonoBehaviour
             StartCoroutine(CDTomarDano());
             Congelado();
         }
-
+        if (other.gameObject.tag == "fumaca")
+        {
+            StartCoroutine(inSmoke());
+        }
+        if (other.gameObject.tag == "Raio")
+        {
+            StartCoroutine(inShock());
+        }
+        if (other.gameObject.tag == "Raio")
+        {
+            StartCoroutine(inShock());
+        }
     }
 
 }

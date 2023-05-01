@@ -14,6 +14,7 @@ public class quebrarCaixa : MonoBehaviour
     public GameObject destrocos;
     public GameObject destrocos1;
     public GameObject destrocos2;
+    public GameObject radiacao;
 
     void Start()
     {
@@ -36,6 +37,7 @@ public class quebrarCaixa : MonoBehaviour
             Instantiate(destrocos, destrocosSpawn.transform.position, destrocosSpawn.transform.rotation);
             Instantiate(destrocos1, destrocosSpawn1.transform.position, destrocosSpawn.transform.rotation);
             Instantiate(destrocos2, destrocosSpawn2.transform.position, destrocosSpawn.transform.rotation);
+            Instantiate(radiacao, destrocosSpawn2.transform.position, destrocosSpawn.transform.rotation);
             animacao();
         }
     }

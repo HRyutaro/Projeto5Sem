@@ -32,6 +32,8 @@ TagManager:
   - DesativadorQueda
   - pisoFora
   - Queda
+  - Raio
+  - AreaRaio
   layers:
   - Default
   - TransparentFX

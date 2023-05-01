@@ -37,6 +37,8 @@ public class BossUrso : MonoBehaviour
     private bool tomouDano = false;
     public GameObject deBuff;
     public GameObject danoFrio;
+    public GameObject raioeffect;
+    public GameObject raioArea;
 
     [Header("ataque")]
     public float CdAtack;
@@ -312,6 +314,20 @@ public class BossUrso : MonoBehaviour
         speedAtual = speed;
     }
 
+    IEnumerator inShock()
+    {
+        stop = true;
+        yield return new WaitForSeconds(1f);
+        stop = false;
+        raioeffect.SetActive(true);
+        raioArea.SetActive(true);
+        --VidaAtual;
+        yield return new WaitForSeconds(4f);
+        --VidaAtual;
+        raioeffect.SetActive(false);
+        raioArea.SetActive(false);
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("espada") && !tomouDano)
@@ -335,7 +351,10 @@ public class BossUrso : MonoBehaviour
             StartCoroutine(CDTomarDano());
             StartCoroutine(inSmoke());
         }
-
+        if (other.gameObject.tag == "Raio")
+        {
+            StartCoroutine(inShock());
+        }
     }
 
     private void OnDrawGizmos()

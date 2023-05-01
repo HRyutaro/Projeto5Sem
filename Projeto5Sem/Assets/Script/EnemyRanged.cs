@@ -10,12 +10,15 @@ public class EnemyRanged : MonoBehaviour
     public int vida;
     public int vidaAtual;
     public Collider col;
+    public GameObject corpo;
     public GameObject radiacao;
     public Slider life;
     private bool isDead;
+    public Rigidbody rb;
 
     [Header("Perseguição")]
     public float speed;
+    public float speedAtual;
     private float distMax;
     float distanciaDoAlvo;
     public Transform alvo;
@@ -23,6 +26,7 @@ public class EnemyRanged : MonoBehaviour
     public float distanciaMax;
     private NavMeshAgent navMeshAgent;
     public float RotationSpeed;
+    public bool stop;
 
     [Header("Animação")]
     public Animator Anim;
@@ -32,6 +36,12 @@ public class EnemyRanged : MonoBehaviour
     public Color corNormal;
     public Color corGelado;
     private bool tomouDano = false;
+    public MeshRenderer mesh;
+    public GameObject deBuff;
+    public GameObject danoFrio;
+    public GameObject raioeffect;
+    public GameObject raioArea;
+    private bool tomouRaio;
 
     [Header("ataque")]
     public float CdAtack;
@@ -51,11 +61,12 @@ public class EnemyRanged : MonoBehaviour
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.stoppingDistance = distanciaMin;
-        navMeshAgent.speed = speed;
+        navMeshAgent.speed = speedAtual;
         distMax = distanciaMax;
         life.maxValue = vida;
         vidaAtual = vida;
         isDead = false;
+        speedAtual = speed;
     }
 
 
@@ -79,8 +90,8 @@ public class EnemyRanged : MonoBehaviour
             {
                 isDead = true;
                 Anim.SetFloat("Atack", 0);
-                GetComponent<Collider>().enabled = false;
-                GetComponent<MeshRenderer>().enabled = false;
+                col.enabled = false;
+                corpo.SetActive(false);
                 Destroy(gameObject, 1f);
                 Instantiate(prefabDrop, gameObject.transform.position + new Vector3(0, 0.5f, 0), gameObject.transform.rotation);
                 if (numeroDrops == 1)
@@ -97,8 +108,8 @@ public class EnemyRanged : MonoBehaviour
             {
                 isDead = true;
                 Anim.SetFloat("Atack", 0);
-                GetComponent<MeshRenderer>().enabled = false;
-                GetComponent<Collider>().enabled = false;
+                col.enabled = false;
+                corpo.SetActive(false);
                 Destroy(gameObject, 1f);
                 if (numeroDrops == 1)
                 {
@@ -114,56 +125,26 @@ public class EnemyRanged : MonoBehaviour
     }
     void move()
     {
-        if(isDead == false)
+        if (stop == false)
         {
-            distanciaDoAlvo = Vector3.Distance(transform.position, alvo.position);
-            if (distanciaDoAlvo > distMax)
+            gameObject.transform.LookAt(alvo);
+            float distance = Vector3.Distance(transform.position, alvo.position);
+            Vector3 direction = alvo.position - transform.position;
+            direction.Normalize();
+            if (distance < distanciaMin)
             {
-                navMeshAgent.SetDestination(transform.position);
-            
+                rb.velocity = Vector3.zero;
+            }
+            else if (distance > distMax)
+            {
+                rb.velocity = Vector3.zero;
             }
             else
             {
-                navMeshAgent.SetDestination(alvo.position);
+                Vector3 velocity = direction * speedAtual;
+                rb.velocity = velocity;
             }
-        }
-    }
 
-    void TomarDano(float dano)
-    {
-        StartCoroutine("DanoCorCD");
-        if (vidaAtual >= 1)
-        {
-            Anim.SetFloat("Guspindo", 0);
-            vidaAtual -= 1;
-            tomouDano = true;
-        }
-        if (vidaAtual <= 0)
-        {
-            isDead = true;
-            Anim.SetFloat("Guspindo", 0);
-            GetComponent<Collider>().enabled = false;
-            GetComponent<MeshRenderer>().enabled = false;
-            Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
-            Destroy(gameObject, 1f);
-        }
-    }
-    void TomarDanoFogo()
-    {
-        StartCoroutine("DanoCorCDFogo");
-        if (vidaAtual >= 1)
-        {
-            tomouDano = true;
-            --vidaAtual;
-        }
-        if (vidaAtual <= 0)
-        {
-            isDead = true;
-            Anim.SetFloat("Guspindo", 0);
-            GetComponent<Collider>().enabled = false;
-            GetComponent<MeshRenderer>().enabled = false;
-            Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
-            Destroy(gameObject, 1f);
         }
     }
     void atacar()
@@ -185,30 +166,29 @@ public class EnemyRanged : MonoBehaviour
             }
         }
     }
-
-    void Congelado()
-    {
-        StartCoroutine("EfeitoGelo");
-        if (vidaAtual >= 1)
-        {
-            Anim.SetFloat("Guspindo", 0);
-            --vidaAtual;
-        }
-        else if (vidaAtual <= 0)
-        {
-            isDead = true;
-            Anim.SetFloat("Guspindo", 0);
-            GetComponent<Collider>().enabled = false;
-            GetComponent<MeshRenderer>().enabled = false;
-            Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
-            Destroy(gameObject, 1f);
-        }
-    }
     IEnumerator AnimacaoGuspe()
     {
         Anim.SetFloat("Guspindo", 1);
+        stop = true;
         yield return new WaitForSeconds(0.3f);
+        stop = false;
         Anim.SetFloat("Guspindo", 0);
+    }
+
+
+    void TomarDano(int dano)
+    {
+        StartCoroutine("DanoCorCD");
+        Anim.SetFloat("Guspindo", 0);
+        vidaAtual -= dano;
+    }
+    IEnumerator DanoCorCD()
+    {
+        mesh.material.color = corDano;
+        stop = true;
+        yield return new WaitForSeconds(1f);
+        stop = false;
+        mesh.material.color = corNormal;
     }
     IEnumerator CDTomarDano()
     {
@@ -216,48 +196,63 @@ public class EnemyRanged : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         tomouDano = false;
     }
+
+
+    void Congelado()
+    {
+        StartCoroutine(EfeitoGelo());
+    }
+
     IEnumerator EfeitoGelo()
     {
-        navMeshAgent.speed = 1.5f;
-        Anim.speed = 0.5f;
-        yield return new WaitForSeconds(3f);
-        navMeshAgent.speed = speed;
-        Anim.speed = 1;
-        GetComponent<Renderer>().material.color = corNormal;
-
-    }
-
-    IEnumerator DanoCorCD()
-    {
-        GetComponent<Renderer>().material.color = corDano;
-        //skin.material.color = corDano;
-        navMeshAgent.isStopped = true;
-        //Anim.SetFloat("isRun", 0);
+        --vidaAtual;
+        danoFrio.SetActive(true);
+        stop = true;
         yield return new WaitForSeconds(1f);
-        //Anim.SetFloat("isRun", 1);
-        navMeshAgent.isStopped = false;
-        //skin.material.color = corNormal;
-        GetComponent<Renderer>().material.color = corNormal;
+        --vidaAtual;
+        yield return new WaitForSeconds(1f);
+        danoFrio.SetActive(false);
+        stop = false;
+        mesh.material.color = corNormal;
+
     }
-    IEnumerator DanoCorCDFogo()
-    {
-        GetComponent<Renderer>().material.color = corDano;
-        //skin.material.color = corDano;
-        navMeshAgent.isStopped = true;
-        //Anim.SetFloat("isRun", 0);
-        yield return new WaitForSeconds(0.3f);
-        //Anim.SetFloat("isRun", 1);
-        navMeshAgent.isStopped = false;
-        //skin.material.color = corNormal;
-        GetComponent<Renderer>().material.color = corNormal;
-    }
+
     IEnumerator inSmoke()
     {
-        yield return new WaitForSeconds(1f);
-        distMax = 1;
-        yield return new WaitForSeconds(2f);
-        distMax = distanciaMax;
+        --vidaAtual;
+        Anim.speed = 0.5f;
+        deBuff.SetActive(true);
+        speedAtual = speed /2;
+        yield return new WaitForSeconds(3f);
+        --vidaAtual;
+        Anim.speed = 1;
+        deBuff.SetActive(false);
+        speedAtual = speed;
+    }
 
+    IEnumerator inShock()
+    {
+        tomouRaio = true;
+        stop = true;
+        yield return new WaitForSeconds(1f);
+        stop = false;
+        raioeffect.SetActive(true);
+        raioArea.SetActive(true);
+        --vidaAtual;
+        yield return new WaitForSeconds(4f);
+        --vidaAtual;
+        raioeffect.SetActive(false);
+        raioArea.SetActive(false);
+        tomouRaio = false;
+    }
+
+    IEnumerator InShock2()
+    {
+        raioeffect.SetActive(true);
+        stop = true;
+        yield return new WaitForSeconds(1f);
+        raioeffect.SetActive(false);
+        stop = false;
     }
 
     void OnTriggerEnter(Collider other)
@@ -269,18 +264,24 @@ public class EnemyRanged : MonoBehaviour
         }
         if (other.gameObject.tag == "gelo" && !tomouDano)
         {
-            StartCoroutine("CDTomarDano");
             Congelado();
-            GetComponent<Renderer>().material.color = corGelado;
-        }
-        if (other.gameObject.tag == "fogo" && !tomouDano)
-        {
-            StartCoroutine("CDTomarDano");
-            TomarDanoFogo();
+            mesh.material.color = corGelado;
         }
         if (other.gameObject.tag == "fumaca")
         {
             StartCoroutine(inSmoke());
+        }
+        if (other.gameObject.tag == "Raio")
+        {
+            StartCoroutine(inShock());
+        }
+        if (other.gameObject.tag == "AreaRaio")
+        {
+            if (tomouRaio == false)
+            {
+                StartCoroutine(InShock2());
+                --vidaAtual;
+            }
         }
 
     }
