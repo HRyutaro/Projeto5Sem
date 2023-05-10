@@ -36,6 +36,7 @@ TagManager:
   - AreaRaio
   - Musica
   - Sfx
+  - Serra
   layers:
   - Default
   - TransparentFX

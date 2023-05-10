@@ -11,12 +11,12 @@ public class Player : MonoBehaviour
     public static int VidaAtual;
     public ParticleSystem curar;
     public ParticleSystem raioUtilizado;
-    public MeshRenderer playerMesh;
+    public SkinnedMeshRenderer playerMesh;
     public GameObject playerMeshCorpo;
     
 
     [Header("Movimento")]
-    [SerializeField] private Rigidbody rb;
+    public Rigidbody rb;
     [SerializeField] private float speed = 5;
     private float speedAtual;
     [SerializeField] private float turnSpeed = 360;
@@ -67,11 +67,6 @@ public class Player : MonoBehaviour
     public bool TemCartao2;
 
     [Header("Magia")]
-    public int manaTotal;
-    public int manaAtual;
-    public GameObject feiticoPrefab;
-    public float forcaArremessoFeitico;
-    public Transform feiticoRespawn;
     public GameObject raioEffect;
     private bool espadaInRaio = false;
 
@@ -97,7 +92,6 @@ public class Player : MonoBehaviour
         StartNumeroPocao();
         speedAtual = speed;
         QuedaAtivada = false;
-        passos.enabled = false;
     }
     void Update()
     {
@@ -120,10 +114,12 @@ public class Player : MonoBehaviour
             Move();
             Dash();
         }
-        if (stop == true)
+        if (stop == true || isPaused == true)
         {
             rb.velocity = Vector3.zero;
             passos.enabled = false;
+            Anim.SetFloat("isRun", 0);
+            Anim.SetFloat("Pocao", 0);
         }
     }
 
@@ -162,13 +158,14 @@ public class Player : MonoBehaviour
                 Input.GetAxisRaw("HorizontalJoystick") != 0 && speedAtual >= 1 && tipoDeControle == 1 || Input.GetAxisRaw("VerticalJoystick") != 0 && speedAtual >= 1 && tipoDeControle == 0) 
             {
                 passos.enabled = true;
-                
-                //Anim.SetFloat("isRun", 1);
+                Anim.SetFloat("isRun", 1);
+                Anim.SetFloat("Pocao", 0);
             }
             else
             {
                 passos.Play();
-                //Anim.SetFloat("isRun", 0);
+                Anim.SetFloat("isRun", 0);
+                Anim.SetFloat("Pocao", 0);
             }
         }
     }
@@ -214,6 +211,7 @@ public class Player : MonoBehaviour
             if (Input.GetButtonDown("R1") && isCdAtack == false)
             {
                 Anim.SetFloat("isRun", 0);
+                Anim.SetFloat("Pocao", 0);
                 StartCoroutine("AtackMeleeTime");
                 StartCoroutine("CDAtackMelee");
                 rb.velocity = Vector3.zero;
@@ -226,52 +224,12 @@ public class Player : MonoBehaviour
             if (Input.GetButtonDown("mouse0") && isCdAtack == false)
             {
                 Anim.SetFloat("isRun", 0);
+                Anim.SetFloat("Pocao", 0);
                 StartCoroutine("AtackMeleeTime");
                 StartCoroutine("CDAtackMelee");
                 rb.velocity = Vector3.zero;
                 Vector3 atackingfoward = transform.forward;
                 rb.AddForce(2f * atackingfoward, ForceMode.Impulse);
-            }
-        }
-    }
-
-    void AtackRange()
-    {
-        if(Input.GetButton("L1") || Input.GetButton("mouse1"))
-        {
-            
-            if(manaAtual >= 1)
-            {
-                if (isCdRange == false)
-                {
-                    Anim.SetFloat("Feitico", 1);
-                    Anim.SetFloat("isRun", 0);
-                    stop = true;
-                    isAiming = true;
-                }
-            }
-
-        }
-        if (Input.GetButtonUp("L1") || Input.GetButtonUp("mouse1") )
-        {
-            if(manaAtual >= 1)
-            {
-                if(isCdRange == false)
-                {
-                    if(dashing == false)
-                    {
-                        stop = false;
-                        manaAtual -= 1;
-                        Anim.SetFloat("Feitico", 0);
-                        StartCoroutine(TimetoAiming());
-                        StartCoroutine("CDAtackRange2");
-                        Vector3 direcao = transform.forward;
-                        GameObject magia = Instantiate(feiticoPrefab, feiticoRespawn.position, feiticoRespawn.rotation);
-                        magia.GetComponent<Rigidbody>().AddForce(direcao * forcaArremessoFeitico, ForceMode.Impulse);
-
-                    }
-                }
-
             }
         }
     }
@@ -359,7 +317,7 @@ public class Player : MonoBehaviour
                     if (temPocaoFogo > 0)
                     {
                         isAiming = true;
-                        Anim.SetFloat("Pocao", 1);
+                        Anim.SetFloat("Pocao", 0.9f);
                         Anim.SetFloat("isRun", 0);
                         stop = true;
                         rb.velocity = Vector3.zero;
@@ -371,7 +329,7 @@ public class Player : MonoBehaviour
                     if (temPocaoGelo > 0)
                     {
                         isAiming = true;
-                        Anim.SetFloat("Pocao", 1);
+                        Anim.SetFloat("Pocao", 0.9f);
                         Anim.SetFloat("isRun", 0);
                         stop = true;
                         rb.velocity = Vector3.zero;
@@ -383,7 +341,7 @@ public class Player : MonoBehaviour
                     if (temPocaoFumaca > 0)
                     {
                         isAiming = true;
-                        Anim.SetFloat("Pocao", 1);
+                        Anim.SetFloat("Pocao", 0.9f);
                         Anim.SetFloat("isRun", 0);
                         stop = true;
                         rb.velocity = Vector3.zero;
@@ -401,7 +359,7 @@ public class Player : MonoBehaviour
                     if (temPocaoFogo > 0)
                     {
                         isAiming = true;
-                        Anim.SetFloat("Pocao", 1);
+                        Anim.SetFloat("Pocao", 0.9f);
                         Anim.SetFloat("isRun", 0);
                         stop = true;
                         rb.velocity = Vector3.zero;
@@ -413,7 +371,7 @@ public class Player : MonoBehaviour
                     if (temPocaoGelo > 0)
                     {
                         isAiming = true;
-                        Anim.SetFloat("Pocao", 1);
+                        Anim.SetFloat("Pocao", 0.9f);
                         Anim.SetFloat("isRun", 0);
                         stop = true;
                         rb.velocity = Vector3.zero;
@@ -425,7 +383,7 @@ public class Player : MonoBehaviour
                     if (temPocaoFumaca > 0)
                     {
                         isAiming = true;
-                        Anim.SetFloat("Pocao", 1);
+                        Anim.SetFloat("Pocao", 0.9f);
                         Anim.SetFloat("isRun", 0);
                         stop = true;
                         rb.velocity = Vector3.zero;
@@ -444,7 +402,7 @@ public class Player : MonoBehaviour
                     if(isCdRange == false)
                     {
                         --temPocaoFogo;
-                        Anim.SetFloat("Pocao", 0);
+                        Anim.SetFloat("Pocao", 1);
                         StartCoroutine("CDAtackRange");
                         StartCoroutine(TimetoAiming());
                         Vector3 direcao = transform.forward;
@@ -463,7 +421,7 @@ public class Player : MonoBehaviour
                     if (isCdRange == false)
                     {
                         --temPocaoGelo;
-                        Anim.SetFloat("Pocao", 0);  
+                        Anim.SetFloat("Pocao", 1);  
                         StartCoroutine("CDAtackRange");
                         StartCoroutine(TimetoAiming());
                         Vector3 direcao = transform.forward;
@@ -482,7 +440,7 @@ public class Player : MonoBehaviour
                     if(isCdRange == false)
                     {
                         --temPocaoFumaca;
-                        Anim.SetFloat("Pocao", 0);
+                        Anim.SetFloat("Pocao", 1);
                         StartCoroutine("CDAtackRange");
                         StartCoroutine(TimetoAiming());
                         Vector3 direcao = transform.forward;
@@ -504,7 +462,7 @@ public class Player : MonoBehaviour
                     if (isCdRange == false)
                     {
                         --temPocaoFogo;
-                        Anim.SetFloat("Pocao", 0);
+                        Anim.SetFloat("Pocao", 1);
                         StartCoroutine("CDAtackRange");
                         StartCoroutine(TimetoAiming());
                         Vector3 direcao = transform.forward;
@@ -523,7 +481,7 @@ public class Player : MonoBehaviour
                     if (isCdRange == false)
                     {
                         --temPocaoGelo;
-                        Anim.SetFloat("Pocao", 0);
+                        Anim.SetFloat("Pocao", 1);
                         StartCoroutine("CDAtackRange");
                         StartCoroutine(TimetoAiming());
                         Vector3 direcao = transform.forward;
@@ -542,7 +500,7 @@ public class Player : MonoBehaviour
                     if (isCdRange == false)
                     {
                         --temPocaoFumaca;
-                        Anim.SetFloat("Pocao", 0);
+                        Anim.SetFloat("Pocao", 1);
                         StartCoroutine("CDAtackRange");
                         StartCoroutine(TimetoAiming());
                         Vector3 direcao = transform.forward;
@@ -561,13 +519,14 @@ public class Player : MonoBehaviour
     {
         if(GameController.almasAtual <= 0)
         {
-            gameObject.SetActive(false);
-
+            Anim.SetFloat("Morte", 1);
+            stop = true;
         }
         else if(VidaAtual <= 0)
         {
             GameController.almasAtual --;
-            Reiniciar();
+            StartCoroutine(ReiniciarAnim());
+            VidaAtual = VidaTotal;
         }
     }
 
@@ -575,8 +534,17 @@ public class Player : MonoBehaviour
     {
         VidaAtual = VidaTotal;
         checkpoint.renasceu = true;
+        Anim.SetFloat("Morte", 0);
         gameObject.transform.position = GameController.instance.checkPoint[GameController.checkpointNumber].transform.position;
         checkpoint.JaLeu = false;
+    }
+    IEnumerator ReiniciarAnim()
+    {
+        Anim.SetFloat("Morte", 1);
+        espadaCosta.SetActive(false);
+        yield return new WaitForSeconds(1.8f);
+        espadaCosta.SetActive(true);
+        Reiniciar();
     }
 
     public void TomarDano(int Dano,float Empurrao)
@@ -800,17 +768,20 @@ public class Player : MonoBehaviour
     IEnumerator Cura()
     {
         curar.Play(true);
-        yield return new WaitForSeconds(0.5f);
+        Anim.SetFloat("Beber", 1);
+        yield return new WaitForSeconds(1.5f);
+        Anim.SetFloat("Beber", 0);
         curar.Play(false);
 
     }
     IEnumerator Raio()
     {
         raioUtilizado.Play(true);
-        yield return new WaitForSeconds(0.5f);
+        Anim.SetFloat("Beber", 1);
+        yield return new WaitForSeconds(1.5f);
+        Anim.SetFloat("Beber", 0);
         raioUtilizado.Play(false);
     }
-
     IEnumerator PocaoDeRaio()
     {
         espada.tag = "Raio";
@@ -820,6 +791,18 @@ public class Player : MonoBehaviour
         raioEffect.SetActive(false);
         espadaInRaio = false;
         espada.tag = "espada";
+    }
+    
+    public void AnimPegar()
+    {
+        StartCoroutine(AnimPegarPlanta());
+    }
+
+    IEnumerator AnimPegarPlanta()
+    {
+        Anim.SetFloat("Pegar", 1);
+        yield return new WaitForSeconds(1.5f);
+        Anim.SetFloat("Pegar", 0);
     }
 
     private void OnTriggerEnter(Collider other)

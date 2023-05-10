@@ -58,8 +58,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 4615888534165452876}
+  abriu: 0
   portaBloqueada: 0
-  notificao: {fileID: 0}
+  podeInteragir: 0
+  abriuFechouPorta: 0
 --- !u!1 &8644115839786080152
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,6 +76,7 @@ GameObject:
   - component: {fileID: 5210394456494241946}
   - component: {fileID: 6775058088090482502}
   - component: {fileID: 6476488793102824066}
+  - component: {fileID: 3568180793447897155}
   m_Layer: 0
   m_Name: Wall_DoorStand
   m_TagString: Untagged
@@ -185,6 +188,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ocultar: 0
+--- !u!65 &3568180793447897155
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8644115839786080152}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.9064903, y: 4.6547894, z: 3.35924}
+  m_Center: {x: -0.026761532, y: 2.3100684, z: 1.6894754}
 --- !u!1001 &7082021753299816121
 PrefabInstance:
   m_ObjectHideFlags: 0

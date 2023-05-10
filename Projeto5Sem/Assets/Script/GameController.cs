@@ -676,9 +676,11 @@ public class GameController : MonoBehaviour
                 isPause = true;
                 Time.timeScale = 0;
                 Pause.SetActive(true);
-                Player.instance.isPaused = true;
                 PaginasMenu = 0;
                 EventSystem.current.SetSelectedGameObject(menuButtons[0]);
+                Player.instance.isPaused = true;
+                Player.instance.rb.velocity = Vector3.zero;
+                Player.instance.passos.enabled = false;
             }
             else if (isPause == true ) // resume game
             {
@@ -815,6 +817,7 @@ public class GameController : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(inventButtons[0]);
                 imageInteracaoInventario.enabled = false;
                 textoInteracaoInventario.enabled = false;
+                Player.instance.passos.enabled = false;
             }
             else if (inInventario2 == true)
             {
@@ -838,6 +841,7 @@ public class GameController : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(inventButtons[0]);
                 imageInteracaoInventario.enabled = false;
                 textoInteracaoInventario.enabled = false;
+                Player.instance.passos.enabled = false;
             }
             else if (inInventario2 == true)
             {
@@ -868,6 +872,7 @@ public class GameController : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(inventButtons[0]);
                 imageInteracaoInventario.enabled = true;
                 textoInteracaoInventario.enabled = false;
+                Player.instance.passos.enabled = false;
             }
             else if (inInventario == true)
             {
@@ -897,6 +902,7 @@ public class GameController : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(inventButtons[0]);
                 imageInteracaoInventario.enabled = false;
                 textoInteracaoInventario.enabled = true;
+                Player.instance.passos.enabled = false;
             }
             else if (inInventario == true)
             {

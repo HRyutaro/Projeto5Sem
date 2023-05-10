@@ -36,6 +36,7 @@ public class Plantas : MonoBehaviour
                 quantosPegou.text = ("Pegou " + quantidadeDePlantas + " Raiz da Vida");
                 StartCoroutine(PegouPlanta());
                 GameController.instance.interacaoNatela = false;
+                Player.instance.AnimPegar();
                 Destroy(gameObject, 1);
             }
             else if (planta == 1)
@@ -44,6 +45,7 @@ public class Plantas : MonoBehaviour
                 quantosPegou.text = ("Pegou " + quantidadeDePlantas + " Raiz Elétrica");
                 StartCoroutine(PegouPlanta());
                 GameController.instance.interacaoNatela = false;
+                Player.instance.AnimPegar();
                 Destroy(gameObject, 1);
             }
             else if (planta == 2)
@@ -52,6 +54,7 @@ public class Plantas : MonoBehaviour
                 quantosPegou.text = ("Pegou " + quantidadeDePlantas + " Cogumelos Glacial");
                 StartCoroutine(PegouPlanta());
                 GameController.instance.interacaoNatela = false;
+                Player.instance.AnimPegar();
                 Destroy(gameObject, 1);
             }
             else if (planta == 3)
@@ -60,6 +63,7 @@ public class Plantas : MonoBehaviour
                 quantosPegou.text = ("Pegou " + quantidadeDePlantas + " Pinhas Cósmicas");
                 StartCoroutine(PegouPlanta());
                 GameController.instance.interacaoNatela = false;
+                Player.instance.AnimPegar();
                 Destroy(gameObject, 1);
             }
             else if (planta == 4)
@@ -68,6 +72,7 @@ public class Plantas : MonoBehaviour
                 quantosPegou.text = ("Pegou " + quantidadeDePlantas + " Tentáculos Vulcânicos");
                 StartCoroutine(PegouPlanta());
                 GameController.instance.interacaoNatela = false;
+                Player.instance.AnimPegar();
                 Destroy(gameObject, 1);
             }
         }
