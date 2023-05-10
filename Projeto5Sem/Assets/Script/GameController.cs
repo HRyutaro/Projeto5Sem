@@ -30,11 +30,13 @@ public class GameController : MonoBehaviour
     public Text notificacao;
     public GameObject[] almasImagens;
     public Slider vidaBoss;
+    public GameObject vidaBossObject;
 
     [Header("Pause")]
     public GameObject Pause;
     [HideInInspector] public bool isPause = false;
     public GameObject[] sairCtz;
+    public GameObject voltar;
 
     [Header("Botões")]
     private int PaginasMenu;
@@ -44,6 +46,7 @@ public class GameController : MonoBehaviour
     public GameObject sound;
     public GameObject[] sounds;
     public GameObject pularTutorialBotao;
+    public GameObject pularDialogoBotao;
 
     [Header("config")]
     public Slider controlSlide;
@@ -51,6 +54,8 @@ public class GameController : MonoBehaviour
     public bool modoDeus;
     public GameObject eventSytem;
     public GameObject eventSytem1;
+    public Slider slideDialogo;
+    public static int pularDialogoSlideValue;
 
     [Header("Sons")]
     public Slider musica;
@@ -60,7 +65,7 @@ public class GameController : MonoBehaviour
     [SerializeField] public bool pertoDaTable = false;
     private bool inInventario = false;
     private bool inInventario2 = false;
-    public GameObject Inventario;
+    public GameObject InventarioGameObject;
     public GameObject[] inventButtons;
     public GameObject[] inventPocaoTela;
     public Text[] pocoesInvent;
@@ -111,11 +116,11 @@ public class GameController : MonoBehaviour
         almasAtual = almasTotal;
         instance = this;
         slideTutorial.value = pularTutorialSlideValue;
+        slideDialogo.value = pularDialogoSlideValue;
         Time.timeScale = 1;
-        //mana.maxValue = Player.instance.manaTotal;
         vida.maxValue = Player.instance.VidaTotal;
         musica.value = GameControllerMenu.musicaValor;
-        son.value = GameControllerMenu.musicaValor;
+        son.value = GameControllerMenu.somValor;
         pertoDaTable = false;
         outPisoTutorial = false;
         inTutorial = false;
@@ -185,12 +190,16 @@ public class GameController : MonoBehaviour
                 control.SetActive(false);
                 sounds[0].SetActive(false);
                 sounds[1].SetActive(false);
+                sounds[2].SetActive(false);
                 sairCtz[0].SetActive(false);
                 controls[0].SetActive(false);
                 menuButtons[0].SetActive(true);
                 menuButtons[1].SetActive(true);
                 menuButtons[2].SetActive(true);
                 pularTutorialBotao.SetActive(false);
+                pularDialogoBotao.SetActive(false);
+                voltar.SetActive(false);
+
                 if (Input.GetButtonDown("Cancel"))
                 {
                     isPause = false;
@@ -209,12 +218,15 @@ public class GameController : MonoBehaviour
                 control.SetActive(true);
                 sounds[0].SetActive(false);
                 sounds[1].SetActive(false);
+                sounds[2].SetActive(false);
                 controls[0].SetActive(false);
                 menuButtons[0].SetActive(false);
                 menuButtons[1].SetActive(false);
                 menuButtons[2].SetActive(false);
                 pularTutorialBotao.SetActive(true);
-            
+                pularDialogoBotao.SetActive(true);
+                voltar.SetActive(true);
+
                 if (Input.GetButtonDown("Cancel"))
                 {
                     PaginasMenu = 0;
@@ -228,11 +240,15 @@ public class GameController : MonoBehaviour
                 control.SetActive(false);
                 sounds[0].SetActive(false);
                 sounds[1].SetActive(false);
+                sounds[2].SetActive(false);
                 controls[0].SetActive(true);
                 menuButtons[0].SetActive(false);
                 menuButtons[1].SetActive(false);
                 menuButtons[2].SetActive(false);
                 pularTutorialBotao.SetActive(false);
+                pularDialogoBotao.SetActive(false);
+                voltar.SetActive(true);
+
                 if (Input.GetButtonDown("Cancel"))
                 {
                     PaginasMenu = 1;
@@ -246,11 +262,15 @@ public class GameController : MonoBehaviour
                 control.SetActive(false);
                 sounds[0].SetActive(true);
                 sounds[1].SetActive(true);
+                sounds[2].SetActive(true);
                 controls[0].SetActive(false);
                 menuButtons[0].SetActive(false);
                 menuButtons[1].SetActive(false);
                 menuButtons[2].SetActive(false);
                 pularTutorialBotao.SetActive(false);
+                pularDialogoBotao.SetActive(false);
+                voltar.SetActive(true);
+
                 if (Input.GetButtonDown("Cancel"))
                 {
                     PaginasMenu = 1;
@@ -263,12 +283,16 @@ public class GameController : MonoBehaviour
                 control.SetActive(false);
                 sounds[0].SetActive(false);
                 sounds[1].SetActive(false);
+                sounds[2].SetActive(false);
                 sairCtz[0].SetActive(true);
                 controls[0].SetActive(false);
-                menuButtons[0].SetActive(true);
-                menuButtons[1].SetActive(true);
-                menuButtons[2].SetActive(true);
+                menuButtons[0].SetActive(false);
+                menuButtons[1].SetActive(false);
+                menuButtons[2].SetActive(false);
                 pularTutorialBotao.SetActive(false);
+                pularDialogoBotao.SetActive(false);
+                voltar.SetActive(false);
+
                 if (Input.GetButtonDown("Cancel"))
                 {
                     PaginasMenu = 0;
@@ -278,7 +302,33 @@ public class GameController : MonoBehaviour
 
         }
     }
+    
+    public void Voltar()
+    {
+        if (isPause == true)
+        {
+            if (PaginasMenu == 1) // options
+            {
 
+                PaginasMenu = 0;
+                EventSystem.current.SetSelectedGameObject(menuButtons[0]);
+
+            }
+            else if (PaginasMenu == 2) // Controls
+            {
+                PaginasMenu = 1;
+                EventSystem.current.SetSelectedGameObject(control);
+
+            }
+            else if (PaginasMenu == 3) // Sounds
+            {
+
+               PaginasMenu = 1;
+               EventSystem.current.SetSelectedGameObject(control);
+
+            }
+        }
+    }
     public void Menu()
     {
         SceneManager.LoadScene("Menu");
@@ -421,34 +471,40 @@ public class GameController : MonoBehaviour
         }
         if(Input.GetButtonDown("Cancel"))
         {
-            Inventario.SetActive(false);
-            Player.instance.stop = false;
-            StartCoroutine(SairMenu());
             inInventario = false;
+            inInventario2 = false;
+            InventarioGameObject.SetActive(true);
+            inventarioBancada.SetActive(false);
+            inventario.SetActive(false);
+            StartCoroutine(SairMenu());
+            Player.instance.stop = false;
+            Player.instance.isPaused = false;
+            imageInteracaoInventario.enabled = false;
+            textoInteracaoInventario.enabled = false;
         }
     }
 
     public void fabricarPocaoCura()
     {
-        if(Player.instance.Radiacao >= 2 && Player.instance.temPocaoCura < 5 && Player.instance.temPlantaCura >= 1 && inInventario2 == false)
+        if(Player.instance.Radiacao >= 2 && Player.instance.temPocaoCura < 5 && Player.instance.temPlantaCura >= 3 && inInventario2 == false)
         {
             Player.instance.temPocaoCura += 1;
             Player.instance.Radiacao -= 2;
-            Player.instance.temPlantaCura -= 1;
+            Player.instance.temPlantaCura -= 3;
             Player.instance.StartNumeroPocao();
         }
-        else if(Player.instance.Radiacao < 2 && Player.instance.temPlantaCura < 1 && inInventario2 == false)//sem os dois
+        else if(Player.instance.Radiacao < 2 && Player.instance.temPlantaCura < 3 && inInventario2 == false)//sem os dois
         {
             StartCoroutine(ShowTextInventario());
             naoTem.text = "não tem Radiação e Elixir de Vida insuficiente";
         }
-        else if(Player.instance.Radiacao >= 2 && Player.instance.temPlantaCura < 1 && inInventario2 == false)//raiz 
+        else if(Player.instance.Radiacao >= 2 && Player.instance.temPlantaCura < 3 && inInventario2 == false)//raiz 
         {
             StartCoroutine(ShowTextInventario());
             naoTem.text = "Não tem Raiz da vida suficiente";
 
         }
-        else if (Player.instance.Radiacao < 2 && Player.instance.temPlantaCura >= 1 && inInventario2 == false) //radiacao
+        else if (Player.instance.Radiacao < 2 && Player.instance.temPlantaCura >= 3 && inInventario2 == false) //radiacao
         {
             StartCoroutine(ShowTextInventario());
             naoTem.text = "não tem Radiação suficiente";
@@ -461,30 +517,30 @@ public class GameController : MonoBehaviour
     }
     public void fabricarPocaoMana()
     {
-        if (Player.instance.Radiacao >= 2 && Player.instance.temPocaoRaio < 4 && Player.instance.temPlantaRaio >= 1 && inInventario2 == false)
+        if (Player.instance.Radiacao >= 3 && Player.instance.temPocaoRaio < 4 && Player.instance.temPlantaRaio >= 4 && inInventario2 == false)
         {
             Player.instance.temPocaoRaio += 1;
-            Player.instance.Radiacao -= 2;
-            Player.instance.temPlantaRaio -= 1;
+            Player.instance.Radiacao -= 3;
+            Player.instance.temPlantaRaio -= 4;
             Player.instance.StartNumeroPocao();
         }
-        else if(Player.instance.Radiacao < 2 && Player.instance.temPlantaRaio < 1 && inInventario2 == false)// os dois 
+        else if(Player.instance.Radiacao < 3 && Player.instance.temPlantaRaio < 4 && inInventario2 == false)// os dois 
         {
             StartCoroutine(ShowTextInventario());
             naoTem.text = "não tem Radiação e Raiz Elétrica";
         }
-        else if(Player.instance.Radiacao >= 2 && Player.instance.temPlantaRaio < 1 && inInventario2 == false)// raiz 
+        else if(Player.instance.Radiacao >= 3 && Player.instance.temPlantaRaio < 4 && inInventario2 == false)// raiz 
         {
             StartCoroutine(ShowTextInventario());
             naoTem.text = "Não tem Raiz Elétrica";
         }
-        else if(Player.instance.Radiacao < 2 && Player.instance.temPlantaRaio >= 1 && inInventario2 == false)// radiação
+        else if(Player.instance.Radiacao < 3 && Player.instance.temPlantaRaio >= 4 && inInventario2 == false)// radiação
 
         {
             StartCoroutine(ShowTextInventario());
             naoTem.text = "Não tem Radição suficiente";
         }
-        else if (Player.instance.temPocaoRaio == 4 && inInventario2 == false)
+        else if (Player.instance.temPocaoRaio == 3 && inInventario2 == false)
         {
             StartCoroutine(ShowTextInventario());
             naoTem.text = "Limite de Elixir Elétrico atingido";
@@ -492,24 +548,24 @@ public class GameController : MonoBehaviour
     }
     public void fabricarPocaoGelo()
     {
-        if (Player.instance.Radiacao >= 3 && Player.instance.temPocaoGelo < 3 && Player.instance.temPlantaGelo >= 1 && inInventario2 == false)
+        if (Player.instance.Radiacao >= 2 && Player.instance.temPocaoGelo < 3 && Player.instance.temPlantaGelo >= 3 && inInventario2 == false)
         {
             Player.instance.temPocaoGelo += 1;
-            Player.instance.Radiacao -= 3;
-            Player.instance.temPlantaGelo -= 1;
+            Player.instance.Radiacao -= 2;
+            Player.instance.temPlantaGelo -= 3;
             Player.instance.StartNumeroPocao();
         }
-        else if(Player.instance.Radiacao < 3 && Player.instance.temPlantaGelo < 1 && inInventario2 == false)//os dois
+        else if(Player.instance.Radiacao < 2 && Player.instance.temPlantaGelo < 3 && inInventario2 == false)//os dois
         {
             StartCoroutine(ShowTextInventario());
             naoTem.text = "não tem Radiação e Cogumelo Glacial suficiente";
         }
-        else if(Player.instance.Radiacao  >= 3 && Player.instance.temPlantaGelo < 1 && inInventario2 == false)//cogumelo
+        else if(Player.instance.Radiacao  >= 2 && Player.instance.temPlantaGelo < 3 && inInventario2 == false)//cogumelo
         {
             StartCoroutine(ShowTextInventario());
             naoTem.text = "não tem Cogumelo Glacial suficiente";
         }
-        else if (Player.instance.Radiacao < 3 && Player.instance.temPlantaGelo >= 1 && inInventario2 == false)//radiacao
+        else if (Player.instance.Radiacao < 2 && Player.instance.temPlantaGelo >= 3 && inInventario2 == false)//radiacao
         {
             StartCoroutine(ShowTextInventario());
             naoTem.text = "não tem Radiação suficiente";
@@ -522,29 +578,29 @@ public class GameController : MonoBehaviour
     }
     public void fabricarPocaoFumaca()
     {
-        if (Player.instance.Radiacao >= 3 && Player.instance.temPocaoFumaca < 3 && Player.instance.temPlantaFumaca >= 1 && inInventario2 == false)
+        if (Player.instance.Radiacao >= 2 && Player.instance.temPocaoFumaca < 3 && Player.instance.temPlantaFumaca >= 2 && inInventario2 == false)
         {
             Player.instance.temPocaoFumaca += 1;
-            Player.instance.Radiacao -= 3;
-            Player.instance.temPlantaFumaca -= 1;
+            Player.instance.Radiacao -= 2;
+            Player.instance.temPlantaFumaca -= 2;
             Player.instance.StartNumeroPocao();
         }
-        else if(Player.instance.Radiacao < 3 && Player.instance.temPlantaFumaca < 1 && inInventario2 == false)// Os Dois
+        else if(Player.instance.Radiacao < 2 && Player.instance.temPlantaFumaca < 2 && inInventario2 == false)// Os Dois
         {
             StartCoroutine(ShowTextInventario());
             naoTem.text = "não tem Radiação e Pinhas Cósmicas  suficiente"; 
         }
-        else if(Player.instance.Radiacao >= 3 && Player.instance.temPlantaFumaca < 1 && inInventario2 == false)//pinha
+        else if(Player.instance.Radiacao >= 2 && Player.instance.temPlantaFumaca < 2 && inInventario2 == false)//pinha
         {
             StartCoroutine(ShowTextInventario());
             naoTem.text = "não tem Pinhas Cósmicas  suficiente";
         }
-        else if(Player.instance.Radiacao < 3 && Player.instance.temPlantaFumaca >= 1 && inInventario2 == false)//radiacao
+        else if(Player.instance.Radiacao < 2 && Player.instance.temPlantaFumaca >= 2 && inInventario2 == false)//radiacao
         {
             StartCoroutine(ShowTextInventario());
             naoTem.text = "não tem Radiação suficiente";
         }
-        else if(Player.instance.temPocaoFumaca == 3 && inInventario2 == false)//limite
+        else if(Player.instance.temPocaoFumaca == 4 && inInventario2 == false)//limite
         {
             StartCoroutine(ShowTextInventario());
             naoTem.text = "Limite de Colisão Cósmica atingido";
@@ -552,29 +608,29 @@ public class GameController : MonoBehaviour
     }
     public void fabricarPocaofogo()
     {
-        if (Player.instance.Radiacao >= 5 && Player.instance.temPocaoFogo < 3 && Player.instance.temPlantaFogo >= 2 && inInventario2 == false)
+        if (Player.instance.Radiacao >= 5 && Player.instance.temPocaoFogo < 3 && Player.instance.temPlantaFogo >= 4 && inInventario2 == false)
         {
             Player.instance.temPocaoFogo += 1;
             Player.instance.Radiacao -= 5;
-            Player.instance.temPlantaFogo-= 1;
+            Player.instance.temPlantaFogo-= 4;
             Player.instance.StartNumeroPocao();
         }
-        else if(Player.instance.Radiacao < 5 && Player.instance.temPlantaFogo < 1 && inInventario2 == false)// os dois
+        else if(Player.instance.Radiacao < 5 && Player.instance.temPlantaFogo < 4 && inInventario2 == false)// os dois
         {
             StartCoroutine(ShowTextInventario());
             naoTem.text = "não tem Radiação e Tentáculos Vulcânicos suficiente";
         }
-        else if (Player.instance.Radiacao >= 5 && Player.instance.temPlantaFogo < 2 && inInventario2 == false) // vuncanico
+        else if (Player.instance.Radiacao >= 5 && Player.instance.temPlantaFogo < 4 && inInventario2 == false) // vuncanico
         {
             StartCoroutine(ShowTextInventario());
             naoTem.text = "não tem Tentáculos Vulcânicos suficiente";
         }
-        else if (Player.instance.Radiacao < 5 && Player.instance.temPlantaFogo >= 2 && inInventario2 == false) // radiacao
+        else if (Player.instance.Radiacao < 5 && Player.instance.temPlantaFogo >= 4 && inInventario2 == false) // radiacao
         {
             StartCoroutine(ShowTextInventario());
             naoTem.text = "não tem Radiação suficiente";
         }
-        else if (Player.instance.temPocaoFogo == 2 && inInventario2 == false) // limite
+        else if (Player.instance.temPocaoFogo == 3 && inInventario2 == false) // limite
         {
             StartCoroutine(ShowTextInventario());
             naoTem.text = "Limite de Licor de Lava atingido ";
@@ -592,6 +648,22 @@ public class GameController : MonoBehaviour
         {
             pularTutorial = false;
             pularTutorialSlideValue = 0;
+        }
+    }
+
+    public void ControleDialogoPular()
+    {
+        if (slideDialogo.value == 1)
+        {
+            Dialogo.pularDialogo = true;
+            DialogoControl.pularDialogoControl = true;
+            pularDialogoSlideValue = 1;
+        }
+        else if (slideDialogo.value == 0)
+        {
+            Dialogo.pularDialogo = false;
+            DialogoControl.pularDialogoControl = true;
+            pularDialogoSlideValue = 0;
         }
     }
 
@@ -731,52 +803,49 @@ public class GameController : MonoBehaviour
 
     public void ShowInventario2()
     {
-        if (Input.GetButtonDown("Inventario") && isPause == false && Player.tipoDeControle == 1)
+        if (Input.GetButtonDown("Inventario") && isPause == false && Player.tipoDeControle == 1 && pertoDaTable == false)
         {
-            if (inInventario == false)
+            if (inInventario2 == false)
             {
-                inInventario = true;
                 inInventario2 = true;
-                Inventario.SetActive(true);
+                InventarioGameObject.SetActive(true);
+                inventario.SetActive(true);
                 Player.instance.stop = true;
                 Player.instance.isPaused = true;
-                inventarioBancada.SetActive(false);
-                inventario.SetActive(true);
                 EventSystem.current.SetSelectedGameObject(inventButtons[0]);
                 imageInteracaoInventario.enabled = false;
                 textoInteracaoInventario.enabled = false;
             }
-            else if (inInventario == true)
+            else if (inInventario2 == true)
             {
-                inInventario = false;
                 inInventario2 = false;
                 StartCoroutine(SairMenu());
-                Inventario.SetActive(false);
+                InventarioGameObject.SetActive(false);
+                inventario.SetActive(false);
                 Player.instance.stop = false;
                 Player.instance.isPaused = false;
             }
         }
-        if (Input.GetKeyDown(KeyCode.Tab) && isPause == false && Player.tipoDeControle == 0)
+        if (Input.GetKeyDown(KeyCode.Tab) && isPause == false && Player.tipoDeControle == 0 && pertoDaTable == false)
         {
-            if (inInventario == false)
+            if (inInventario2 == false)
             {
-                inInventario = true;
                 inInventario2 = true;
-                Inventario.SetActive(true);
+                InventarioGameObject.SetActive(true);
+                inventario.SetActive(true);
                 Player.instance.stop = true;
                 Player.instance.isPaused = true;
-                inventarioBancada.SetActive(false);
-                inventario.SetActive(true);
                 EventSystem.current.SetSelectedGameObject(inventButtons[0]);
                 imageInteracaoInventario.enabled = false;
                 textoInteracaoInventario.enabled = false;
             }
-            else if (inInventario == true)
+            else if (inInventario2 == true)
             {
                 inInventario = false;
                 inInventario2 = false;
                 StartCoroutine(SairMenu());
-                Inventario.SetActive(false);
+                inventario.SetActive(false);
+                InventarioGameObject.SetActive(false);
                 Player.instance.stop = false;
                 Player.instance.isPaused = false;
             }
@@ -790,11 +859,12 @@ public class GameController : MonoBehaviour
             if (inInventario == false)
             {
                 inInventario = true;
-                Inventario.SetActive(true);
-                Player.instance.stop = true;
-                Player.instance.isPaused = true;
+                inInventario2 = false;
+                InventarioGameObject.SetActive(true);
                 inventarioBancada.SetActive(true);
                 inventario.SetActive(false);
+                Player.instance.stop = true;
+                Player.instance.isPaused = true;
                 EventSystem.current.SetSelectedGameObject(inventButtons[0]);
                 imageInteracaoInventario.enabled = true;
                 textoInteracaoInventario.enabled = false;
@@ -802,8 +872,11 @@ public class GameController : MonoBehaviour
             else if (inInventario == true)
             {
                 inInventario = false;
+                inInventario2 = false;
+                InventarioGameObject.SetActive(true);
+                inventarioBancada.SetActive(false);
+                inventario.SetActive(false);
                 StartCoroutine(SairMenu());
-                Inventario.SetActive(false);
                 Player.instance.stop = false;
                 Player.instance.isPaused = false;
                 imageInteracaoInventario.enabled = false;
@@ -815,11 +888,12 @@ public class GameController : MonoBehaviour
             if (inInventario == false)
             {
                 inInventario = true;
-                Inventario.SetActive(true);
+                inInventario2 = false;
                 Player.instance.stop = true;
                 Player.instance.isPaused = true;
-                inventarioBancada.SetActive(true);
+                InventarioGameObject.SetActive(true);
                 inventario.SetActive(false);
+                inventarioBancada.SetActive(true);
                 EventSystem.current.SetSelectedGameObject(inventButtons[0]);
                 imageInteracaoInventario.enabled = false;
                 textoInteracaoInventario.enabled = true;
@@ -827,8 +901,11 @@ public class GameController : MonoBehaviour
             else if (inInventario == true)
             {
                 inInventario = false;
+                inInventario2 = false;
                 StartCoroutine(SairMenu());
-                Inventario.SetActive(false);
+                InventarioGameObject.SetActive(false);
+                inventarioBancada.SetActive(false);
+                inventario.SetActive(false);
                 Player.instance.stop = false;
                 Player.instance.isPaused = false;
                 imageInteracaoInventario.enabled = false;
@@ -872,12 +949,12 @@ public class GameController : MonoBehaviour
         plantasInvent[3].text = Player.instance.temPlantaFumaca.ToString();
         plantasInvent[4].text = Player.instance.temPlantaFogo.ToString();
 
-        if(Player.tipoDeControle == 1)
+        if(Player.tipoDeControle == 1 && inInventario == true)
         {
             imageInteracaoInventario.enabled = true;
             textoInteracaoInventario.enabled = false;
         }
-        if (Player.tipoDeControle == 0)
+        if (Player.tipoDeControle == 0 && inInventario == true)
         {
             imageInteracaoInventario.enabled = false;
             textoInteracaoInventario.enabled = true;
@@ -908,10 +985,16 @@ public class GameController : MonoBehaviour
 
     public void voltarInvetario()
     {
-        Inventario.SetActive(false);
+        inInventario = false;
+        inInventario2 = false;
+        StartCoroutine(SairMenu());
+        InventarioGameObject.SetActive(false);
+        inventarioBancada.SetActive(false);
+        inventario.SetActive(false);
         Player.instance.stop = false;
         Player.instance.isPaused = false;
-        inInventario = false;
+        imageInteracaoInventario.enabled = false;
+        textoInteracaoInventario.enabled = false;
     }
 
     public void updateNumerosHud()

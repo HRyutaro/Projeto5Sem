@@ -19650,7 +19650,7 @@ MonoBehaviour:
   speechtxt:
   - -Oque? Oque aconteceu?
   - "-Eu n\xE3o morri?"
-  - -Sera que esse circulo me salvou?
+  - "Ser\xE1 que esse c\xEDrculo me salvou?"
   nome:
   - Ivan
   - Ivan
@@ -19661,7 +19661,7 @@ MonoBehaviour:
     m_Bits: 128
   radious: 3.01
   proxSprite: 0
-  forcarInte: 0
+  forcarInte: 1
 --- !u!65 &4047577086538017519
 BoxCollider:
   m_ObjectHideFlags: 0

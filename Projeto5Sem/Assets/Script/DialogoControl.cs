@@ -21,6 +21,7 @@ public class DialogoControl : MonoBehaviour
     private string[] sentences;
     public int proxSprite;
     private int index;
+    public static bool pularDialogoControl;
 
     [Header("Dialogo1")]
     public Sprite[] profile;
@@ -34,33 +35,37 @@ public class DialogoControl : MonoBehaviour
 
     private void Update()
     {
-        if(dialogo == 1)
+        if(pularDialogoControl == false)
         {
-            DialogoInicio();
-            onDialogo = true;
-        }
-        if(onDialogo == true)
-        {
-            if (Input.GetButtonDown("Submit"))
+            if(dialogo == 1)
             {
-                if(podeApertar == true)
+                DialogoInicio();
+                onDialogo = true;
+            }
+            if(onDialogo == true)
+            {
+                if (Input.GetButtonDown("Submit"))
                 {
-                    ++proxSprite;
-                    NextSentence(profile[proxSprite], nome[proxSprite]);
-                    podeApertar = false;
+                    if(podeApertar == true)
+                    {
+                        ++proxSprite;
+                        NextSentence(profile[proxSprite], nome[proxSprite]);
+                        podeApertar = false;
+                    }
                 }
             }
-        }
-        if(Player.tipoDeControle == 1)
-        {
-            passarText.SetActive(false);
-            passarImagem.SetActive(true);
+            if(Player.tipoDeControle == 1)
+            {
+                passarText.SetActive(false);
+                passarImagem.SetActive(true);
 
-        }
-        if (Player.tipoDeControle == 0)
-        {
-            passarText.SetActive(true);
-            passarImagem.SetActive(false);
+            }
+            if (Player.tipoDeControle == 0)
+            {
+                passarText.SetActive(true);
+                passarImagem.SetActive(false);
+            }
+
         }
     }
 

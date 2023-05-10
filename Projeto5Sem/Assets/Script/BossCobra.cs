@@ -46,6 +46,7 @@ public class BossCobra : MonoBehaviour
     public GameObject deBuff;
     public GameObject raioeffect;
     public GameObject raioArea;
+    private bool tomouRaio;
     void Start()
     {
         vidaAtual = vida;
@@ -72,7 +73,7 @@ public class BossCobra : MonoBehaviour
         
         GameController.instance.vidaBoss.maxValue = vida;
         GameController.instance.vidaBoss.value = vidaAtual;
-        GameController.instance.vidaBoss.enabled = true;
+        GameController.instance.vidaBossObject.SetActive(true);
 
     }
     void controleVida()
@@ -92,6 +93,7 @@ public class BossCobra : MonoBehaviour
             mesh2.enabled = false;
             mesh3.enabled = false;
             GameController.instance.vidaBoss.enabled = false;
+            GameController.instance.vidaBossObject.SetActive(false);
             Instantiate(drop, gameObject.transform.position, gameObject.transform.rotation);
             Destroy(gameObject, 1);
         }
@@ -241,7 +243,12 @@ public class BossCobra : MonoBehaviour
         raioeffect.SetActive(false);
         raioArea.SetActive(false);
     }
-
+    IEnumerator InShock2()
+    {
+        raioeffect.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        raioeffect.SetActive(false);
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -263,9 +270,13 @@ public class BossCobra : MonoBehaviour
         {
             StartCoroutine(inShock());
         }
-        if (other.gameObject.tag == "Raio")
+        if (other.gameObject.tag == "AreaRaio")
         {
-            StartCoroutine(inShock());
+            if (tomouRaio == false)
+            {
+                StartCoroutine(InShock2());
+                --vidaAtual;
+            }
         }
     }
 

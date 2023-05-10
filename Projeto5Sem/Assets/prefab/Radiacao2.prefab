@@ -606,8 +606,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeDestroy: 15
-  valorMin: 4
-  valorMax: 5
+  valorMin: 5
+  valorMax: 6
 --- !u!65 &5035353398680062187
 BoxCollider:
   m_ObjectHideFlags: 0

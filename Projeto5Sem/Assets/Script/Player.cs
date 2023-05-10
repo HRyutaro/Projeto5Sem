@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
     public TrailRenderer rastroDash;
     private bool isAiming = false;
     private bool isAtacking = false;
+    public GameObject areaArremesso;
 
     [Header("Pocao")]
     public GameObject pocaoPrefab;
@@ -83,10 +84,11 @@ public class Player : MonoBehaviour
     private bool TomouDano = false;
     public Color corNormal;
 
+    [Header("Audios")]
+    public AudioSource passos;
+
     //controles
     public static int tipoDeControle;
-
-    public GameObject Interacao;
 
     void Start()
     {
@@ -95,6 +97,7 @@ public class Player : MonoBehaviour
         StartNumeroPocao();
         speedAtual = speed;
         QuedaAtivada = false;
+        passos.enabled = false;
     }
     void Update()
     {
@@ -120,6 +123,7 @@ public class Player : MonoBehaviour
         if (stop == true)
         {
             rb.velocity = Vector3.zero;
+            passos.enabled = false;
         }
     }
 
@@ -154,12 +158,16 @@ public class Player : MonoBehaviour
         if (isAiming == false && isAtacking == false && stop == false)
         {
             rb.velocity = input.toIso() * speedAtual;
-            if (Input.GetAxisRaw("Horizontal") != 0 && speedAtual >= 1 && tipoDeControle == 0 || Input.GetAxisRaw("Vertical") != 0 && speedAtual >= 1 && tipoDeControle == 0)
+            if (Input.GetAxisRaw("Horizontal") != 0 && speedAtual >= 1 && tipoDeControle == 0 || Input.GetAxisRaw("Vertical") != 0 && speedAtual >= 1 && tipoDeControle == 0 ||
+                Input.GetAxisRaw("HorizontalJoystick") != 0 && speedAtual >= 1 && tipoDeControle == 1 || Input.GetAxisRaw("VerticalJoystick") != 0 && speedAtual >= 1 && tipoDeControle == 0) 
             {
+                passos.enabled = true;
+                
                 //Anim.SetFloat("isRun", 1);
             }
             else
             {
+                passos.Play();
                 //Anim.SetFloat("isRun", 0);
             }
         }
@@ -186,10 +194,10 @@ public class Player : MonoBehaviour
         if(queda1 == true)
         {
             rb.constraints &= ~RigidbodyConstraints.FreezePositionY;
-            rb.mass = 10;
+            rb.mass = 15;
             if (QuedaAtivada == true)
             {
-                rb.AddForce(Vector3.down * 15, ForceMode.Impulse);
+                rb.AddForce(Vector3.down * 17, ForceMode.Impulse);
             }
         }
         else
@@ -208,8 +216,9 @@ public class Player : MonoBehaviour
                 Anim.SetFloat("isRun", 0);
                 StartCoroutine("AtackMeleeTime");
                 StartCoroutine("CDAtackMelee");
+                rb.velocity = Vector3.zero;
                 Vector3 atackingfoward = transform.forward;
-                rb.AddForce(1.5f * atackingfoward, ForceMode.Impulse);
+                rb.AddForce(2f * atackingfoward, ForceMode.Impulse);
             }
         }
         else if (tipoDeControle == 0)
@@ -219,8 +228,9 @@ public class Player : MonoBehaviour
                 Anim.SetFloat("isRun", 0);
                 StartCoroutine("AtackMeleeTime");
                 StartCoroutine("CDAtackMelee");
+                rb.velocity = Vector3.zero;
                 Vector3 atackingfoward = transform.forward;
-                rb.AddForce(1.5f * atackingfoward, ForceMode.Impulse);
+                rb.AddForce(2f * atackingfoward, ForceMode.Impulse);
             }
         }
     }
@@ -352,6 +362,8 @@ public class Player : MonoBehaviour
                         Anim.SetFloat("Pocao", 1);
                         Anim.SetFloat("isRun", 0);
                         stop = true;
+                        rb.velocity = Vector3.zero;
+                        areaArremesso.SetActive(true);
                     }
                 } // pocao Fogo
                 if (pocao.tipoDapocao == 3)
@@ -362,6 +374,8 @@ public class Player : MonoBehaviour
                         Anim.SetFloat("Pocao", 1);
                         Anim.SetFloat("isRun", 0);
                         stop = true;
+                        rb.velocity = Vector3.zero;
+                        areaArremesso.SetActive(true);
                     }
                 } // pocao Gelo
                 if (pocao.tipoDapocao == 4)
@@ -372,6 +386,8 @@ public class Player : MonoBehaviour
                         Anim.SetFloat("Pocao", 1);
                         Anim.SetFloat("isRun", 0);
                         stop = true;
+                        rb.velocity = Vector3.zero;
+                        areaArremesso.SetActive(true);
                     }
                 } // pocao fumaça
             }
@@ -388,6 +404,8 @@ public class Player : MonoBehaviour
                         Anim.SetFloat("Pocao", 1);
                         Anim.SetFloat("isRun", 0);
                         stop = true;
+                        rb.velocity = Vector3.zero;
+                        areaArremesso.SetActive(true);
                     }
                 } // pocao Fogo
                 if (pocao.tipoDapocao == 3)
@@ -398,6 +416,8 @@ public class Player : MonoBehaviour
                         Anim.SetFloat("Pocao", 1);
                         Anim.SetFloat("isRun", 0);
                         stop = true;
+                        rb.velocity = Vector3.zero;
+                        areaArremesso.SetActive(true);
                     }
                 } // pocao Gelo
                 if (pocao.tipoDapocao == 4)
@@ -408,6 +428,8 @@ public class Player : MonoBehaviour
                         Anim.SetFloat("Pocao", 1);
                         Anim.SetFloat("isRun", 0);
                         stop = true;
+                        rb.velocity = Vector3.zero;
+                        areaArremesso.SetActive(true);
                     }
                 } // pocao fumaça
             }
@@ -430,6 +452,7 @@ public class Player : MonoBehaviour
                         pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
                         GameController.numeroPocoesAtual = temPocaoFogo;
                         stop = false;
+                        areaArremesso.SetActive(false);
                     }
                 }
             } // pocao Fogo
@@ -448,6 +471,7 @@ public class Player : MonoBehaviour
                         pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
                         GameController.numeroPocoesAtual = temPocaoGelo;
                         stop = false;
+                        areaArremesso.SetActive(false);
                     }
                 }
             } // pocao Gelo
@@ -466,6 +490,7 @@ public class Player : MonoBehaviour
                         pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
                         GameController.numeroPocoesAtual = temPocaoFumaca;
                         stop = false;
+                        areaArremesso.SetActive(false);
                     }
                 }
             } // pocao fumaça
@@ -487,6 +512,7 @@ public class Player : MonoBehaviour
                         pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
                         GameController.numeroPocoesAtual = temPocaoFogo;
                         stop = false;
+                        areaArremesso.SetActive(false);
                     }
                 }
             } // pocao Fogo
@@ -505,6 +531,7 @@ public class Player : MonoBehaviour
                         pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
                         GameController.numeroPocoesAtual = temPocaoGelo;
                         stop = false;
+                        areaArremesso.SetActive(false);
                     }
                 }
             } // pocao Gelo
@@ -523,6 +550,7 @@ public class Player : MonoBehaviour
                         pocao.GetComponent<Rigidbody>().AddForce(direcao * forcaArremesso, ForceMode.Impulse);
                         GameController.numeroPocoesAtual = temPocaoFumaca;
                         stop = false;
+                        areaArremesso.SetActive(false);
                     }
                 }
             } // pocao fumaça
@@ -548,6 +576,7 @@ public class Player : MonoBehaviour
         VidaAtual = VidaTotal;
         checkpoint.renasceu = true;
         gameObject.transform.position = GameController.instance.checkPoint[GameController.checkpointNumber].transform.position;
+        checkpoint.JaLeu = false;
     }
 
     public void TomarDano(int Dano,float Empurrao)
@@ -581,7 +610,7 @@ public class Player : MonoBehaviour
                 rb.AddForce(dashing * forcaDash, ForceMode.Impulse);
                 StartCoroutine("CdDash");
            }
-           else if (Input.GetKeyDown(KeyCode.LeftShift) && isDashing == 4 && tipoDeControle == 0)
+           else if (Input.GetKey(KeyCode.LeftShift) && isDashing == 4 && tipoDeControle == 0)
            {
                 isDashing = 0;
                 Vector3 dashing = transform.forward;
@@ -601,31 +630,26 @@ public class Player : MonoBehaviour
             {
                 GameController.numeroPocoesAtual = temPocaoRaio;
                 pocao.tipoDapocao = 1;
-                print("pocao Raio");
             }
             else if(pocao.tipoDapocao == 1)
             {
                 GameController.numeroPocoesAtual = temPocaoFogo;
                 pocao.tipoDapocao = 2;
-                print("pocao Fogo");
             }
             else if (pocao.tipoDapocao == 2)
             {
                 GameController.numeroPocoesAtual = temPocaoGelo;
                 pocao.tipoDapocao = 3;
-                print("pocao gelo");
             }
             else if (pocao.tipoDapocao == 3)
             {
                 GameController.numeroPocoesAtual = temPocaoFumaca;
                 pocao.tipoDapocao = 4;
-                print("pocao fumaca");
             }
             else if (pocao.tipoDapocao == 4)
             {
                 GameController.numeroPocoesAtual = temPocaoCura;
                 pocao.tipoDapocao = 0;
-                print("pocao Cura");
             }
         }
         if (Input.GetKeyDown(KeyCode.Q) && tipoDeControle == 0)
@@ -634,31 +658,26 @@ public class Player : MonoBehaviour
             {
                 GameController.numeroPocoesAtual = temPocaoRaio;
                 pocao.tipoDapocao = 1;
-                print("pocao Raio");
             }
             else if (pocao.tipoDapocao == 1)
             {
                 GameController.numeroPocoesAtual = temPocaoFogo;
                 pocao.tipoDapocao = 2;
-                print("pocao Fogo");
             }
             else if (pocao.tipoDapocao == 2)
             {
                 GameController.numeroPocoesAtual = temPocaoGelo;
                 pocao.tipoDapocao = 3;
-                print("pocao gelo");
             }
             else if (pocao.tipoDapocao == 3)
             {
                 GameController.numeroPocoesAtual = temPocaoFumaca;
                 pocao.tipoDapocao = 4;
-                print("pocao fumaca");
             }
             else if (pocao.tipoDapocao == 4)
             {
                 GameController.numeroPocoesAtual = temPocaoCura;
                 pocao.tipoDapocao = 0;
-                print("pocao Cura");
             }
         }
     }
@@ -873,11 +892,6 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("caixa"))
-        {
-            Anim.SetFloat("Empurrar", 1);
-            Anim.SetFloat("isRun", 1.1f);
-        }
         if(collision.gameObject.tag == "pisoFora")
         {
             VidaAtual -= 2;
@@ -887,12 +901,5 @@ public class Player : MonoBehaviour
             gameObject.transform.position = GameController.instance.checkPoint[GameController.checkpointNumber].transform.position;
         }
     }
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("caixa"))
-        {
-            Anim.SetFloat("Empurrar", 0);
-            Anim.SetFloat("isRun", 0);
-        }
-    }
+
 }

@@ -7,19 +7,19 @@ using UnityEngine.SceneManagement;
 
 public class GameControllerCutscene : MonoBehaviour
 {
-    public bool canSkip;
-    public GameObject text;
-    public GameObject image;
+    public bool canSkip = false;
+    public GameObject space;
+    public GameObject x;
     public VideoPlayer video;
 
     void Start()
     {
-        video.Play();
+        StartCoroutine(continuar());
     }
 
     void Update()
     {
-        if(Input.anyKeyDown)
+        if(Input.anyKey)
         {
             StartCoroutine(showSkip());
             if(canSkip == true)
@@ -34,20 +34,36 @@ public class GameControllerCutscene : MonoBehaviour
 
     }
 
+    IEnumerator continuar()
+    {
+        yield return new WaitForSeconds(20f);
+        if (Player.tipoDeControle == 0)
+        {
+            space.SetActive(true);
+            canSkip = true;
+        }
+        if (Player.tipoDeControle == 1)
+        {
+            x.SetActive(true);
+            canSkip = true;
+        }
+    }
     IEnumerator showSkip()
     {
-        canSkip = true;
+        
         if(Player.tipoDeControle == 0)
         {
-            text.SetActive(true);
+            space.SetActive(true);
         }
         if(Player.tipoDeControle == 1)
         {
-            image.SetActive(true);
+            x.SetActive(true);
         }
-        yield return new WaitForSeconds(3);
-        text.SetActive(false);
-        image.SetActive(false);
+        yield return new WaitForSeconds(0.5f);
+        canSkip = true;
+        yield return new WaitForSeconds(4.5f);
+        space.SetActive(false);
+        x.SetActive(false);
         canSkip = false;
     }
 }

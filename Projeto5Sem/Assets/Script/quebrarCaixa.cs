@@ -7,6 +7,7 @@ public class quebrarCaixa : MonoBehaviour
 
     public MeshRenderer caixa;
     public Collider col;
+    public Collider colidernotTrigger;
     public GameObject effect;
     public GameObject destrocosSpawn;
     public GameObject destrocosSpawn1;
@@ -15,6 +16,7 @@ public class quebrarCaixa : MonoBehaviour
     public GameObject destrocos1;
     public GameObject destrocos2;
     public GameObject radiacao;
+    public AudioSource som;
 
     void Start()
     {
@@ -39,9 +41,19 @@ public class quebrarCaixa : MonoBehaviour
             Instantiate(destrocos2, destrocosSpawn2.transform.position, destrocosSpawn.transform.rotation);
             Instantiate(radiacao, destrocosSpawn2.transform.position, destrocosSpawn.transform.rotation);
             animacao();
+            som.Play();
+            Destroy(gameObject, 1.5f);
         }
     }
-    
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "espada")
+        {
+            colidernotTrigger.isTrigger = true;
+        }
+    }
+
     IEnumerator animacao()
     {
         effect.SetActive(true);

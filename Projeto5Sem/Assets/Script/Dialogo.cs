@@ -23,18 +23,26 @@ public class Dialogo : MonoBehaviour
     private bool forcar;
     private bool isForced = false;
 
+    public static bool pularDialogo;
+
     private void Start()
     {
         dc = FindObjectOfType<DialogoControl>();
     }
     private void FixedUpdate()
     {
-        Interacao();
+        if(pularDialogo == false)
+        {
+            Interacao();
+        }
     }
     private void Update()
     {
-        Semforce();
-        Forcar();
+        if(pularDialogo == false)
+        {
+            Semforce();
+            Forcar();
+        }
     }
 
     void Semforce()

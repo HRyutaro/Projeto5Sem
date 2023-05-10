@@ -126,9 +126,9 @@ public class BossUrso : MonoBehaviour
         areaInvestida.SetActive(false);
         yield return new WaitForSeconds(1);
         Anim.SetFloat("Investida", 0);
+        gameObject.tag = "BossUrso";
         yield return new WaitForSeconds(3);
         stop = false;
-        gameObject.tag = "BossUrso";
         col.isTrigger = false;
         yield return new WaitForSeconds(CdInvestida);
         podeInvestida = true;
@@ -239,6 +239,7 @@ public class BossUrso : MonoBehaviour
         VidaAtual -= dano;
         Anim.SetFloat("Atack", 0);
     }
+
     IEnumerator CDTomarDano()
     {
         tomouDano = true;
@@ -248,10 +249,8 @@ public class BossUrso : MonoBehaviour
 
     IEnumerator DanoCorCD()
     {
-        stop = true;
         mesh.material.color = Color.red;
         yield return new WaitForSeconds(1f);
-        stop = false;
         mesh.material.color = corNormal;
     }
 

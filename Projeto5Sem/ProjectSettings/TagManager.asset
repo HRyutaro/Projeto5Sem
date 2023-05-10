@@ -34,6 +34,8 @@ TagManager:
   - Queda
   - Raio
   - AreaRaio
+  - Musica
+  - Sfx
   layers:
   - Default
   - TransparentFX
