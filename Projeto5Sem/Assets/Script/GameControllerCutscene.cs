@@ -11,6 +11,7 @@ public class GameControllerCutscene : MonoBehaviour
     public GameObject space;
     public GameObject x;
     public VideoPlayer video;
+    public bool fimdejogo;
 
     void Start()
     {
@@ -26,8 +27,16 @@ public class GameControllerCutscene : MonoBehaviour
             {
                 if(Input.GetButtonDown("Submit"))
                 {
-                    SceneManager.LoadScene("fase");
-                    Time.timeScale = 1;
+                    if(fimdejogo == true)
+                    {
+                        SceneManager.LoadScene("Menu");
+                        Time.timeScale = 1;
+                    }
+                    else
+                    {
+                        SceneManager.LoadScene("fase");
+                        Time.timeScale = 1;
+                    }
                 }
             }
         }

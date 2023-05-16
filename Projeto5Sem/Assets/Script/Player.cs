@@ -80,18 +80,24 @@ public class Player : MonoBehaviour
     public Color corNormal;
 
     [Header("Audios")]
-    public AudioSource passos;
+    public AudioSource passosAudio;
+    public AudioSource dorAudio;
+    public AudioSource golpeAudio;
 
     //controles
     public static int tipoDeControle;
 
     void Start()
     {
+
+        dorAudio.enabled = false;
         instance = this;
         VidaAtual = VidaTotal;
         StartNumeroPocao();
         speedAtual = speed;
         QuedaAtivada = false;
+        dorAudio.Play();
+        passosAudio.Play();
     }
     void Update()
     {
@@ -117,7 +123,7 @@ public class Player : MonoBehaviour
         if (stop == true || isPaused == true)
         {
             rb.velocity = Vector3.zero;
-            passos.enabled = false;
+            passosAudio.enabled = false;
             Anim.SetFloat("isRun", 0);
             Anim.SetFloat("Pocao", 0);
         }
@@ -157,13 +163,13 @@ public class Player : MonoBehaviour
             if (Input.GetAxisRaw("Horizontal") != 0 && speedAtual >= 1 && tipoDeControle == 0 || Input.GetAxisRaw("Vertical") != 0 && speedAtual >= 1 && tipoDeControle == 0 ||
                 Input.GetAxisRaw("HorizontalJoystick") != 0 && speedAtual >= 1 && tipoDeControle == 1 || Input.GetAxisRaw("VerticalJoystick") != 0 && speedAtual >= 1 && tipoDeControle == 0) 
             {
-                passos.enabled = true;
+                passosAudio.enabled = true;
                 Anim.SetFloat("isRun", 1);
                 Anim.SetFloat("Pocao", 0);
             }
             else
-            {
-                passos.Play();
+            {   
+                passosAudio.enabled = false;
                 Anim.SetFloat("isRun", 0);
                 Anim.SetFloat("Pocao", 0);
             }
@@ -521,6 +527,7 @@ public class Player : MonoBehaviour
         {
             Anim.SetFloat("Morte", 1);
             stop = true;
+            passosAudio.enabled = false;
         }
         else if(VidaAtual <= 0)
         {
@@ -710,16 +717,17 @@ public class Player : MonoBehaviour
 
     IEnumerator AtackMeleeTime()
     {
-        stop = true; 
-        isAtacking = true;
         if(espadaInRaio == false)
         {
             efeitoEspada.SetActive(true);
+            golpeAudio.enabled = true;
         }
         else if(espadaInRaio == true)
         {
             espadaGolpeRaio.SetActive(true);
         }
+        stop = true; 
+        isAtacking = true;
         espada.SetActive(true);
         Anim.SetFloat("Atack", 1);
         espadaCosta.SetActive(false);
@@ -727,10 +735,11 @@ public class Player : MonoBehaviour
         stop = false;
         isAtacking = false;
         espada.SetActive(false);
-        espadaGolpeRaio.SetActive(false);
-        efeitoEspada.SetActive(false);
         Anim.SetFloat("Atack", 0);
+        golpeAudio.enabled = false;
         espadaCosta.SetActive(true);
+        efeitoEspada.SetActive(false);
+        espadaGolpeRaio.SetActive(false);
     }
 
     IEnumerator CDAtackMelee()
@@ -757,9 +766,11 @@ public class Player : MonoBehaviour
     {
         stop = true;
         TomouDano = true;
+        dorAudio.enabled = true;
         playerMesh.material.color = Color.red;
         yield return new WaitForSeconds(CdTomarDano);
         playerMesh.material.color = corNormal;
+        dorAudio.enabled = false;
         TomouDano = false;
         stop = false;
 
@@ -834,7 +845,16 @@ public class Player : MonoBehaviour
         {
             TomarDano(3, 15);
         }
-        if(other.gameObject.tag == "AtivarQueda" && QuedaAtivada == false)
+        if (other.gameObject.tag == "Serra" && TomouDano == false)
+        {
+            TomarDano(2, 10);
+        }
+        if (other.gameObject.tag == "Flecha" && TomouDano == false)
+        {
+            TomarDano(2, 10);
+        }
+
+        if (other.gameObject.tag == "AtivarQueda" && QuedaAtivada == false)
         {
             QuedaAtivada = true;
         }

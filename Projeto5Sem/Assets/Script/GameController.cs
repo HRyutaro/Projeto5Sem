@@ -28,9 +28,12 @@ public class GameController : MonoBehaviour
     public Image interacao2;
     public bool interacaoNatela;
     public Text notificacao;
+    public Image notificacao2;
     public GameObject[] almasImagens;
     public Slider vidaBoss;
     public GameObject vidaBossObject;
+    public Text textNumeroPortais;
+    public static int numeroPortais;
 
     [Header("Pause")]
     public GameObject Pause;
@@ -78,6 +81,7 @@ public class GameController : MonoBehaviour
     public GameObject botaoFabricar;
     public Image imageInteracaoInventario;
     public Image textoInteracaoInventario;
+    public AudioSource fabricarAudio;
 
 
     [SerializeField]
@@ -90,6 +94,8 @@ public class GameController : MonoBehaviour
     public GameObject sairCtzGameOver;
     public GameObject sairButtonGameOver;
     private bool selecionarReiniciar;
+    public GameObject dialogoFinal;
+    public GameObject dialogoFinal2;
 
     [Header("Tutorial")]
     public GameObject tutorialHud;
@@ -124,6 +130,7 @@ public class GameController : MonoBehaviour
         pertoDaTable = false;
         outPisoTutorial = false;
         inTutorial = false;
+        numeroPortais = 0;
     }
 
     void Update()
@@ -145,6 +152,7 @@ public class GameController : MonoBehaviour
         ControleKeys();
         ShowInteracao();
         controleEventeSystem();
+        fimDeJogo();
         AlmasHud();
     }
 
@@ -492,6 +500,7 @@ public class GameController : MonoBehaviour
             Player.instance.Radiacao -= 2;
             Player.instance.temPlantaCura -= 3;
             Player.instance.StartNumeroPocao();
+            fabricarAudio.Play();
         }
         else if(Player.instance.Radiacao < 2 && Player.instance.temPlantaCura < 3 && inInventario2 == false)//sem os dois
         {
@@ -523,6 +532,7 @@ public class GameController : MonoBehaviour
             Player.instance.Radiacao -= 3;
             Player.instance.temPlantaRaio -= 4;
             Player.instance.StartNumeroPocao();
+            fabricarAudio.Play();
         }
         else if(Player.instance.Radiacao < 3 && Player.instance.temPlantaRaio < 4 && inInventario2 == false)// os dois 
         {
@@ -554,6 +564,7 @@ public class GameController : MonoBehaviour
             Player.instance.Radiacao -= 2;
             Player.instance.temPlantaGelo -= 3;
             Player.instance.StartNumeroPocao();
+            fabricarAudio.Play();
         }
         else if(Player.instance.Radiacao < 2 && Player.instance.temPlantaGelo < 3 && inInventario2 == false)//os dois
         {
@@ -584,6 +595,7 @@ public class GameController : MonoBehaviour
             Player.instance.Radiacao -= 2;
             Player.instance.temPlantaFumaca -= 2;
             Player.instance.StartNumeroPocao();
+            fabricarAudio.Play();
         }
         else if(Player.instance.Radiacao < 2 && Player.instance.temPlantaFumaca < 2 && inInventario2 == false)// Os Dois
         {
@@ -614,6 +626,7 @@ public class GameController : MonoBehaviour
             Player.instance.Radiacao -= 5;
             Player.instance.temPlantaFogo-= 4;
             Player.instance.StartNumeroPocao();
+            fabricarAudio.Play();
         }
         else if(Player.instance.Radiacao < 5 && Player.instance.temPlantaFogo < 4 && inInventario2 == false)// os dois
         {
@@ -680,7 +693,7 @@ public class GameController : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(menuButtons[0]);
                 Player.instance.isPaused = true;
                 Player.instance.rb.velocity = Vector3.zero;
-                Player.instance.passos.enabled = false;
+                Player.instance.passosAudio.enabled = false;
             }
             else if (isPause == true ) // resume game
             {
@@ -699,9 +712,22 @@ public class GameController : MonoBehaviour
 
     void VidaHud()
     {
-        vida.maxValue = Player.instance.VidaTotal;
         vida.value = Player.VidaAtual;
+    }
 
+    void fimDeJogo()
+    {
+        if(numeroPortais >= 7)
+        {
+            dialogoFinal.SetActive(true);
+            dialogoFinal2.SetActive(false);
+
+        }
+        else
+        {
+            dialogoFinal.SetActive(false);
+            dialogoFinal2.SetActive(true);
+        }
     }
 
     void AlmasHud()
@@ -784,7 +810,6 @@ public class GameController : MonoBehaviour
     void dashHud()
     {
         dash.value = Player.instance.isDashing;
-
     }
 
     void ShowGameOver()
@@ -817,7 +842,7 @@ public class GameController : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(inventButtons[0]);
                 imageInteracaoInventario.enabled = false;
                 textoInteracaoInventario.enabled = false;
-                Player.instance.passos.enabled = false;
+                Player.instance.passosAudio.enabled = false;
             }
             else if (inInventario2 == true)
             {
@@ -841,7 +866,7 @@ public class GameController : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(inventButtons[0]);
                 imageInteracaoInventario.enabled = false;
                 textoInteracaoInventario.enabled = false;
-                Player.instance.passos.enabled = false;
+                Player.instance.passosAudio.enabled = false;
             }
             else if (inInventario2 == true)
             {
@@ -872,7 +897,7 @@ public class GameController : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(inventButtons[0]);
                 imageInteracaoInventario.enabled = true;
                 textoInteracaoInventario.enabled = false;
-                Player.instance.passos.enabled = false;
+                Player.instance.passosAudio.enabled = false;
             }
             else if (inInventario == true)
             {
@@ -902,7 +927,7 @@ public class GameController : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(inventButtons[0]);
                 imageInteracaoInventario.enabled = false;
                 textoInteracaoInventario.enabled = true;
-                Player.instance.passos.enabled = false;
+                Player.instance.passosAudio.enabled = false;
             }
             else if (inInventario == true)
             {
@@ -1007,6 +1032,7 @@ public class GameController : MonoBehaviour
     {
         numeroPocoes.text = numeroPocoesAtual.ToString();
         numeroRadiacao.text = Player.instance.Radiacao.ToString();
+        textNumeroPortais.text = numeroPortais.ToString();
     }
 
     public void DorGato()
@@ -1167,7 +1193,9 @@ public class GameController : MonoBehaviour
      IEnumerator showInformacao()
     {
         notificacao.enabled = true;
+        notificacao2.enabled = true;
         yield return new WaitForSeconds(3f);
         notificacao.enabled = false;
+        notificacao2.enabled = false;
     }
 }

@@ -37,6 +37,7 @@ TagManager:
   - Musica
   - Sfx
   - Serra
+  - Flecha
   layers:
   - Default
   - TransparentFX

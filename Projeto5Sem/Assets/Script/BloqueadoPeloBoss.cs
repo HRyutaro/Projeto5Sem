@@ -11,6 +11,8 @@ public class BloqueadoPeloBoss : MonoBehaviour
     public static bool bossUrsoisDead = false;
     public static bool bossCobraisDead = false;
     private bool podeInteragir;
+    public AudioSource portaAudio;
+
     void Start()
     {
         
@@ -56,12 +58,20 @@ public class BloqueadoPeloBoss : MonoBehaviour
         if(bossCobraisDead == true)
         {
             anim.SetFloat("Abrir", 1);
+            StartCoroutine(audioBotao());
         }
         else if (tipoDeBoss == 1 && BossCobra.startBossBattle == true)
         {
             anim.SetFloat("Abrir", 0);
+            StartCoroutine(audioBotao());
         }
 
+    }
+    IEnumerator audioBotao()
+    {
+        portaAudio.enabled = true;
+        yield return new WaitForSeconds(4f);
+        portaAudio.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)

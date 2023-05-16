@@ -9,6 +9,7 @@ public class Botao2 : MonoBehaviour
     private bool PodePassarCartao;
     public Animator animPorta;
     public MeshRenderer botao;
+    public AudioSource portao;
 
     void Start()
     {
@@ -22,6 +23,7 @@ public class Botao2 : MonoBehaviour
             animPorta.SetFloat("Abrir", 1);
             botao.material.color = Color.red;
             passouCartao = false;
+            StartCoroutine(AudioPortao());
         }
         if (PodePassarCartao == true)
         {
@@ -51,7 +53,13 @@ public class Botao2 : MonoBehaviour
             }
         }
     }
+    IEnumerator AudioPortao()
+    {
+        portao.enabled = true;
+        yield return new WaitForSeconds(4f);
+        portao.enabled = false;
 
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player") && passouCartao == false)

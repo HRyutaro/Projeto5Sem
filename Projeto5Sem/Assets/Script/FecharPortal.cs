@@ -32,6 +32,7 @@ public class FecharPortal : MonoBehaviour
             {
                 Destroy(gameObject, 0);
                 GameController.instance.interacaoNatela = false;
+                GameController.numeroPortais++;
             }
             else
             {

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 421556}
   - component: {fileID: 3341600}
   - component: {fileID: 2355862}
-  - component: {fileID: 9512390}
   m_Layer: 0
   m_Name: Arrow_Piercing
   m_TagString: Untagged
@@ -82,22 +81,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9512390
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 137478}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: a6dbb2c6393664ec3bfff79ef7bcad30, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0

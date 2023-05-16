@@ -28,7 +28,7 @@ public class FimDeJogo : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player") && desligouReator == true)
         {
-            SceneManager.LoadScene("Menu");
+            SceneManager.LoadScene("FimDeJogo");
         }
     }
 }
