@@ -185,6 +185,7 @@ public class BossUrso : MonoBehaviour
             }
             else if (especialDrop == false)
             {
+
                 BloqueadoPeloBoss.bossUrsoisDead = true;
                 isDead = true;
                 Anim.SetFloat("Atack", 0);

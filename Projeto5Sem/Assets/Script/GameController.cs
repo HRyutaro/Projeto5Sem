@@ -59,6 +59,8 @@ public class GameController : MonoBehaviour
     public GameObject eventSytem1;
     public Slider slideDialogo;
     public static int pularDialogoSlideValue;
+    public AudioSource musicaNormal;
+    public AudioSource musicaBoss;
 
     [Header("Sons")]
     public Slider musica;
@@ -118,6 +120,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        musicaNormal.Play();
         DialogoControl.dialogo = 1;
         almasAtual = almasTotal;
         instance = this;
@@ -154,6 +157,7 @@ public class GameController : MonoBehaviour
         controleEventeSystem();
         fimDeJogo();
         AlmasHud();
+        controleMusica();
     }
 
     void Cheat()
@@ -164,6 +168,36 @@ public class GameController : MonoBehaviour
         }
     }
 
+    void controleMusica()
+    {
+        if(BossUrso.startBoss == true && BossCobra.startBossBattle == false)
+        {
+            if(BloqueadoPeloBoss.bossUrsoisDead == true)
+            {
+                musicaNormal.Play();
+                musicaBoss.Stop();
+            }
+            else
+            {
+                musicaNormal.Stop();
+                musicaBoss.Play();
+            }
+        }
+        else if(BossUrso.startBoss == true && BossCobra.startBossBattle == true)
+        {
+            if(BloqueadoPeloBoss.bossCobraisDead == true)
+            {
+                musicaNormal.Play();
+                musicaBoss.Stop();
+            }
+            else
+            {
+                musicaNormal.Stop();
+                musicaBoss.Play();
+            }
+        }
+
+    }
     void controleEventeSystem()
     {
         if(Player.tipoDeControle == 1)
