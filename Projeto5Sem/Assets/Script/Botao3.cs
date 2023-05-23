@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class Botao3 : MonoBehaviour
 {
-    private bool passouCartao;
+    public bool passouCartao;
     private bool PodePassarCartao;
     public MeshRenderer botao;
-    public AudioSource portao;
 
     void Start()
     {
@@ -19,7 +18,6 @@ public class Botao3 : MonoBehaviour
         if (passouCartao == true)
         {
             botao.material.color = Color.red;
-            passouCartao = false;
             FimDeJogo.instance.desligouReator = true;
         }
         if (PodePassarCartao == true)
@@ -29,11 +27,11 @@ public class Botao3 : MonoBehaviour
                 if (GameController.numeroPortais >= 7)
                 {
                     passouCartao = true;
+                    FimDeJogo.instance.desligouReator = true;
                 }
                 else if (GameController.numeroPortais < 7)
                 {
-                    GameController.instance.ShowInformacao("Preciso da chave");
-                    Cartao2.saber = true;
+                    GameController.instance.ShowInformacao("Preciso da chave com o senhor Montimer");
                 }
             }
             if (Input.GetKeyDown(KeyCode.E) && Player.tipoDeControle == 0)
@@ -41,11 +39,11 @@ public class Botao3 : MonoBehaviour
                 if (GameController.numeroPortais >= 7)
                 {
                     passouCartao = true;
+                    FimDeJogo.instance.desligouReator = true;
                 }
                 else if (GameController.numeroPortais < 7)
                 {
-                    GameController.instance.ShowInformacao("Preciso da chave");
-                    Cartao2.saber = true;
+                    GameController.instance.ShowInformacao("Preciso da chave com o senhor Montimer");
                 }
             }
         }

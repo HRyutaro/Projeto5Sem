@@ -5,18 +5,15 @@ using UnityEngine.UI;
 
 public class AudioController : MonoBehaviour
 {
-    public static float volumeMaster;
-    public static float volumeMusica;
-    public static float volumeSfx;
+    public static float volumeMaster = 1;
+    public static float volumeMusica = 1;
+    public static float volumeSfx = 1;
     public Slider sliderMaster;
     public Slider sliderMusica;
     public Slider sliderSfx;
 
     void Start()
     {
-        volumeMaster = 1;
-        volumeMusica = 1;
-        volumeSfx = 1;
         sliderMaster.value = PlayerPrefs.GetFloat("Master");
         sliderMusica.value = PlayerPrefs.GetFloat("Musica");
         sliderMusica.value = PlayerPrefs.GetFloat("Sfx");

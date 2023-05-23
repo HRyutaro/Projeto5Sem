@@ -63,6 +63,7 @@ public class GameController : MonoBehaviour
     public AudioSource musicaBoss;
 
     [Header("Sons")]
+    public bool somBoss;
     public Slider musica;
     public Slider son;
 
@@ -95,7 +96,6 @@ public class GameController : MonoBehaviour
     public GameObject reiniciarButton;
     public GameObject sairCtzGameOver;
     public GameObject sairButtonGameOver;
-    private bool selecionarReiniciar;
     public GameObject dialogoFinal;
     public GameObject dialogoFinal2;
 
@@ -120,7 +120,6 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        musicaNormal.Play();
         DialogoControl.dialogo = 1;
         almasAtual = almasTotal;
         instance = this;
@@ -128,8 +127,6 @@ public class GameController : MonoBehaviour
         slideDialogo.value = pularDialogoSlideValue;
         Time.timeScale = 1;
         vida.maxValue = Player.instance.VidaTotal;
-        musica.value = GameControllerMenu.musicaValor;
-        son.value = GameControllerMenu.somValor;
         pertoDaTable = false;
         outPisoTutorial = false;
         inTutorial = false;
@@ -155,48 +152,38 @@ public class GameController : MonoBehaviour
         ControleKeys();
         ShowInteracao();
         controleEventeSystem();
-        fimDeJogo();
         AlmasHud();
         controleMusica();
+        Cheat();
     }
 
     void Cheat()
     {
         if(Input.GetKeyDown(KeyCode.K))
         {
-            Player.instance.Radiacao++;
+            if(modoDeus == false)
+            {
+                modoDeus = true;
+            }
+            else if (modoDeus == true)
+            {
+                modoDeus = false;
+            }
         }
     }
 
     void controleMusica()
     {
-        if(BossUrso.startBoss == true && BossCobra.startBossBattle == false)
+        if(somBoss == true)
         {
-            if(BloqueadoPeloBoss.bossUrsoisDead == true)
-            {
-                musicaNormal.Play();
-                musicaBoss.Stop();
-            }
-            else
-            {
-                musicaNormal.Stop();
-                musicaBoss.Play();
-            }
+            musicaNormal.enabled = false;
+            musicaBoss.enabled = true;
         }
-        else if(BossUrso.startBoss == true && BossCobra.startBossBattle == true)
+        else if(somBoss == false)
         {
-            if(BloqueadoPeloBoss.bossCobraisDead == true)
-            {
-                musicaNormal.Play();
-                musicaBoss.Stop();
-            }
-            else
-            {
-                musicaNormal.Stop();
-                musicaBoss.Play();
-            }
+            musicaNormal.enabled = true;
+            musicaBoss.enabled = false;
         }
-
     }
     void controleEventeSystem()
     {
@@ -434,6 +421,7 @@ public class GameController : MonoBehaviour
         checkpointNumber = 0;
         Time.timeScale = 0;
         SceneManager.LoadScene("Fase");
+        vidaBossObject.SetActive(false);
     }
 
     public void controleInventario()
@@ -510,12 +498,13 @@ public class GameController : MonoBehaviour
                 infocartaoKey[0].SetActive(false);
                 infocartaoKey[1].SetActive(true);
             }
+
         }
-        if(Input.GetButtonDown("Cancel"))
+        if (Input.GetButtonDown("Cancel"))
         {
             inInventario = false;
             inInventario2 = false;
-            InventarioGameObject.SetActive(true);
+            InventarioGameObject.SetActive(false);
             inventarioBancada.SetActive(false);
             inventario.SetActive(false);
             StartCoroutine(SairMenu());
@@ -747,21 +736,6 @@ public class GameController : MonoBehaviour
     void VidaHud()
     {
         vida.value = Player.VidaAtual;
-    }
-
-    void fimDeJogo()
-    {
-        if(numeroPortais >= 7)
-        {
-            dialogoFinal.SetActive(true);
-            dialogoFinal2.SetActive(false);
-
-        }
-        else
-        {
-            dialogoFinal.SetActive(false);
-            dialogoFinal2.SetActive(true);
-        }
     }
 
     void AlmasHud()

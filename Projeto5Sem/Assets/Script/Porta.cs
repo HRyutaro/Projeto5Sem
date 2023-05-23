@@ -11,6 +11,7 @@ public class Porta : MonoBehaviour
     public bool portaBloqueada;
     public bool podeInteragir;
     public bool abriuFechouPorta;
+    public AudioSource somPorta;
 
     void Start()
     {
@@ -29,11 +30,13 @@ public class Porta : MonoBehaviour
                 Player.tipoDeControle == 0 && Input.GetKeyDown(KeyCode.E) && abriu == false)
             {  
                 abriu = true;
+                somPorta.Play();
             }
             else if (Player.tipoDeControle == 1 && Input.GetButtonDown("Interacao") && abriu == true ||
                 Player.tipoDeControle == 0 && Input.GetKeyDown(KeyCode.E) && abriu == true)
             {
                 abriu = false;
+                somPorta.Play();
             }
         }
         else if( portaBloqueada == true)

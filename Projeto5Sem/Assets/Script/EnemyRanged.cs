@@ -57,6 +57,11 @@ public class EnemyRanged : MonoBehaviour
     public bool especialDrop;
     private int numeroDrops;
 
+    [Header("Sons")]
+    public AudioSource DanoAudio;
+    public AudioSource MorteAudio;
+    public AudioSource AtackAudio;
+
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -88,6 +93,7 @@ public class EnemyRanged : MonoBehaviour
         {
             if (especialDrop == true)
             {
+                MorteAudio.Play();
                 isDead = true;
                 Anim.SetFloat("Atack", 0);
                 col.enabled = false;
@@ -106,6 +112,7 @@ public class EnemyRanged : MonoBehaviour
             }
             else if (especialDrop == false)
             {
+                MorteAudio.Play();
                 isDead = true;
                 Anim.SetFloat("Atack", 0);
                 col.enabled = false;
@@ -160,6 +167,7 @@ public class EnemyRanged : MonoBehaviour
                     GameObject guspe = Instantiate(atackprefab, atackRespawn.position, atackRespawn.rotation);
                     guspe.GetComponent<Rigidbody>().AddForce(direcao * forcaAtack, ForceMode.Impulse);
                     StartCoroutine(AnimacaoGuspe());
+                    AtackAudio.Play();
                 }
                 nextattackTime = Time.time + CdAtack;
                 gameObject.transform.LookAt(alvo);
@@ -181,6 +189,7 @@ public class EnemyRanged : MonoBehaviour
         StartCoroutine("DanoCorCD");
         Anim.SetFloat("Guspindo", 0);
         vidaAtual -= dano;
+        DanoAudio.Play();
     }
     IEnumerator DanoCorCD()
     {
@@ -210,6 +219,7 @@ public class EnemyRanged : MonoBehaviour
         stop = true;
         yield return new WaitForSeconds(1f);
         --vidaAtual;
+        DanoAudio.Play();
         yield return new WaitForSeconds(1f);
         danoFrio.SetActive(false);
         stop = false;
@@ -226,8 +236,9 @@ public class EnemyRanged : MonoBehaviour
         yield return new WaitForSeconds(3f);
         --vidaAtual;
         Anim.speed = 1;
-        deBuff.SetActive(false);
+        DanoAudio.Play();
         speedAtual = speed;
+        deBuff.SetActive(false);
     }
 
     IEnumerator inShock()
@@ -239,8 +250,10 @@ public class EnemyRanged : MonoBehaviour
         raioeffect.SetActive(true);
         raioArea.SetActive(true);
         --vidaAtual;
+        DanoAudio.Play();
         yield return new WaitForSeconds(4f);
         --vidaAtual;
+        DanoAudio.Play();
         raioeffect.SetActive(false);
         raioArea.SetActive(false);
         tomouRaio = false;
@@ -266,14 +279,17 @@ public class EnemyRanged : MonoBehaviour
         {
             Congelado();
             mesh.material.color = corGelado;
+            DanoAudio.Play();
         }
         if (other.gameObject.tag == "fumaca")
         {
             StartCoroutine(inSmoke());
+            DanoAudio.Play();
         }
         if (other.gameObject.tag == "Raio")
         {
             StartCoroutine(inShock());
+            DanoAudio.Play();
         }
         if (other.gameObject.tag == "AreaRaio")
         {
@@ -281,6 +297,7 @@ public class EnemyRanged : MonoBehaviour
             {
                 StartCoroutine(InShock2());
                 --vidaAtual;
+                DanoAudio.Play();
             }
         }
 

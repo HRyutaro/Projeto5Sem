@@ -83,6 +83,7 @@ public class Player : MonoBehaviour
     public AudioSource passosAudio;
     public AudioSource dorAudio;
     public AudioSource golpeAudio;
+    public AudioSource beberAudio;
 
     //controles
     public static int tipoDeControle;
@@ -96,8 +97,6 @@ public class Player : MonoBehaviour
         StartNumeroPocao();
         speedAtual = speed;
         QuedaAtivada = false;
-        dorAudio.Play();
-        passosAudio.Play();
     }
     void Update()
     {
@@ -256,6 +255,7 @@ public class Player : MonoBehaviour
                             VidaAtual += 3;
                             --temPocaoCura;
                             GameController.numeroPocoesAtual = temPocaoCura;
+                            beberAudio.Play();
                         }
                         else
                         {
@@ -273,6 +273,7 @@ public class Player : MonoBehaviour
                         GameController.numeroPocoesAtual = temPocaoRaio;
                         StartCoroutine(PocaoDeRaio());
                         StartCoroutine(Raio());
+                        beberAudio.Play();
                     }
 
                 } // pocao mana
@@ -292,6 +293,7 @@ public class Player : MonoBehaviour
                             VidaAtual += 3;
                             --temPocaoCura;
                             GameController.numeroPocoesAtual = temPocaoCura;
+                            beberAudio.Play();
                         }
                         else
                         {
@@ -309,6 +311,7 @@ public class Player : MonoBehaviour
                         GameController.numeroPocoesAtual = temPocaoRaio;
                         StartCoroutine(PocaoDeRaio());
                         StartCoroutine(Raio());
+                        beberAudio.Play();
                     }
                 } // pocao mana
             }

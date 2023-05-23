@@ -23,7 +23,7 @@ public class Botao2 : MonoBehaviour
             animPorta.SetFloat("Abrir", 1);
             botao.material.color = Color.red;
             passouCartao = false;
-            StartCoroutine(AudioPortao());
+            portao.Play();
         }
         if (PodePassarCartao == true)
         {
@@ -52,13 +52,6 @@ public class Botao2 : MonoBehaviour
                 }
             }
         }
-    }
-    IEnumerator AudioPortao()
-    {
-        portao.enabled = true;
-        yield return new WaitForSeconds(4f);
-        portao.enabled = false;
-
     }
     private void OnTriggerEnter(Collider other)
     {

@@ -56,7 +56,6 @@ public class BossUrso : MonoBehaviour
 
     [Header("Especial")]
     public GameObject prefabDrop;
-    public bool especialDrop;
     private int numeroDrops;
     public  static bool startBoss = false;
 
@@ -82,7 +81,7 @@ public class BossUrso : MonoBehaviour
         {
             atacar();
             ControleVida();
-            
+            GameController.instance.somBoss = true;
         }
     }
 
@@ -164,8 +163,6 @@ public class BossUrso : MonoBehaviour
     {
         if (VidaAtual <= 0 && isDead == false)
         {
-            if (especialDrop == true)
-            {
                 BloqueadoPeloBoss.bossUrsoisDead = true;
                 isDead = true;
                 Anim.SetFloat("Atack", 0);
@@ -182,26 +179,6 @@ public class BossUrso : MonoBehaviour
                     Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
                     Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
                 }
-            }
-            else if (especialDrop == false)
-            {
-
-                BloqueadoPeloBoss.bossUrsoisDead = true;
-                isDead = true;
-                Anim.SetFloat("Atack", 0);
-                GetComponent<MeshRenderer>().enabled = false;
-                GetComponent<Collider>().enabled = false;
-                Destroy(gameObject, 1f);
-                if (numeroDrops == 1)
-                {
-                    Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
-                }
-                else if (numeroDrops == 2)
-                {
-                    Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
-                    Instantiate(radiacao, gameObject.transform.position, gameObject.transform.rotation);
-                }
-            }
         }
     }
 

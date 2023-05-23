@@ -26,11 +26,6 @@ public class guspe1 : MonoBehaviour
             col.enabled = false;
             Destroy(gameObject, 0);
         }
-        if (other.gameObject.tag == "Parede")
-        {
-            col.enabled = false;
-            Destroy(gameObject, 0);
-        }
         if (other.gameObject.tag == "Porta")
         {
             col.enabled = false;
@@ -41,14 +36,15 @@ public class guspe1 : MonoBehaviour
             col.enabled = false;
             Destroy(gameObject, 0);
         }
+        if (other.gameObject.tag == "Parede2")
+        {
+            col.enabled = false;
+            Destroy(gameObject, 0);
+        }
     }
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "Player")
-        {
-            Destroy(gameObject, 0);
-        }
-        if (collision.gameObject.tag == "Parede")
         {
             Destroy(gameObject, 0);
         }

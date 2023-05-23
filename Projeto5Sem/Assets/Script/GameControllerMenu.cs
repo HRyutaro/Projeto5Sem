@@ -30,8 +30,6 @@ public class GameControllerMenu : MonoBehaviour
 
     [Header("Sons")]
     public Slider[] sonSlides;
-    public static float somValor = 1;
-    public static float musicaValor = 1;
 
     public Slider pularTutorialSlide;
     public Slider slideDialogo;
@@ -39,8 +37,6 @@ public class GameControllerMenu : MonoBehaviour
     void Start()
     {
         tela = 0;
-        sonSlides[0].value = somValor;
-        sonSlides[1].value = musicaValor;
     }
 
     void Update()
@@ -256,6 +252,7 @@ public class GameControllerMenu : MonoBehaviour
     public void IniciarFase(string x)
     {
         SceneManager.LoadScene(x);
+        GameController.instance.vidaBossObject.SetActive(false);
         Time.timeScale = 1;
     }
     public void Opcoes()

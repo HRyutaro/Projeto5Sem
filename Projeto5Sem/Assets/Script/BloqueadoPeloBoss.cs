@@ -48,6 +48,7 @@ public class BloqueadoPeloBoss : MonoBehaviour
             porta.enabled = true;
             bloqueador.enabled = false;
             anim.SetFloat("Aberta", 1);
+            GameController.instance.somBoss = false;
         }
         else if (tipoDeBoss == 0 && BossUrso.startBoss == true)
         {
@@ -58,20 +59,15 @@ public class BloqueadoPeloBoss : MonoBehaviour
         if(bossCobraisDead == true)
         {
             anim.SetFloat("Abrir", 1);
-            StartCoroutine(audioBotao());
+            portaAudio.Play();
+            GameController.instance.somBoss = false;
         }
         else if (tipoDeBoss == 1 && BossCobra.startBossBattle == true)
         {
             anim.SetFloat("Abrir", 0);
-            StartCoroutine(audioBotao());
+            portaAudio.Play();
         }
 
-    }
-    IEnumerator audioBotao()
-    {
-        portaAudio.enabled = true;
-        yield return new WaitForSeconds(4f);
-        portaAudio.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)

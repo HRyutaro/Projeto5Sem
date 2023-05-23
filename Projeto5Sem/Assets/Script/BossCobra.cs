@@ -47,6 +47,7 @@ public class BossCobra : MonoBehaviour
     public GameObject raioeffect;
     public GameObject raioArea;
     private bool tomouRaio;
+    public GameObject dropPosition;
     void Start()
     {
         vidaAtual = vida;
@@ -64,6 +65,11 @@ public class BossCobra : MonoBehaviour
                 controleVida();
                 trocarDePosicao();
                 Atacar();
+                GameController.instance.somBoss = true;
+            }
+            else
+            {
+                GameController.instance.somBoss = false;
             }
         }
     }
@@ -94,7 +100,7 @@ public class BossCobra : MonoBehaviour
             mesh3.enabled = false;
             GameController.instance.vidaBoss.enabled = false;
             GameController.instance.vidaBossObject.SetActive(false);
-            Instantiate(drop, gameObject.transform.position, gameObject.transform.rotation);
+            Instantiate(drop,dropPosition.transform.position, dropPosition.transform.rotation);
             Destroy(gameObject, 1);
         }
     }

@@ -12,10 +12,11 @@ public class Plantas : MonoBehaviour
     public Color[] cor;
     public GameObject[] tipoDaMesh;
     public Image[] imagemPlanta;
+    public GameObject fundo;
 
     void Start()
     {
-        quantidadeDePlantas = Random.Range(1, 3);
+        quantidadeDePlantas = Random.Range(2, 5);
         planta = Random.Range(0, 5);
         quantosPegou.text = quantidadeDePlantas.ToString();
         tipoDePlanta();
@@ -130,7 +131,9 @@ public class Plantas : MonoBehaviour
     {
         quantosPegou.enabled = true;
         imagemPlanta[planta].enabled = true;
+        fundo.SetActive(true);
         yield return new WaitForSeconds(0.8f);
+        fundo.SetActive(false);
         imagemPlanta[planta].enabled = false;
         quantosPegou.enabled = false;
     }

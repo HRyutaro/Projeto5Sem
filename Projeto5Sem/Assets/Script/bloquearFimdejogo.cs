@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class bloquearFimdejogo : MonoBehaviour
 {
+    public GameObject dialogo;
 
     void Start()
     {
@@ -13,7 +14,11 @@ public class bloquearFimdejogo : MonoBehaviour
 
     void Update()
     {
-        
+        if (GameController.numeroPortais >= 7)
+        {
+            dialogo.SetActive(true);
+            Destroy(gameObject, 1);
+        }
     }
 
     private void OnTriggerEnter(Collider other)

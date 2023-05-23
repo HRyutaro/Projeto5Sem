@@ -11,7 +11,9 @@ public class FimDeJogo : MonoBehaviour
 
     void Start()
     {
+        instance = this;
         effects.SetActive(false);
+        desligouReator = false;
     }
 
 

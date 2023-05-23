@@ -55,6 +55,11 @@ public class Enemy : MonoBehaviour
     public bool especialDrop;
     private int numeroDrops;
 
+    [Header("Sons")]
+    public AudioSource DanoAudio;
+    public AudioSource MorteAudio;
+    public AudioSource AtackAudio;
+
     void Start()
     {
         numeroDrops = Random.Range(1, 2);
@@ -112,6 +117,7 @@ public class Enemy : MonoBehaviour
         {
             if (especialDrop == true)
             {
+                MorteAudio.Play();
                 isDead = true;
                 Anim.SetFloat("Atack", 0);
                 col.enabled =  false;
@@ -130,6 +136,7 @@ public class Enemy : MonoBehaviour
             }
             else if (especialDrop == false)
             {
+                MorteAudio.Play();
                 isDead = true;
                 Anim.SetFloat("Atack", 0);
                 col.enabled = false;
@@ -158,6 +165,7 @@ public class Enemy : MonoBehaviour
                 if (!isAttacking && Vector3.Distance(transform.position, alvo.position) <= distanciaMin)
                 {
                     StartCoroutine(AtackGarra());
+                    AtackAudio.Play();
                 }
                 nextattackTime = Time.time + CdAtack;
             }
@@ -182,6 +190,7 @@ public class Enemy : MonoBehaviour
         StartCoroutine(DanoCorCD());
         vidaAtual -= dano;
         Anim.SetFloat("Atack", 0);
+        DanoAudio.Play();
     }
     IEnumerator CDTomarDano()
     {
@@ -254,6 +263,7 @@ public class Enemy : MonoBehaviour
         speedAtual = speed / 2;
         yield return new WaitForSeconds(3f);
         --vidaAtual;
+        DanoAudio.Play();
         Anim.speed = 1;
         deBuff.SetActive(false);
         speedAtual = speed;
@@ -268,8 +278,10 @@ public class Enemy : MonoBehaviour
         raioeffect.SetActive(true);
         raioArea.SetActive(true);
         --vidaAtual;
+        DanoAudio.Play();
         yield return new WaitForSeconds(4f);
         --vidaAtual;
+        DanoAudio.Play();
         raioeffect.SetActive(false);
         raioArea.SetActive(false);
         tomouRaio = false;
@@ -294,20 +306,24 @@ public class Enemy : MonoBehaviour
         {
             Congelado();
             mesh.material.color = corGelado;
+            DanoAudio.Play();
         }
         if(other.gameObject.tag == "fogo" && !tomouDano)
         {
             StartCoroutine(CDTomarDano());
             tomarDanoFogo();
+            DanoAudio.Play();
         }
         if (other.gameObject.tag == "fumaca")
         {
             StartCoroutine(CDTomarDano());
             StartCoroutine(inSmoke());
+            DanoAudio.Play();
         }
         if(other.gameObject.tag == "Raio")
         {
             StartCoroutine(inShock());
+            DanoAudio.Play();
         }
         if (other.gameObject.tag == "AreaRaio")
         {
@@ -315,6 +331,7 @@ public class Enemy : MonoBehaviour
             {
                 StartCoroutine(InShock2());
                 --vidaAtual;
+                DanoAudio.Play();
             }
         }
     }

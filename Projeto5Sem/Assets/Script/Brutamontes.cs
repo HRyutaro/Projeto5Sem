@@ -55,6 +55,10 @@ public class Brutamontes : MonoBehaviour
     public bool especialDrop;
     private int numeroDrops;
 
+    [Header("Sons")]
+    public AudioSource DanoAudio;
+    public AudioSource MorteAudio;
+    public AudioSource AtackAudio;
 
     void Start()
     {
@@ -87,6 +91,7 @@ public class Brutamontes : MonoBehaviour
         {
             if (especialDrop == true)
             {
+                MorteAudio.Play();
                 isDead = true;
                 Anim.SetFloat("Atack", 0);
                 GetComponent<Collider>().enabled = false;
@@ -105,6 +110,7 @@ public class Brutamontes : MonoBehaviour
             }
             else if (especialDrop == false)
             {
+                MorteAudio.Play();
                 isDead = true;
                 Anim.SetFloat("Atack", 0);
                 corpo.SetActive(false);
@@ -158,6 +164,7 @@ public class Brutamontes : MonoBehaviour
                 {
                     gameObject.transform.LookAt(alvo);
                     StartCoroutine(AtackGarra());
+                    AtackAudio.Play();
                 }
                 nextattackTime = Time.time + CdAtack;
             }
@@ -179,6 +186,7 @@ public class Brutamontes : MonoBehaviour
         StartCoroutine(DanoCorCD());
         vidaAtual -= dano;
         Anim.SetFloat("golpe", 0);
+        DanoAudio.Play();
     }
     IEnumerator CDTomarDano()
     {
@@ -235,6 +243,7 @@ public class Brutamontes : MonoBehaviour
         mesh.material.color = corGelado;
         yield return new WaitForSeconds(1f);
         --vidaAtual;
+        DanoAudio.Play();
         yield return new WaitForSeconds(1f);
         danoFrio.SetActive(false);
         stop = false;
@@ -251,6 +260,7 @@ public class Brutamontes : MonoBehaviour
         speedAtual = speed / 2;
         danoPedra.SetActive(true);
         yield return new WaitForSeconds(3f);
+        DanoAudio.Play();
         danoPedra.SetActive(false);
         --vidaAtual;
         Anim.speed = 1;
@@ -267,8 +277,10 @@ public class Brutamontes : MonoBehaviour
         raioeffect.SetActive(true);
         raioArea.SetActive(true);
         --vidaAtual;
+        DanoAudio.Play();
         yield return new WaitForSeconds(4f);
         --vidaAtual;
+        DanoAudio.Play();
         raioeffect.SetActive(false);
         raioArea.SetActive(false);
         tomouRaio = false;
@@ -293,15 +305,18 @@ public class Brutamontes : MonoBehaviour
         {
             StartCoroutine(CDTomarDano());
             tomarDanoFogo();
+            DanoAudio.Play();
         }
         if (other.gameObject.tag == "fumaca")
         {
             StartCoroutine(CDTomarDano());
             StartCoroutine(inSmoke());
+            DanoAudio.Play();
         }
         if (other.gameObject.tag == "Raio")
         {
             StartCoroutine(inShock());
+            DanoAudio.Play();
         }
         if (other.gameObject.tag == "AreaRaio")
         {
@@ -309,6 +324,7 @@ public class Brutamontes : MonoBehaviour
             {
                 StartCoroutine(InShock2());
                 --vidaAtual;
+                DanoAudio.Play();
             }
         }
 

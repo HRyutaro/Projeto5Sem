@@ -50,6 +50,7 @@ public class checkpoint : MonoBehaviour
         {
             col.enabled = false;
             GameController.checkpointNumber ++;
+            print("checkpoint " + GameController.checkpointNumber);
         }
     }
     IEnumerator playEffc()
