@@ -38,6 +38,7 @@ TagManager:
   - Sfx
   - Serra
   - Flecha
+  - Parede2
   layers:
   - Default
   - TransparentFX
